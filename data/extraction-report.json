@@ -11,7 +11,12 @@
   },
   "errors": [],
   "warnings": [
-    "Style 5: palette has only 3 CSS colours; a swatch on the slide carries no colour value"
+    "Style 5: palette swatch 'Glass 15% Fill' has no colour value; left out (no name/value mapping created)",
+    "Style 6: slide prints no swatch names; paletteNames omitted",
+    "Style 7: slide prints no swatch names; paletteNames omitted",
+    "Style 12: slide prints no swatch names; paletteNames omitted",
+    "Style 13: slide prints no swatch names; paletteNames omitted",
+    "Style 16: slide prints no swatch names; paletteNames omitted"
   ],
   "manualCorrections": [
     {
@@ -201,7 +206,7 @@
       "title": "5. Glassmorphism: Frosted Translucent Layers & Depth (2020+)",
       "rawCategory": "Morphism & Depth",
       "issues": [
-        "palette has only 3 CSS colours; a swatch on the slide carries no colour value"
+        "palette swatch 'Glass 15% Fill' has no colour value; left out (no name/value mapping created)"
       ]
     },
     {
@@ -211,7 +216,9 @@
       "imageSource": "pdf-render",
       "title": "6. Claymorphism: Playful, Puffy 3D Clay Aesthetics (2021+)",
       "rawCategory": "Morphism & Depth// 3D CLAY SPEC",
-      "issues": []
+      "issues": [
+        "slide prints no swatch names; paletteNames omitted"
+      ]
     },
     {
       "id": 7,
@@ -220,7 +227,9 @@
       "imageSource": "pdf-render",
       "title": "7. Neo-Brutalism: Raw Borders, Hard Shadows & High Contrast (2017+)",
       "rawCategory": "Bold, Retro & Expressive",
-      "issues": []
+      "issues": [
+        "slide prints no swatch names; paletteNames omitted"
+      ]
     },
     {
       "id": 8,
@@ -265,7 +274,9 @@
       "imageSource": "pdf-render",
       "title": "12. Maximalism: Expressive Layering & Rich Visual Density",
       "rawCategory": "Bold, Retro & Expressive",
-      "issues": []
+      "issues": [
+        "slide prints no swatch names; paletteNames omitted"
+      ]
     },
     {
       "id": 13,
@@ -274,7 +285,9 @@
       "imageSource": "pdf-render",
       "title": "13. Bauhaus UI: Geometric Primitives & Primary Color Structure",
       "rawCategory": "ART & HERITAGE MOVEMENTS",
-      "issues": []
+      "issues": [
+        "slide prints no swatch names; paletteNames omitted"
+      ]
     },
     {
       "id": 14,
@@ -301,7 +314,9 @@
       "imageSource": "pdf-render",
       "title": "16. Cyberpunk / Sci-Fi HUD (FUI): Neon Telemetry & Angular Tech",
       "rawCategory": "Atmospheric & Futuristic",
-      "issues": []
+      "issues": [
+        "slide prints no swatch names; paletteNames omitted"
+      ]
     },
     {
       "id": 17,
@@ -614,7 +629,7 @@
     "parsedStyles": 50,
     "images": 50,
     "errors": 0,
-    "warnings": 1,
+    "warnings": 6,
     "manualCorrections": 2
   }
 }

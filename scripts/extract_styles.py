@@ -122,30 +122,129 @@ def strip_label(field: str, line: str, m) -> str:
     return rest
 
 
+def shape_frames(shape):
+    """Lines of each text frame (one list per frame), recursing into groups."""
+    if shape.shape_type == MSO_SHAPE_TYPE.GROUP:
+        for child in shape.shapes:
+            yield from shape_frames(child)
+    elif shape.has_text_frame:
+        lines = [ln.strip() for ln in norm(shape.text_frame.text).split("\n") if ln.strip()]
+        if lines:
+            yield lines
+
+
 def parse_slide(slide):
+    """Returns (title, fields). fields['paletteFrames'] keeps palette lines grouped per swatch text frame."""
     fields = {k: [] for k, _ in LABELS}
+    fields["paletteFrames"] = []
     title = None
     current = None
     for shape in slide.shapes:
         if is_mockup(shape):
             continue
-        for line in shape_lines(shape):
-            if title is None and re.match(r"^\d+\.\s", line):
-                title = line
-                current = "ignore"
-                continue
-            for field, rx in LABEL_RES:
-                m = rx.match(line)
-                if m:
-                    current = field
-                    inline = strip_label(field, line, m)
-                    if inline:
-                        fields[field].append(inline)
-                    break
-            else:
-                if current:
-                    fields[current].append(line)
+        for frame in shape_frames(shape):
+            frame_buf = None
+            for line in frame:
+                if title is None and re.match(r"^\d+\.\s", line):
+                    title = line
+                    current = "ignore"
+                    continue
+                for field, rx in LABEL_RES:
+                    m = rx.match(line)
+                    if m:
+                        current = field
+                        frame_buf = None
+                        inline = strip_label(field, line, m)
+                        if inline:
+                            fields[field].append(inline)
+                        break
+                else:
+                    if current:
+                        fields[current].append(line)
+                    if current == "palette":
+                        if frame_buf is None:
+                            frame_buf = []
+                            fields["paletteFrames"].append(frame_buf)
+                        frame_buf.append(line)
     return title, fields
+
+
+def palette_pairs(frames):
+    """(value, name|None) per colour token, in slide order. Frames without any token are returned separately.
+
+    Handles the deck's encodings: 'value⏎name', 'name⏎value' (style 5), 'value (name), value (name)' and bare values.
+    """
+    pairs, unvalued = [], []
+    for lines in frames:
+        text = "\n".join(lines)
+        tokens = list(COLOR_RE.finditer(text))
+        if not tokens:
+            unvalued.append(" ".join(lines))
+        elif len(tokens) == 1:
+            rest = (text[: tokens[0].start()] + " " + text[tokens[0].end():]).strip(" \n()")
+            pairs.append((tokens[0].group(), re.sub(r"\s+", " ", rest) or None))
+        else:
+            for t in tokens:
+                m = re.match(r"\s*\(([^)]*)\)", text[t.end():])
+                pairs.append((t.group(), m.group(1).strip() if m else None))
+    return pairs, unvalued
+
+
+TITLE_RE = re.compile(r"^\d+\.\s*(?P<name>[^:]+?)\s*(?::\s*(?P<sub>.+?))?\s*(?:\((?P<era>[^()]*\d[^()]*)\))?$")
+
+
+def build_record(prs, pdf, idx):
+    """Parse one style slide. Returns (record, issues, meta); raises ValueError when the slide has no numbered title."""
+    page_no = idx + 1
+    title, f = parse_slide(prs.slides[idx])
+    if not title:
+        raise ValueError(f"Page {page_no}: no numbered title found")
+    page_text = norm(pdf[idx].get_text())
+    issues, corrections = [], []
+    sid = int(title.split(".", 1)[0])
+    tm = TITLE_RE.match(title)
+    raw_cat = " ".join(f["category"])
+
+    pairs, unvalued = palette_pairs(f["paletteFrames"])
+    palette, names = [], []
+    for tok, label in pairs:
+        fix = PALETTE_FIXES.get(sid, {}).get(tok)
+        if fix:
+            palette.append(fix[0])
+            corrections.append({"id": sid, "field": "palette", "from": tok, "to": fix[0], "reason": fix[1]})
+        elif VALID_COLOR_RE.match(tok):
+            palette.append(tok)
+        else:
+            issues.append(f"palette token {tok!r} is not a valid CSS colour and was left out")
+            continue
+        names.append(label)
+    for text in unvalued:
+        issues.append(f"palette swatch {text!r} has no colour value; left out (no name/value mapping created)")
+
+    rec = {"id": sid, "name": title.split(".", 1)[1].split(":", 1)[0].strip()}
+    if tm and tm.group("sub"):
+        rec["subtitle"] = tm.group("sub")
+    if tm and tm.group("era"):
+        rec["era"] = tm.group("era")  # verbatim title parenthetical, e.g. "Google, 2014+"
+    rec["categoryTab"] = categorize(raw_cat)
+    rec["originalCategory"] = raw_cat
+    rec["whereToUse"] = " ".join(f["whereToUse"])
+    rec["howToUse"] = " ".join(f["howToUse"])
+    rec["palette"] = palette
+    if any(names):
+        rec["paletteNames"] = names
+    rec["aiPrompt"] = unquote(" ".join(f["aiPrompt"]))
+    rec["cssSnippet"] = "\n".join(f["cssSnippet"])
+    rec["imagePath"] = f"/images/style-{sid:02d}.png"
+    rec["sourcePage"] = page_no
+
+    for key in ("whereToUse", "howToUse", "aiPrompt", "cssSnippet"):
+        if rec[key]:
+            score = source_match(rec[key], page_text)
+            if score < 0.95:
+                issues.append(f"{key} matches PDF text at only {score:.0%}")
+    meta = {"title": title, "pageText": page_text, "corrections": corrections}
+    return rec, issues, meta
 
 
 def unquote(s: str) -> str:
@@ -223,59 +322,26 @@ def main():
 
     for idx in range(FIRST_STYLE_PAGE - 1, FIRST_STYLE_PAGE - 1 + STYLE_COUNT):
         page_no = idx + 1
-        title, f = parse_slide(prs.slides[idx])
-        page_text = norm(pdf[idx].get_text())
-        issues = []
-        if not title:
-            report["errors"].append(f"Page {page_no}: no numbered title found")
+        try:
+            rec, issues, meta = build_record(prs, pdf, idx)
+        except ValueError as e:
+            report["errors"].append(str(e))
             continue
-        sid = int(title.split(".", 1)[0])
+        sid, raw_cat = rec["id"], rec["originalCategory"]
         if sid != page_no - FIRST_STYLE_PAGE + 1:
             report["errors"].append(f"Page {page_no}: style number {sid} does not match expected {page_no - 2}")
-        if not re.search(rf"(^|\n){sid}\.\s", page_text):
+        if not re.search(rf"(^|\n){sid}\.\s", meta["pageText"]):
             report["errors"].append(f"Style {sid}: PDF page {page_no} does not carry the same style number")
-        name = title.split(".", 1)[1].split(":", 1)[0].strip()
-
-        raw_cat = " ".join(f["category"])
-        cat = categorize(raw_cat)
-        if cat is None:
+        if rec["categoryTab"] is None:
             report["errors"].append(f"Style {sid}: unrecognised category label {raw_cat!r}")
-        elif raw_cat.strip() != cat:
-            report["categoryNormalization"].append({"id": sid, "raw": raw_cat, "normalized": cat})
-
-        palette = []
-        for line in f["palette"]:
-            for tok in COLOR_RE.findall(line):
-                fix = PALETTE_FIXES.get(sid, {}).get(tok)
-                if fix:
-                    palette.append(fix[0])
-                    report["manualCorrections"].append({"id": sid, "field": "palette", "from": tok, "to": fix[0], "reason": fix[1]})
-                elif VALID_COLOR_RE.match(tok):
-                    palette.append(tok)
-                else:
-                    issues.append(f"palette token {tok!r} is not a valid CSS colour and was left out")
-
-        rec = {
-            "id": sid,
-            "name": name,
-            "categoryTab": cat,
-            "whereToUse": " ".join(f["whereToUse"]),
-            "howToUse": " ".join(f["howToUse"]),
-            "palette": palette,
-            "aiPrompt": unquote(" ".join(f["aiPrompt"])),
-            "cssSnippet": "\n".join(f["cssSnippet"]),
-            "imagePath": f"/images/style-{sid:02d}.png",
-            "sourcePage": page_no,
-        }
+        elif raw_cat != rec["categoryTab"]:
+            report["categoryNormalization"].append({"id": sid, "raw": raw_cat, "normalized": rec["categoryTab"]})
+        report["manualCorrections"] += meta["corrections"]
         for key in ("whereToUse", "howToUse", "aiPrompt", "cssSnippet"):
             if not rec[key]:
                 report["errors"].append(f"Style {sid}: empty {key}")
-                continue
-            score = source_match(rec[key], page_text)
-            if score < 0.95:
-                issues.append(f"{key} matches PDF text at only {score:.0%}")
-        if len(palette) < 5:  # most slides show 5 swatches; style 47 legitimately shows 6
-            issues.append(f"palette has only {len(palette)} CSS colours; a swatch on the slide carries no colour value")
+        if "paletteNames" not in rec:
+            issues.append("slide prints no swatch names; paletteNames omitted")
 
         img = render_crop(pdf[idx], IMG_DIR / f"style-{sid:02d}.png")
         digest = hashlib.sha256(img.tobytes()).hexdigest()
@@ -285,7 +351,7 @@ def main():
 
         for msg in issues:
             report["warnings"].append(f"Style {sid}: {msg}")
-        report["styles"].append({"id": sid, "sourcePage": page_no, "textSource": "pptx", "imageSource": "pdf-render", "title": title, "rawCategory": raw_cat, "issues": issues})
+        report["styles"].append({"id": sid, "sourcePage": page_no, "textSource": "pptx", "imageSource": "pdf-render", "title": meta["title"], "rawCategory": raw_cat, "issues": issues})
         records.append(rec)
         images.append(img)
 

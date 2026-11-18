@@ -16,7 +16,9 @@
 
 ## Test results
 
-`python scripts/validate_styles.py` → `50 styles, 0 errors, 1 warnings` (exit 0).
+`python scripts/validate_styles.py` → `50 styles, 0 errors, 1 warnings` (exit 0; the warning is the style 5 Glass swatch).
+`python -m unittest scripts/test_validate_styles.py` → 11 tests OK.
+Re-extraction is reproducible: identical `styles.json` hash across runs; PNGs unchanged byte-for-byte.
 Every whereToUse/howToUse/aiPrompt/cssSnippet field matches ≥95% of the PDF page text; CSS matches PPTX byte-for-byte.
 
 Category counts: Morphism & Depth 10 · Bold, Retro & Expressive 10 · Modern SaaS & Dashboards 9 · Art & Heritage Movements 8 · Minimal & Typographic 7 · Atmospheric & Futuristic 6.
@@ -37,9 +39,18 @@ Category counts: Morphism & Depth 10 · Bold, Retro & Expressive 10 · Modern Sa
 | 10 Liquid Glass | palette | `rgba/0.22` | `rgba(255,255,255,0.22)` | identical value in slide CSS |
 | 31 Spatial / VisionOS | palette | `rgba(128..)` | `rgba(120, 120, 128, 0.28)` | slide CSS background value |
 
-## Not kept (schema fixed by spec)
+## Phase 1 housekeeping (optional metadata)
 
-Swatch names ("Dark Slate"…), title subtitles/eras ("Real-World Metaphors… (1980s–2012)"). Recoverable from the PPTX if Phase 2 wants them.
+Added from the PPTX, never invented; the original 10 fields are byte-identical to the Phase 1 commit (diffed).
+
+| Field | Present on | Rule |
+|---|---|---|
+| `subtitle` | 50 | title text after the first colon, minus a trailing era parenthetical |
+| `era` | 10 (styles 1–10) | trailing title parenthetical containing a digit, verbatim. Style 3 is `"Google, 2014+"` (kept as printed, ambiguous). Style 5's separate "HISTORICAL ERA" box (`2020+ // Apple macOS, Windows`) is not used. |
+| `originalCategory` | 50 | label exactly as printed, incl. sub-headings (style 2 `… // PURE 2D CLARITY`, style 6 `…// 3D CLAY SPEC`) |
+| `paletteNames` | 45 | aligned 1:1 with `palette`; omitted on 6, 7, 12, 13, 16 (slides print no names). Style 5 has 3 names for its 3 colours; the unvalued "Glass 15% Fill" swatch gets no mapping. |
+
+Validation: `validate_styles.py` now re-parses the PPTX and requires every record (all fields) to equal the fresh parse; `scripts/test_validate_styles.py` holds 11 negative tests on in-memory copies (duplicate/missing ids, bad category, bad colour, missing image ref/file, wrong metadata types, palette-name length, duplicate image ref, edited source text).
 
 ## Known defects
 

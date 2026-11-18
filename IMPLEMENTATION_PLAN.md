@@ -28,7 +28,9 @@ CSS keeps its line breaks, category labels mapped onto the six approved categori
 
 `src/data/styles.json` — array of 50 objects, fields exactly:
 `id, name, categoryTab, whereToUse, howToUse, palette[], aiPrompt, cssSnippet, imagePath, sourcePage`.
-`name` is the title text before the first colon. Phase 2 adds a TypeScript `Style` interface mirroring this.
+`name` is the title text before the first colon.
+Optional, source-backed only: `subtitle`, `era`, `originalCategory`, `paletteNames` (aligned with `palette`, `null` allowed per entry).
+`src/types/style.ts` mirrors this schema.
 
 ## Image processing
 
@@ -57,7 +59,7 @@ Controls list comes from the preview's declared variables; generated CSS = the d
 
 ## Testing approach
 
-- Phase 1: `scripts/validate_styles.py` (blocking errors vs warnings, exit 1 on error).
+- Phase 1: `scripts/validate_styles.py` (blocking errors vs warnings, exit 1 on error; full re-parse equality against the PPTX) and `scripts/test_validate_styles.py` (negative fixtures, in memory).
 - Phase 3: `tsc --noEmit`, ESLint, Vitest for filter/search logic, Playwright over all 50 cards + playground at 375/768/1440.
 
 ## Performance strategy

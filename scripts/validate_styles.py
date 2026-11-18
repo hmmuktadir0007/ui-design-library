@@ -12,47 +12,72 @@ from pathlib import Path
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from extract_styles import CATEGORIES, PDF, PPTX, REPORT, ROOT, VALID_COLOR_RE, norm, parse_slide, source_match  # noqa: E402
+from extract_styles import (  # noqa: E402
+    CATEGORIES, FIRST_STYLE_PAGE, PDF, PPTX, REPORT, ROOT, STYLE_COUNT, VALID_COLOR_RE, build_record, categorize,
+)
 
-FIELDS = {"id": int, "name": str, "categoryTab": str, "whereToUse": str, "howToUse": str, "palette": list,
-          "aiPrompt": str, "cssSnippet": str, "imagePath": str, "sourcePage": int}
+REQUIRED = {"id": int, "name": str, "categoryTab": str, "whereToUse": str, "howToUse": str, "palette": list,
+            "aiPrompt": str, "cssSnippet": str, "imagePath": str, "sourcePage": int}
+OPTIONAL = {"subtitle": str, "era": str, "originalCategory": str, "paletteNames": list}
 
 
-def main():
+def validate(styles, public_dir: Path):
+    """Structural + image checks. Returns (errors, warnings). Pure: never writes."""
     errors, warnings = [], []
-    styles = json.loads((ROOT / "src" / "data" / "styles.json").read_text(encoding="utf-8"))
-
-    if len(styles) != 50:
-        errors.append(f"expected 50 records, found {len(styles)}")
+    if not isinstance(styles, list):
+        return ["dataset is not a JSON array"], warnings
+    if len(styles) != STYLE_COUNT:
+        errors.append(f"expected {STYLE_COUNT} records, found {len(styles)}")
     ids = [s.get("id") for s in styles]
-    if sorted(ids) != list(range(1, 51)):
-        errors.append(f"ids are not exactly 1..50 once each: {sorted(ids)}")
-    if set(s.get("categoryTab") for s in styles) != set(CATEGORIES):
-        errors.append("not all six categories are represented, or an unknown category is present")
+    dupes = sorted({i for i in ids if ids.count(i) > 1}, key=str)
+    if dupes:
+        errors.append(f"duplicate ids: {dupes}")
+    missing = sorted(set(range(1, STYLE_COUNT + 1)) - set(ids))
+    if missing:
+        errors.append(f"missing ids: {missing}")
+    if {s.get("categoryTab") for s in styles} != set(CATEGORIES):
+        errors.append("the six categories are not exactly represented")
+    paths = [s.get("imagePath") for s in styles]
+    if len(set(paths)) != len(paths):
+        errors.append("duplicate imagePath references")
 
     hashes = {}
     for s in styles:
         sid = s.get("id")
-        for key, typ in FIELDS.items():
-            if not isinstance(s.get(key), typ) or s.get(key) in ("", []):
+        for key, typ in REQUIRED.items():
+            if type(s.get(key)) is not typ or s.get(key) in ("", []):  # type() so bool never passes as int
                 errors.append(f"style {sid}: missing/invalid {key}")
-        if set(s) - set(FIELDS):
-            errors.append(f"style {sid}: unexpected fields {set(s) - set(FIELDS)}")
+        for key, typ in OPTIONAL.items():
+            if key in s and (type(s[key]) is not typ or s[key] in ("", [])):
+                errors.append(f"style {sid}: optional {key} has wrong type or is empty")
+        extra = set(s) - set(REQUIRED) - set(OPTIONAL)
+        if extra:
+            errors.append(f"style {sid}: unexpected fields {sorted(extra)}")
         if s.get("categoryTab") not in CATEGORIES:
             errors.append(f"style {sid}: invalid category {s.get('categoryTab')!r}")
-        if s.get("sourcePage") != sid + 2:
-            errors.append(f"style {sid}: sourcePage {s.get('sourcePage')} != {sid + 2}")
-        if s.get("imagePath") != f"/images/style-{sid:02d}.png":
+        if isinstance(s.get("originalCategory"), str) and categorize(s["originalCategory"]) != s.get("categoryTab"):
+            errors.append(f"style {sid}: originalCategory {s['originalCategory']!r} does not normalize to categoryTab")
+        if isinstance(sid, int) and s.get("sourcePage") != sid + FIRST_STYLE_PAGE - 1:
+            errors.append(f"style {sid}: sourcePage {s.get('sourcePage')} != {sid + FIRST_STYLE_PAGE - 1}")
+        if isinstance(sid, int) and s.get("imagePath") != f"/images/style-{sid:02d}.png":
             errors.append(f"style {sid}: unexpected imagePath {s.get('imagePath')}")
-        for c in s.get("palette", []):
-            if not VALID_COLOR_RE.match(c):
+        palette = s.get("palette") if isinstance(s.get("palette"), list) else []
+        for c in palette:
+            if not isinstance(c, str) or not VALID_COLOR_RE.match(c):
                 errors.append(f"style {sid}: invalid palette colour {c!r}")
-        if not 3 <= len(s.get("palette", [])) <= 6:
-            errors.append(f"style {sid}: palette has {len(s['palette'])} colours")
-        if s.get("cssSnippet", "").count("{") != s.get("cssSnippet", "").count("}") or s.get("cssSnippet", "").count("(") != s.get("cssSnippet", "").count(")"):
-            warnings.append(f"style {sid}: CSS snippet has unbalanced brackets")
+        if not 3 <= len(palette) <= 6:
+            errors.append(f"style {sid}: palette has {len(palette)} colours")
+        names = s.get("paletteNames")
+        if isinstance(names, list):
+            if len(names) != len(palette):
+                errors.append(f"style {sid}: paletteNames has {len(names)} entries for {len(palette)} colours")
+            if any(n is not None and (not isinstance(n, str) or not n.strip()) for n in names):
+                errors.append(f"style {sid}: paletteNames entries must be non-empty strings or null")
+        css = s.get("cssSnippet") or ""
+        if css.count("(") != css.count(")"):
+            warnings.append(f"style {sid}: CSS snippet has unbalanced parentheses")
 
-        img_path = ROOT / "public" / s.get("imagePath", "").lstrip("/")
+        img_path = public_dir / str(s.get("imagePath", "")).lstrip("/")
         try:
             with Image.open(img_path) as im:
                 im.verify()
@@ -65,40 +90,47 @@ def main():
                 if digest in hashes:
                     errors.append(f"style {sid}: image duplicates style {hashes[digest]}")
                 hashes[digest] = sid
-        except Exception as e:  # unreadable/missing image is blocking
-            errors.append(f"style {sid}: image unreadable ({e})")
+        except Exception as e:  # missing/unreadable image is blocking
+            errors.append(f"style {sid}: missing or unreadable image ({type(e).__name__})")
+    return errors, warnings
 
-    # Text must still match the sources: re-parse PPTX and cross-check against PDF text.
+
+def validate_against_sources(styles):
+    """Every record must equal a fresh parse of the PPTX: catches any hand edit of extracted content."""
+    import pymupdf
+    from pptx import Presentation
+    errors, warnings = [], []
+    prs, pdf = Presentation(PPTX), pymupdf.open(PDF)
+    if len(pdf) != 53:
+        errors.append(f"PDF has {len(pdf)} pages, expected 53")
+    for s in styles:
+        try:
+            fresh, issues, meta = build_record(prs, pdf, s["sourcePage"] - 1)
+        except (ValueError, IndexError, KeyError) as e:
+            errors.append(f"style {s.get('id')}: cannot re-parse source ({e})")
+            continue
+        if not re.search(rf"(^|\n){s['id']}\.\s", meta["pageText"]):
+            errors.append(f"style {s['id']}: PDF page {s['sourcePage']} does not carry this id")
+        for key in sorted(set(fresh) | set(s)):
+            if fresh.get(key) != s.get(key):
+                errors.append(f"style {s['id']}: {key} differs from source")
+        warnings += [f"style {s['id']}: {i}" for i in issues]
+    return errors, warnings
+
+
+def main():
+    styles = json.loads((ROOT / "src" / "data" / "styles.json").read_text(encoding="utf-8"))
+    errors, warnings = validate(styles, ROOT / "public")
     if PPTX.exists() and PDF.exists():
-        import pymupdf
-        from pptx import Presentation
-        prs, pdf = Presentation(PPTX), pymupdf.open(PDF)
-        if len(pdf) != 53:
-            errors.append(f"PDF has {len(pdf)} pages, expected 53")
-        for s in styles:
-            idx = s["sourcePage"] - 1
-            title, f = parse_slide(prs.slides[idx])
-            if not title or int(title.split(".", 1)[0]) != s["id"]:
-                errors.append(f"style {s['id']}: PPTX slide {idx + 1} title {title!r} does not carry this id")
-            if not re.search(rf"(^|\n){s['id']}\.\s", norm(pdf[idx].get_text())):
-                errors.append(f"style {s['id']}: PDF page {idx + 1} does not carry this id")
-            page_text = norm(pdf[idx].get_text())
-            if s["cssSnippet"] != "\n".join(f["cssSnippet"]):
-                errors.append(f"style {s['id']}: cssSnippet differs from PPTX source")
-            for key in ("whereToUse", "howToUse", "aiPrompt", "cssSnippet"):
-                score = source_match(s[key], page_text)
-                if score < 0.95:
-                    warnings.append(f"style {s['id']}: {key} matches PDF text at {score:.0%}")
+        e, w = validate_against_sources(styles)
+        errors += e
+        warnings += w
     else:
-        warnings.append("source PPTX/PDF not present; source cross-check skipped")
-
-    report = json.loads(REPORT.read_text(encoding="utf-8")) if REPORT.exists() else None
-    if report is None:
+        warnings.append("source PPTX/PDF not present; source-fidelity check skipped")
+    if not REPORT.exists():
         errors.append("data/extraction-report.json missing")
-    elif report["errors"]:
-        errors.append(f"extraction report lists {len(report['errors'])} unresolved errors")
-    else:
-        warnings += [f"extraction: {w}" for w in report["warnings"]]
+    elif json.loads(REPORT.read_text(encoding="utf-8"))["errors"]:
+        errors.append("extraction report lists unresolved errors")
 
     for w in warnings:
         print("WARN ", w)
