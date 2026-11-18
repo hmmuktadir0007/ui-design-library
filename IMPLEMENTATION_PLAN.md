@@ -37,29 +37,39 @@ Optional, source-backed only: `subtitle`, `era`, `originalCategory`, `paletteNam
 Render page at 216 dpi, clip to mockup canvas `(368,103)-(691,362)` pt (window minus its title bar), lossless optimized PNG, ~969×777 px.
 All 50 crops inspected on `data/contact-sheet.png`. Liquid Glass (10) has decorative blobs outside the window; they are slide decoration and are excluded.
 
-## UI component architecture (Phase 2)
+## UI component architecture (Phase 2A, built)
 
 ```
-src/components/gallery/   Header, CategoryTabs, StyleCard, Palette, CopyButton
-src/components/previews/  StylePreview.tsx, previewRegistry.ts, one file per style (01-skeuomorphism.tsx …)
-src/components/playground/ Playground (dialog), ViewportFrame, Controls
-src/lib/                  filter/search, clipboard
+src/types/style.ts              Style interface + CATEGORIES (mirrors styles.json)
+src/lib/search.ts               matchesQuery / filterStyles / categoryCounts (+ search.test.ts)
+src/hooks/useTheme.ts           class-based dark mode, localStorage; index.html applies it pre-paint
+src/hooks/useCopy.ts            clipboard write + idle/copied/failed state
+src/components/ui/              CopyButton (visible + role=status feedback), CssCode (display-only highlighter, text nodes only)
+src/components/gallery/         Header, CategoryTabs (aria-pressed filters), StyleCard, StyleImage, Palette, SourceTabs (ARIA tabs)
+src/components/playground/      StyleDetail: native <dialog>.showModal() (focus trap, Esc, inert page, focus return)
+src/components/previews/        previewRegistry.ts (empty), StylePreview.tsx (lazy, per-style code split)
 ```
 
-## Style preview architecture
+Shell tokens are CSS custom properties in `src/index.css` (`:root` / `.dark`), exposed to Tailwind via `@theme inline`.
+Gallery grid is `repeat(auto-fill, minmax(min(100%,320px),1fr))`: column count follows usable width (1 @375, 2 @768, 4 @1440).
 
-- `previewRegistry: Record<number, PreviewComponent>` — one dedicated component per style; build fails type check if an id is missing.
-- Isolation: each preview's CSS is a CSS Module (scoped class names). No source CSS is executed; snippets are shown as text only.
-- Customization through CSS custom properties on the preview root (`--radius`, `--shadow`, `--accent`, …); each preview declares which it honors.
+## Style preview architecture (contract ready, no previews yet)
 
-## Style Playground architecture
+- `previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>>`, starts empty. A style is registered only when its preview is finished (`7: () => import("./styles/07-neo-brutalism")`).
+- `hasPreview(id)` gates every Live CSS control: unregistered styles render the reference image plus a "planned" note, no toggle.
+- Each preview: `previews/styles/NN-name.tsx` + `NN-name.module.css` (CSS Modules = scoped class names, no leakage). Source `cssSnippet` is never injected; it is shown as text only.
+- `PreviewProps.vars` (`--radius`, `--accent`, …) is the hook for Playground customization via CSS custom properties.
 
-Dialog opened from a card. Viewport frame resizes a container (375/768/1280 px) so previews' container queries respond.
-Controls list comes from the preview's declared variables; generated CSS = the declared variables with current values. Reset = defaults.
+## Style Playground architecture (Phase 2B+)
+
+`StyleDetail` is the Playground shell. Planned additions inside it: Live CSS / Slide Visual toggle (only when `hasPreview`),
+a viewport frame that resizes a container (375/768/1280 px), controls built from each preview's declared variables,
+generated CSS = those variables with current values, Reset = defaults. Nothing of this is rendered yet.
 
 ## Testing approach
 
 - Phase 1: `scripts/validate_styles.py` (blocking errors vs warnings, exit 1 on error; full re-parse equality against the PPTX) and `scripts/test_validate_styles.py` (negative fixtures, in memory).
+- Phase 2A: `npm run typecheck`, `npm test` (Vitest, search/counts), `npm run validate:data`, browser checks via Playwright MCP (scripted, not yet committed as a suite).
 - Phase 3: `tsc --noEmit`, ESLint, Vitest for filter/search logic, Playwright over all 50 cards + playground at 375/768/1440.
 
 ## Performance strategy
@@ -75,7 +85,8 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | Phase | Tasks | Done when |
 |---|---|---|
 | 1 | extract text + images, contact sheet, report, validator | 50 records, 50 images, validator exit 0, all crops inspected, commit — **complete** |
-| 2 | React app, 50 previews, playground | builds; every preview has a working interaction |
+| 2A | gallery foundation, detail view, preview contract | build + browser checks pass — **complete** |
+| 2B | 50 live previews in category batches, playground controls | every preview has a working interaction |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |
 

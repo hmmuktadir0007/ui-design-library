@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 1 complete — awaiting approval for Phase 2.
+**Current phase:** Phase 2A complete — awaiting approval for Phase 2B (live previews).
 
 ## Completed
 
@@ -52,19 +52,55 @@ Added from the PPTX, never invented; the original 10 fields are byte-identical t
 
 Validation: `validate_styles.py` now re-parses the PPTX and requires every record (all fields) to equal the fresh parse; `scripts/test_validate_styles.py` holds 11 negative tests on in-memory copies (duplicate/missing ids, bad category, bad colour, missing image ref/file, wrong metadata types, palette-name length, duplicate image ref, edited source text).
 
+## Phase 2A — application foundation
+
+Stack: React 19.3, Vite 8.3, TypeScript 7.0, Tailwind 4.3 (`@tailwindcss/vite`), lucide-react 1.75, Vitest 5.1. No backend, no state library.
+
+| Check | Result |
+|---|---|
+| `npm install` | ok, 0 vulnerabilities |
+| `npm run typecheck` | 0 errors |
+| `npm run build` | ok — JS 290.6 kB (91.8 kB gzip), CSS 27.6 kB (6.4 kB gzip) |
+| `npm test` (Vitest) | 4/4 pass (counts, case/whitespace, subtitle/originalCategory/use-case search, query+category) |
+| `npm run validate:data` | 0 errors, 1 warning (style 5); 11/11 negative tests |
+| Lint | not configured (Phase 3) |
+
+Browser verification (Playwright/Chromium against `vite preview` of the production build):
+- 50 cards; 50/50 images loaded with correct `style-NN.png` mapping.
+- 7 tabs: counts 50/10/7/9/10/6/8, each tab shows exactly that many cards and only matching badges; counts follow the active search.
+- Search: case + whitespace insensitive; "glass" → 5, + Morphism & Depth → 4; empty state + "Clear search and filters"; clear (×) button.
+- Theme: toggle works, persists after reload (`localStorage.theme`), system preference used when unset.
+- Detail: all 50 open with matching title, close via Esc (focus returns to trigger), close button, backdrop click; Tab stays inside the dialog (page inert).
+- Clipboard (granted permission): palette, single rgba swatch, AI prompt, original CSS, card swatch — exact values read back. Visible "Copied!" + `role=status` text.
+- Style 5 shows 3 swatches, style 47 shows 6. No Live CSS control rendered anywhere (0 buttons matching /live/).
+- No console errors or warnings. No horizontal overflow at 375/768/1440 (gallery and dialog).
+
+Screenshots: `docs/screenshots/phase-2a/` (gallery light/dark 1440, light 768, light/dark 375; detail light 1440/768/375, dark 1440 style 47; empty state 375).
+
+Fixed during review: card palette wrapping into two rows (moved View details below palette), category tabs wrapping at 1440 (tighter pills), double scrollbar in dialog at 768 (`html:has(dialog[open])` + dialog overflow hidden), low-contrast active tab in dark mode.
+
 ## Known defects
 
 None blocking.
+- Clipboard on Windows turns `
+` in copied CSS into `
+
+` (OS behaviour); the dataset keeps `
+`.
+- Card images use the full 969 px PNGs (~140 kB avg); thumbnails are a Phase 3 performance item.
+- Browser checks were run as Playwright MCP scripts; a committed Playwright suite is Phase 3 work.
 
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
-- Phase 2 batching proposal (see IMPLEMENTATION_PLAN.md).
+- Phase 2B batching proposal (see IMPLEMENTATION_PLAN.md).
 
 ## Git checkpoints
 
-- Phase 1: see `git log` (commit "Phase 1: source extraction and asset validation").
+- `06fd15d` Phase 1: source extraction and asset validation
+- `cea3fec` Phase 1 housekeeping: source metadata and negative validation tests
+- Phase 2A: commit "Phase 2A: application foundation" (hash in `git log`)
 
 ## Next recommended action
 
-Review `data/contact-sheet.png` and `src/data/styles.json`, then approve Phase 2.
+Review the Phase 2A screenshots / `npm run dev`, then approve Phase 2B (first batch).

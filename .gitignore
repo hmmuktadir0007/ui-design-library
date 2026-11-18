@@ -10,3 +10,4 @@ __pycache__/
 # Private source decks: never commit/publish without explicit authorization
 data/*.pptx
 data/*.pdf
+.playwright-mcp/
