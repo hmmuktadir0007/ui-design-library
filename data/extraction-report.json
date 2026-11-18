@@ -1,0 +1,620 @@
+{
+  "sources": {
+    "pptx": "ui-styles.pptx",
+    "pptxSlides": 53,
+    "pdf": "ui-styles.pdf",
+    "pdfPages": 53
+  },
+  "method": {
+    "text": "PPTX text frames (left column, mockup group excluded); PDF text used only for cross-checking",
+    "images": "PDF page rendered at 216 dpi, clipped to mockup canvas (368, 103, 691, 362) pt"
+  },
+  "errors": [],
+  "warnings": [
+    "Style 5: palette has only 3 CSS colours; a swatch on the slide carries no colour value"
+  ],
+  "manualCorrections": [
+    {
+      "id": 10,
+      "field": "palette",
+      "from": "rgba/0.22",
+      "to": "rgba(255,255,255,0.22)",
+      "reason": "Swatch 'Liquid Fill' printed as 'rgba/0.22'; slide CSS uses background: rgba(255,255,255,0.22)."
+    },
+    {
+      "id": 31,
+      "field": "palette",
+      "from": "rgba(128..)",
+      "to": "rgba(120, 120, 128, 0.28)",
+      "reason": "Swatch 'Spatial Glass' printed truncated as 'rgba(128..)'; slide CSS uses background: rgba(120, 120, 128, 0.28)."
+    }
+  ],
+  "categoryNormalization": [
+    {
+      "id": 2,
+      "raw": "Minimal & Typographic // PURE 2D CLARITY",
+      "normalized": "Minimal & Typographic"
+    },
+    {
+      "id": 6,
+      "raw": "Morphism & Depth// 3D CLAY SPEC",
+      "normalized": "Morphism & Depth"
+    },
+    {
+      "id": 13,
+      "raw": "ART & HERITAGE MOVEMENTS",
+      "normalized": "Art & Heritage Movements"
+    },
+    {
+      "id": 18,
+      "raw": "MORPHISM & DEPTH",
+      "normalized": "Morphism & Depth"
+    },
+    {
+      "id": 19,
+      "raw": "Art & Heritage",
+      "normalized": "Art & Heritage Movements"
+    },
+    {
+      "id": 20,
+      "raw": "ART & HERITAGE MOVEMENTS",
+      "normalized": "Art & Heritage Movements"
+    },
+    {
+      "id": 22,
+      "raw": "ATMOSPHERIC & FUTURISTIC",
+      "normalized": "Atmospheric & Futuristic"
+    },
+    {
+      "id": 26,
+      "raw": "ART & HERITAGE MOVEMENTS",
+      "normalized": "Art & Heritage Movements"
+    },
+    {
+      "id": 27,
+      "raw": "ART & HERITAGE MOVEMENTS",
+      "normalized": "Art & Heritage Movements"
+    },
+    {
+      "id": 28,
+      "raw": "ATMOSPHERIC & FUTURISTIC",
+      "normalized": "Atmospheric & Futuristic"
+    },
+    {
+      "id": 30,
+      "raw": "MODERN SAAS & DASHBOARDS",
+      "normalized": "Modern SaaS & Dashboards"
+    },
+    {
+      "id": 32,
+      "raw": "Modern SaaS",
+      "normalized": "Modern SaaS & Dashboards"
+    },
+    {
+      "id": 33,
+      "raw": "BOLD, RETRO & EXPRESSIVE",
+      "normalized": "Bold, Retro & Expressive"
+    },
+    {
+      "id": 34,
+      "raw": "MORPHISM & DEPTH",
+      "normalized": "Morphism & Depth"
+    },
+    {
+      "id": 36,
+      "raw": "Bold & Expressive",
+      "normalized": "Bold, Retro & Expressive"
+    },
+    {
+      "id": 37,
+      "raw": "MODERN SAAS & DASHBOARDS",
+      "normalized": "Modern SaaS & Dashboards"
+    },
+    {
+      "id": 38,
+      "raw": "Bold & Retro",
+      "normalized": "Bold, Retro & Expressive"
+    },
+    {
+      "id": 39,
+      "raw": "BOLD, RETRO & EXPRESSIVE",
+      "normalized": "Bold, Retro & Expressive"
+    },
+    {
+      "id": 40,
+      "raw": "Art & Heritage",
+      "normalized": "Art & Heritage Movements"
+    },
+    {
+      "id": 41,
+      "raw": "MINIMAL & TYPOGRAPHIC",
+      "normalized": "Minimal & Typographic"
+    },
+    {
+      "id": 44,
+      "raw": "Art & Heritage",
+      "normalized": "Art & Heritage Movements"
+    },
+    {
+      "id": 45,
+      "raw": "MORPHISM & DEPTH",
+      "normalized": "Morphism & Depth"
+    },
+    {
+      "id": 46,
+      "raw": "MORPHISM & DEPTH",
+      "normalized": "Morphism & Depth"
+    },
+    {
+      "id": 48,
+      "raw": "Modern SaaS",
+      "normalized": "Modern SaaS & Dashboards"
+    },
+    {
+      "id": 49,
+      "raw": "Bold & Expressive",
+      "normalized": "Bold, Retro & Expressive"
+    }
+  ],
+  "styles": [
+    {
+      "id": 1,
+      "sourcePage": 3,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "1. Skeuomorphism: Real-World Metaphors & Tactile Realism (1980s–2012)",
+      "rawCategory": "Morphism & Depth",
+      "issues": []
+    },
+    {
+      "id": 2,
+      "sourcePage": 4,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "2. Flat Design: Pure 2D Clarity & Minimalism (2013+)",
+      "rawCategory": "Minimal & Typographic // PURE 2D CLARITY",
+      "issues": []
+    },
+    {
+      "id": 3,
+      "sourcePage": 5,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "3. Material Design: Digital Paper, Elevation & Motion (Google, 2014+)",
+      "rawCategory": "Modern SaaS & Dashboards",
+      "issues": []
+    },
+    {
+      "id": 4,
+      "sourcePage": 6,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "4. Neumorphism (Soft UI): Extruded & Recessed Monochromatic Surfaces (2019–2020)",
+      "rawCategory": "Morphism & Depth",
+      "issues": []
+    },
+    {
+      "id": 5,
+      "sourcePage": 7,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "5. Glassmorphism: Frosted Translucent Layers & Depth (2020+)",
+      "rawCategory": "Morphism & Depth",
+      "issues": [
+        "palette has only 3 CSS colours; a swatch on the slide carries no colour value"
+      ]
+    },
+    {
+      "id": 6,
+      "sourcePage": 8,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "6. Claymorphism: Playful, Puffy 3D Clay Aesthetics (2021+)",
+      "rawCategory": "Morphism & Depth// 3D CLAY SPEC",
+      "issues": []
+    },
+    {
+      "id": 7,
+      "sourcePage": 9,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "7. Neo-Brutalism: Raw Borders, Hard Shadows & High Contrast (2017+)",
+      "rawCategory": "Bold, Retro & Expressive",
+      "issues": []
+    },
+    {
+      "id": 8,
+      "sourcePage": 10,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "8. Bento UI (Bento Grid): Modular Asymmetric Compartments (2023+)",
+      "rawCategory": "Modern SaaS & Dashboards",
+      "issues": []
+    },
+    {
+      "id": 9,
+      "sourcePage": 11,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "9. Aurora UI (Mesh Gradient): Ethereal Flowing Color Bands (2021+)",
+      "rawCategory": "Atmospheric & Futuristic",
+      "issues": []
+    },
+    {
+      "id": 10,
+      "sourcePage": 12,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "10. Liquid Glass: Refractive, Fluid Translucent Layers (2025+)",
+      "rawCategory": "Morphism & Depth",
+      "issues": []
+    },
+    {
+      "id": 11,
+      "sourcePage": 13,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "11. Minimalism (Swiss Style): Whitespace & Typographic Hierarchy",
+      "rawCategory": "Minimal & Typographic",
+      "issues": []
+    },
+    {
+      "id": 12,
+      "sourcePage": 14,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "12. Maximalism: Expressive Layering & Rich Visual Density",
+      "rawCategory": "Bold, Retro & Expressive",
+      "issues": []
+    },
+    {
+      "id": 13,
+      "sourcePage": 15,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "13. Bauhaus UI: Geometric Primitives & Primary Color Structure",
+      "rawCategory": "ART & HERITAGE MOVEMENTS",
+      "issues": []
+    },
+    {
+      "id": 14,
+      "sourcePage": 16,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "14. Cyberminimalism (Dark-Mode Tech): Precision & Sleek Restraint",
+      "rawCategory": "Modern SaaS & Dashboards",
+      "issues": []
+    },
+    {
+      "id": 15,
+      "sourcePage": 17,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "15. Y2K / Retro Web: Early-2000s Chrome, Gloss & Nostalgia",
+      "rawCategory": "Bold, Retro & Expressive",
+      "issues": []
+    },
+    {
+      "id": 16,
+      "sourcePage": 18,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "16. Cyberpunk / Sci-Fi HUD (FUI): Neon Telemetry & Angular Tech",
+      "rawCategory": "Atmospheric & Futuristic",
+      "issues": []
+    },
+    {
+      "id": 17,
+      "sourcePage": 19,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "17. Bold / Kinetic Typography: Type-Driven Layout & Navigation",
+      "rawCategory": "Minimal & Typographic",
+      "issues": []
+    },
+    {
+      "id": 18,
+      "sourcePage": 20,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "18. 3D / Spatial UI: Volumetric Depth & Interactive Objects",
+      "rawCategory": "MORPHISM & DEPTH",
+      "issues": []
+    },
+    {
+      "id": 19,
+      "sourcePage": 21,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "19. Art Deco UI: Geometric Symmetry & Gilded Luxury",
+      "rawCategory": "Art & Heritage",
+      "issues": []
+    },
+    {
+      "id": 20,
+      "sourcePage": 22,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "20. Memphis Design UI: 1980s Playful Geometry & Confetti",
+      "rawCategory": "ART & HERITAGE MOVEMENTS",
+      "issues": []
+    },
+    {
+      "id": 21,
+      "sourcePage": 23,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "21. Pixel Art / 8-Bit UI: Arcade Grids & Stepped Borders",
+      "rawCategory": "Bold, Retro & Expressive",
+      "issues": []
+    },
+    {
+      "id": 22,
+      "sourcePage": 24,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "22. Vaporwave / Synthwave UI: Neon Sunset & Retro Grids",
+      "rawCategory": "ATMOSPHERIC & FUTURISTIC",
+      "issues": []
+    },
+    {
+      "id": 23,
+      "sourcePage": 25,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "23. Editorial / Magazine UI: Serif Headlines & Asymmetric Columns",
+      "rawCategory": "Minimal & Typographic",
+      "issues": []
+    },
+    {
+      "id": 24,
+      "sourcePage": 26,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "24. Scrollytelling / Narrative UI: Scroll-Driven Chapters",
+      "rawCategory": "Atmospheric & Futuristic",
+      "issues": []
+    },
+    {
+      "id": 25,
+      "sourcePage": 27,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "25. Monochrome / Noir UI: Pure Black & White Precision",
+      "rawCategory": "Minimal & Typographic",
+      "issues": []
+    },
+    {
+      "id": 26,
+      "sourcePage": 28,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "26. Organic / Biophilic UI: Earthy Tones & Soft Curves",
+      "rawCategory": "ART & HERITAGE MOVEMENTS",
+      "issues": []
+    },
+    {
+      "id": 27,
+      "sourcePage": 29,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "27. Paper / Craft Collage UI: Tactile Grain & Cutouts",
+      "rawCategory": "ART & HERITAGE MOVEMENTS",
+      "issues": []
+    },
+    {
+      "id": 28,
+      "sourcePage": 30,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "28. Kinetic / Motion-First UI: Spring Physics & Micro-Feedback",
+      "rawCategory": "ATMOSPHERIC & FUTURISTIC",
+      "issues": []
+    },
+    {
+      "id": 29,
+      "sourcePage": 31,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "29. Data-Dense Analytics UI: High-Density KPIs & Sparklines",
+      "rawCategory": "Modern SaaS & Dashboards",
+      "issues": []
+    },
+    {
+      "id": 30,
+      "sourcePage": 32,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "30. Command-First / Keyboard UI: Spotlight & Shortcut Speed",
+      "rawCategory": "MODERN SAAS & DASHBOARDS",
+      "issues": []
+    },
+    {
+      "id": 31,
+      "sourcePage": 33,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "31. Spatial / VisionOS UI: Translucent Windows & Depth",
+      "rawCategory": "Morphism & Depth",
+      "issues": []
+    },
+    {
+      "id": 32,
+      "sourcePage": 34,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "32. Flat 2.0 (Semi-Flat): Subtle Depth & Crisp Usability",
+      "rawCategory": "Modern SaaS",
+      "issues": []
+    },
+    {
+      "id": 33,
+      "sourcePage": 35,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "33. Corporate Memphis: Friendly Flat Vector Illustrations",
+      "rawCategory": "BOLD, RETRO & EXPRESSIVE",
+      "issues": []
+    },
+    {
+      "id": 34,
+      "sourcePage": 36,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "34. Isometric UI: 30-Degree Angled Architectural Depth",
+      "rawCategory": "MORPHISM & DEPTH",
+      "issues": []
+    },
+    {
+      "id": 35,
+      "sourcePage": 37,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "35. Holographic / Iridescent UI: Prismatic Foil Sheens",
+      "rawCategory": "Atmospheric & Futuristic",
+      "issues": []
+    },
+    {
+      "id": 36,
+      "sourcePage": 38,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "36. Acid Graphics / Anti-Design: Distorted Type & Neon",
+      "rawCategory": "Bold & Expressive",
+      "issues": []
+    },
+    {
+      "id": 37,
+      "sourcePage": 39,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "37. Terminal / CLI Retro UI: Phosphor Monospace",
+      "rawCategory": "MODERN SAAS & DASHBOARDS",
+      "issues": []
+    },
+    {
+      "id": 38,
+      "sourcePage": 40,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "38. Windows 95 / Classic OS UI: Beveled Desktop Chrome",
+      "rawCategory": "Bold & Retro",
+      "issues": []
+    },
+    {
+      "id": 39,
+      "sourcePage": 41,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "39. Playful / Gamified UI: Chunky 3D Buttons & XP Bars",
+      "rawCategory": "BOLD, RETRO & EXPRESSIVE",
+      "issues": []
+    },
+    {
+      "id": 40,
+      "sourcePage": 42,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "40. Neoclassical / Luxury Heritage: Poised Serif & Ivory",
+      "rawCategory": "Art & Heritage",
+      "issues": []
+    },
+    {
+      "id": 41,
+      "sourcePage": 43,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "41. Japanese Zen / Wabi-Sabi UI: Quiet Asymmetry",
+      "rawCategory": "MINIMAL & TYPOGRAPHIC",
+      "issues": []
+    },
+    {
+      "id": 42,
+      "sourcePage": 44,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "42. Pop Art / Comic UI: Halftone Dots & Ink Outlines",
+      "rawCategory": "Bold, Retro & Expressive",
+      "issues": []
+    },
+    {
+      "id": 43,
+      "sourcePage": 45,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "43. Kinetic / Variable Font UI: Dynamic Weight & Scale",
+      "rawCategory": "Minimal & Typographic",
+      "issues": []
+    },
+    {
+      "id": 44,
+      "sourcePage": 46,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "44. Low-Poly / Faceted Geometric UI: Crisp Shaded Planes",
+      "rawCategory": "Art & Heritage",
+      "issues": []
+    },
+    {
+      "id": 45,
+      "sourcePage": 47,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "45. Obsidian Glass (Dark Frosted): Moody Translucent UI",
+      "rawCategory": "MORPHISM & DEPTH",
+      "issues": []
+    },
+    {
+      "id": 46,
+      "sourcePage": 48,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "46. Tactile Hardware UI (Industrial): Dials & Matte Switches",
+      "rawCategory": "MORPHISM & DEPTH",
+      "issues": []
+    },
+    {
+      "id": 47,
+      "sourcePage": 49,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "47. Heatmap / Telemetry Dashboard: Intensity & Funnels",
+      "rawCategory": "Modern SaaS & Dashboards",
+      "issues": []
+    },
+    {
+      "id": 48,
+      "sourcePage": 50,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "48. Modular Masonry / Waterfall UI: Visual Discovery Grid",
+      "rawCategory": "Modern SaaS",
+      "issues": []
+    },
+    {
+      "id": 49,
+      "sourcePage": 51,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "49. Kawaii / Pastel Cute UI: Cozy Rounded Bubbles & Stickers",
+      "rawCategory": "Bold & Expressive",
+      "issues": []
+    },
+    {
+      "id": 50,
+      "sourcePage": 52,
+      "textSource": "pptx",
+      "imageSource": "pdf-render",
+      "title": "50. Hand-Drawn / Sketchbook UI: Organic Ink & Rough Borders",
+      "rawCategory": "Art & Heritage Movements",
+      "issues": []
+    }
+  ],
+  "summary": {
+    "parsedStyles": 50,
+    "images": 50,
+    "errors": 0,
+    "warnings": 1,
+    "manualCorrections": 2
+  }
+}

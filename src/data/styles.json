@@ -1,0 +1,901 @@
+[
+  {
+    "id": 1,
+    "name": "Skeuomorphism",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Audio/DAW plugins, retro music players, virtual instruments, hardware companion apps.",
+    "howToUse": "Method: Layer realistic surface textures (brushed metal, leather) with directional light/dark bevels and tactile pressed states.",
+    "palette": [
+      "#2B2D30",
+      "#D8DCE3",
+      "#C97A3E",
+      "#141619",
+      "#E8B86D"
+    ],
+    "aiPrompt": "Design a tactile Skeuomorphic audio control panel with brushed aluminum plates, recessed stitched-leather backing, realistic 3D rotary knobs, and warm amber LED indicators.",
+    "cssSnippet": "background: linear-gradient(145deg, #e2e6ed, #b8bec9);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 8px 18px rgba(0,0,0,0.45);\nborder: 1px solid #8a9099;",
+    "imagePath": "/images/style-01.png",
+    "sourcePage": 3
+  },
+  {
+    "id": 2,
+    "name": "Flat Design",
+    "categoryTab": "Minimal & Typographic",
+    "whereToUse": "Optimal Scenarios: SaaS landing pages, mobile utility apps, onboarding flows, content-first dashboards.",
+    "howToUse": "Eliminate all drop shadows and gradients; rely on bold solid color contrast, crisp 2D vector icons, and clear typographic scale.",
+    "palette": [
+      "#0F172A",
+      "#14B8A6",
+      "#F43F5E",
+      "#F8FAFC",
+      "#3B82F6"
+    ],
+    "aiPrompt": "Build a Flat Design SaaS dashboard with zero shadows or gradients, solid high-contrast color blocks, geometric 2D icons, and clean sans-serif hierarchy.",
+    "cssSnippet": "box-shadow: none; background: #14B8A6; color: #FFFFFF;\nborder-radius: 6px; border: none;\ntransition: background-color 0.2s ease;",
+    "imagePath": "/images/style-02.png",
+    "sourcePage": 4
+  },
+  {
+    "id": 3,
+    "name": "Material Design",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Android & Flutter apps, B2B enterprise tools, Google Workspace-style productivity suites, multi-step forms.",
+    "howToUse": "Treat surfaces like stacked digital paper with consistent 8dp grid spacing, z-axis elevation shadows, and a Floating Action Button (FAB).",
+    "palette": [
+      "#6750A4",
+      "#F59E0B",
+      "#FEF7FF",
+      "#1D1B20",
+      "#EADDFF"
+    ],
+    "aiPrompt": "Create a Material Design 3 task dashboard using tonal surface elevation, rounded 16px cards, subtle directional drop shadows, and a primary Floating Action Button.",
+    "cssSnippet": "background: #FFFFFF;\nborder-radius: 16px;\nbox-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);",
+    "imagePath": "/images/style-03.png",
+    "sourcePage": 5
+  },
+  {
+    "id": 4,
+    "name": "Neumorphism (Soft UI)",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Smart home thermostats, audio/media players, minimalist calculators, concept showcase widgets.",
+    "howToUse": "Match element background to the parent canvas and apply dual opposing shadows (light top-left, dark bottom-right) for extruded/recessed depth.",
+    "palette": [
+      "#E0E5EC",
+      "#FFFFFF",
+      "#A3B1C6",
+      "#4A5568",
+      "#3B82F6"
+    ],
+    "aiPrompt": "Design a Neumorphic smart home thermostat card on a #E0E5EC background with soft extruded circular dials, inset slider tracks, and dual light/dark shadows.",
+    "cssSnippet": "background: #E0E5EC; border-radius: 20px;\nbox-shadow: 8px 8px 16px #A3B1C6, -8px -8px 16px #FFFFFF;",
+    "imagePath": "/images/style-04.png",
+    "sourcePage": 6
+  },
+  {
+    "id": 5,
+    "name": "Glassmorphism",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Fintech virtual cards, weather widgets, OS control centers, SaaS hero overlays.",
+    "howToUse": "Place semi-transparent blurred cards with a crisp 1px light border over vibrant, colorful mesh gradients so the frost effect pops.",
+    "palette": [
+      "#7C3AED",
+      "#06B6D4",
+      "#0F172A"
+    ],
+    "aiPrompt": "Build a Glassmorphic weather and fintech card UI with backdrop-filter blur, translucent white borders, and a vibrant purple-cyan gradient mesh background.",
+    "cssSnippet": "background: rgba(255, 255, 255, 0.14);\nbackdrop-filter: blur(16px);\nborder: 1px solid rgba(255, 255, 255, 0.28);\nborder-radius: 20px;",
+    "imagePath": "/images/style-05.png",
+    "sourcePage": 7
+  },
+  {
+    "id": 6,
+    "name": "Claymorphism",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Kids & edtech apps, wellness/habit trackers, playful onboarding screens, gamified consumer landing pages.",
+    "howToUse": "Use large border radii (24–40px), bright pastel fills, a soft outer drop shadow, and two opposing inset shadows for an inflated 3D clay feel.",
+    "palette": [
+      "#A7F3D0",
+      "#DDD6FE",
+      "#FECACA",
+      "#FFFBEB",
+      "#1E293B"
+    ],
+    "aiPrompt": "Create a Claymorphic wellness app screen with puffy pastel rounded cards, double inner shadows for 3D squishiness, and friendly rounded sans-serif text.",
+    "cssSnippet": "background: #DDD6FE; border-radius: 32px;\nbox-shadow: 0 20px 30px rgba(0,0,0,0.08),\ninset 0 -8px 16px rgba(0,0,0,0.12),\ninset 0 8px 16px rgba(255,255,255,0.7);",
+    "imagePath": "/images/style-06.png",
+    "sourcePage": 8
+  },
+  {
+    "id": 7,
+    "name": "Neo-Brutalism",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Indie creator storefronts (e.g., Gumroad), creative agency sites, Web3/NFT drops, Gen-Z SaaS tools.",
+    "howToUse": "Pair thick 2–4px solid black borders with hard, zero-blur offset drop shadows, clashing acid/primary colors, and chunky display fonts.",
+    "palette": [
+      "#FFFDF7",
+      "#000000",
+      "#E2FF00",
+      "#FF4D8D",
+      "#2563EB"
+    ],
+    "aiPrompt": "Design a Neo-Brutalist creator dashboard with 3px solid black borders, hard 6px offset black shadows, acid yellow and hot pink cards, and bold geometric typography.",
+    "cssSnippet": "background: #E2FF00; border: 3px solid #000000; box-shadow: 6px 6px 0px #000000; border-radius: 4px;",
+    "imagePath": "/images/style-07.png",
+    "sourcePage": 9
+  },
+  {
+    "id": 8,
+    "name": "Bento UI (Bento Grid)",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Product feature showcases, analytics & sports dashboards, SaaS pricing/overview pages, personal link hubs.",
+    "howToUse": "Use CSS Grid with asymmetric col-span/row-span tiles, consistent 16–24px gaps, rounded corners, and one self-contained metric or visual per tile.",
+    "palette": [
+      "#F5F5F7",
+      "#FFFFFF",
+      "#111827",
+      "#3B82F6",
+      "#10B981"
+    ],
+    "aiPrompt": "Build a responsive Bento Grid dashboard using CSS Grid with asymmetric 2x2 and 2x1 rounded cards, clean 16px gaps, one hero chart card, and crisp KPI tiles.",
+    "cssSnippet": "display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; /* Card: */ border-radius: 24px; background: #FFFFFF; border: 1px solid #E5E7EB;",
+    "imagePath": "/images/style-08.png",
+    "sourcePage": 10
+  },
+  {
+    "id": 9,
+    "name": "Aurora UI (Mesh Gradient)",
+    "categoryTab": "Atmospheric & Futuristic",
+    "whereToUse": "Premium SaaS hero sections, AI product launches, creative tool landing pages, music/wellness apps.",
+    "howToUse": "Layer 3–4 blurred radial/conic gradients over a dark #05010F base and place text inside high-contrast glass or solid panels.",
+    "palette": [
+      "#05010F",
+      "#6366F1",
+      "#2DD4BF",
+      "#EC4899",
+      "#8B5CF6"
+    ],
+    "aiPrompt": "Create a dark Aurora UI hero section with a #05010F base, blurred indigo-teal-pink northern-lights gradient blobs, and a high-contrast frosted headline card.",
+    "cssSnippet": "background: radial-gradient(at 20% 30%, #6366F1 0px, transparent 50%), radial-gradient(at 80% 70%, #2DD4BF 0px, transparent 50%), #05010F;\nfilter: blur(60px);",
+    "imagePath": "/images/style-09.png",
+    "sourcePage": 11
+  },
+  {
+    "id": 10,
+    "name": "Liquid Glass",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Spatial OS interfaces, modern mobile navigation bars, media/photo-centric apps, floating toolbars.",
+    "howToUse": "Use pill-shaped floating capsules with optical backdrop blur, bright specular edge highlights, and adaptive contrast over rich wallpapers.",
+    "palette": [
+      "rgba(255,255,255,0.22)",
+      "#FFFFFF",
+      "#38BDF8",
+      "#FB7185",
+      "#0F172A"
+    ],
+    "aiPrompt": "Design a Liquid Glass floating navigation dock and control pill with optical backdrop blur, glossy white specular rim highlights, and fluid capsule geometry.",
+    "cssSnippet": "background: rgba(255,255,255,0.22); backdrop-filter: blur(24px) saturate(180%);\nborder: 1px solid rgba(255,255,255,0.5); border-radius: 9999px;\nbox-shadow: inset 0 1px 1px rgba(255,255,255,0.6), 0 8px 32px rgba(0,0,0,0.18);",
+    "imagePath": "/images/style-10.png",
+    "sourcePage": 12
+  },
+  {
+    "id": 11,
+    "name": "Minimalism (Swiss Style)",
+    "categoryTab": "Minimal & Typographic",
+    "whereToUse": "Editorial publications, luxury e-commerce, architectural portfolios, distraction-free reading apps.",
+    "howToUse": "Maximize negative space (40%+), align strictly to a 12-column Swiss grid, and use typography scale + 1px hairlines instead of boxes.",
+    "palette": [
+      "#FFFFFF",
+      "#FAFAFA",
+      "#111111",
+      "#737373",
+      "#E11D48"
+    ],
+    "aiPrompt": "Build a Swiss Minimalist portfolio page with generous whitespace, strict 12-column grid alignment, 1px hairline dividers, and crisp editorial sans-serif hierarchy.",
+    "cssSnippet": "max-width: 1120px; margin: 0 auto; padding: 80px 24px; border-top: 1px solid #E5E5E5; letter-spacing: -0.02em;",
+    "imagePath": "/images/style-11.png",
+    "sourcePage": 13
+  },
+  {
+    "id": 12,
+    "name": "Maximalism",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Music festivals, streetwear brands, creative agency campaigns, interactive storytelling sites.",
+    "howToUse": "Layer saturated color blocks, overlapping rotated sticker badges, mixed display/mono fonts, and rich decorative motifs around one clear CTA.",
+    "palette": [
+      "#FF007F",
+      "#FF6B00",
+      "#A3E635",
+      "#3B0764",
+      "#FFFFFF"
+    ],
+    "aiPrompt": "Create a Maximalist festival landing page with overlapping vibrant color blocks, rotated sticker badges, eclectic display typography, and high-energy visual density.",
+    "cssSnippet": "transform: rotate(-3deg); background: #FF007F;\nborder: 2px solid #FFFFFF;\nbox-shadow: 0 12px 24px rgba(59, 7, 100, 0.4);",
+    "imagePath": "/images/style-12.png",
+    "sourcePage": 14
+  },
+  {
+    "id": 13,
+    "name": "Bauhaus UI",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Museums, cultural institutions, design studios, editorial brand systems, architecture showcases.",
+    "howToUse": "Divide layouts with thick 4px black structural borders into asymmetric primary-color blocks (red, blue, yellow) anchored by circles and triangles.",
+    "palette": [
+      "#D92B2B",
+      "#1D4ED8",
+      "#EAB308",
+      "#F5F2EB",
+      "#111111"
+    ],
+    "aiPrompt": "Design a Bauhaus UI layout with an asymmetric grid separated by 4px black lines, primary red/blue/yellow blocks, geometric circles, and bold Futura-style typography.",
+    "cssSnippet": "display: grid; grid-template-columns: 2fr 1fr 1fr;\nborder: 4px solid #111111; background: #F5F2EB;\n/* Circle: */ border-radius: 50%;",
+    "imagePath": "/images/style-13.png",
+    "sourcePage": 15
+  },
+  {
+    "id": 14,
+    "name": "Cyberminimalism (Dark-Mode Tech)",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Developer tools (Linear, Vercel style), AI workspaces, prosumer SaaS dashboards, sports/analytics trackers.",
+    "howToUse": "Pair near-black #0B0D12 surfaces with 1px subtle #272B36 hairline borders, tabular monospace numbers, keyboard shortcut badges, and one crisp accent.",
+    "palette": [
+      "#0B0D12",
+      "#151821",
+      "#272B36",
+      "#F8FAFC",
+      "#6366F1"
+    ],
+    "aiPrompt": "Build a Cyberminimalist dark-mode SaaS dashboard inspired by Linear with #0B0D12 backgrounds, 1px #272B36 borders, monospace KPIs, and a ⌘K command bar.",
+    "cssSnippet": "background: #151821; border: 1px solid #272B36; border-radius: 12px; color: #F8FAFC; font-variant-numeric: tabular-nums;",
+    "imagePath": "/images/style-14.png",
+    "sourcePage": 16
+  },
+  {
+    "id": 15,
+    "name": "Y2K / Retro Web",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Retro music players (e.g., Poolsuite FM), Gen-Z lifestyle brands, creative microsites, limited-edition product drops.",
+    "howToUse": "Combine silver chrome gradients, beveled 3D window borders, glossy candy-pill buttons, and iridescent/sparkle accents.",
+    "palette": [
+      "#C0C0C0",
+      "#FF69B4",
+      "#00E5FF",
+      "#1E1B4B",
+      "#FFFFFF"
+    ],
+    "aiPrompt": "Design a Y2K Retro Web music player window with silver metallic title bars, beveled 3D borders, glossy pink/cyan pill buttons, and nostalgic pixel accents.",
+    "cssSnippet": "background: linear-gradient(180deg, #E5E7EB 0%, #9CA3AF 100%); border: 2px outset #FFFFFF; box-shadow: inset 1px 1px 0 #FFFFFF, 3px 3px 0 #1E1B4B;",
+    "imagePath": "/images/style-15.png",
+    "sourcePage": 17
+  },
+  {
+    "id": 16,
+    "name": "Cyberpunk / Sci-Fi HUD (FUI)",
+    "categoryTab": "Atmospheric & Futuristic",
+    "whereToUse": "Gaming HUDs, esports overlays, sci-fi media portals, drone/hardware telemetry dashboards.",
+    "howToUse": "Use pitch-black canvases, 45-degree clipped corner brackets, glowing neon cyan/magenta borders, and uppercase monospace telemetry labels.",
+    "palette": [
+      "#05070A",
+      "#00F0FF",
+      "#FF0055",
+      "#FACC15",
+      "#0E1726"
+    ],
+    "aiPrompt": "Build a Cyberpunk Sci-Fi HUD dashboard with pitch-black panels, 45-degree chamfered corners via clip-path, glowing neon cyan borders, and monospace telemetry bars.",
+    "cssSnippet": "background: rgba(14,23,38,0.85);\nborder: 1px solid #00F0FF;\nbox-shadow: 0 0 12px rgba(0,240,255,0.35);\nclip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);",
+    "imagePath": "/images/style-16.png",
+    "sourcePage": 18
+  },
+  {
+    "id": 17,
+    "name": "Bold / Kinetic Typography",
+    "categoryTab": "Minimal & Typographic",
+    "whereToUse": "Creative agency websites, editorial features, interactive lookbooks, high-impact product launch heroes.",
+    "howToUse": "Make oversized display type (clamp(3rem, 10vw, 9rem)) the hero visual itself, paired with tight line-height, inline pill tags, and zero cards.",
+    "palette": [
+      "#FAF8F5",
+      "#0A0A0A",
+      "#EF4444",
+      "#525252",
+      "#E5E5E5"
+    ],
+    "aiPrompt": "Create a Bold Typography landing page dominated by giant edge-to-edge stacked display headings, tight 0.9 line-height, inline pill badges, and minimal hairline navigation.",
+    "cssSnippet": "font-size: clamp(3.5rem, 10vw, 8.5rem); line-height: 0.9; letter-spacing: -0.04em; font-weight: 800; text-transform: uppercase;",
+    "imagePath": "/images/style-17.png",
+    "sourcePage": 19
+  },
+  {
+    "id": 18,
+    "name": "3D / Spatial UI",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Product configurators, fintech/SaaS feature explainers, spatial computing (XR), interactive brand heroes.",
+    "howToUse": "Combine 3D CSS perspective/transforms or WebGL/Spline scenes with layered z-axis cards and soft ambient occlusion shadows.",
+    "palette": [
+      "#EEF2FF",
+      "#FFFFFF",
+      "#4F46E5",
+      "#06B6D4",
+      "#1E1B4B"
+    ],
+    "aiPrompt": "Design a 3D Spatial UI hero with layered isometric floating cards, CSS perspective depth transforms, soft ambient shadows, and a glowing 3D centerpiece.",
+    "cssSnippet": "perspective: 1000px;\n/* Card: */ transform: rotateX(8deg) rotateY(-12deg) translateZ(24px);\nbox-shadow: 0 25px 50px -12px rgba(30,27,75,0.25);",
+    "imagePath": "/images/style-18.png",
+    "sourcePage": 20
+  },
+  {
+    "id": 19,
+    "name": "Art Deco UI",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Luxury hospitality, jewelry/watch e-commerce, fine dining, VIP event invitations.",
+    "howToUse": "Pair symmetrical stepped borders and gold 1px hairlines with deep emerald or obsidian backgrounds and tall geometric display serifs.",
+    "palette": [
+      "#0B1D19",
+      "#0A0A0C",
+      "#D4AF37",
+      "#F5EFE6",
+      "#8C6D2E"
+    ],
+    "aiPrompt": "Design an Art Deco luxury hotel booking card on a #0B1D19 emerald background with #D4AF37 gold stepped geometric borders, symmetrical framing, and high-contrast serif headings.",
+    "cssSnippet": "background: #0B1D19; border: 1px solid #D4AF37;\noutline: 1px solid #D4AF37; outline-offset: -8px;\ncolor: #F5EFE6; font-family: 'Cinzel', serif;",
+    "imagePath": "/images/style-19.png",
+    "sourcePage": 21
+  },
+  {
+    "id": 20,
+    "name": "Memphis Design UI",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Creative agency portfolios, youth events, playful podcasts, quirky consumer brands.",
+    "howToUse": "Scatter bold 80s geometric primitives (zig-zags, dots, triangles) around pastel/neon cards with thick black outlines.",
+    "palette": [
+      "#FFDE59",
+      "#FF5757",
+      "#38B6FF",
+      "#C084FC",
+      "#111111"
+    ],
+    "aiPrompt": "Create a 1980s Memphis Design landing hero with pastel yellow and lilac cards, thick black borders, floating geometric triangles/circles, and playful sans typography.",
+    "cssSnippet": "background: #FFDE59; border: 3px solid #111111;\nbox-shadow: 5px 5px 0 #38B6FF; border-radius: 12px;\n/* Retro Memphis affine pop-card transform */",
+    "imagePath": "/images/style-20.png",
+    "sourcePage": 22
+  },
+  {
+    "id": 21,
+    "name": "Pixel Art / 8-Bit UI",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Indie games, chiptune music sites, developer hackathons, gamified Easter-egg microsites.",
+    "howToUse": "Use 0px border-radius, stepped pixel box-shadows, crisp 16-color arcade palettes, and pixel/bitmap display fonts.",
+    "palette": [
+      "#1A1C2C",
+      "#F4F4F4",
+      "#38B764",
+      "#EF7D57",
+      "#41A6F6"
+    ],
+    "aiPrompt": "Build an 8-Bit Pixel Art RPG inventory modal with 0px border radius, stepped pixel borders, retro arcade green/orange health bars, and monospace pixel typography.",
+    "cssSnippet": "border-radius: 0;\nborder: 4px solid #F4F4F4;\nbox-shadow: 4px 4px 0 #1A1C2C;\nimage-rendering: pixelated;",
+    "imagePath": "/images/style-21.png",
+    "sourcePage": 23
+  },
+  {
+    "id": 22,
+    "name": "Vaporwave / Synthwave UI",
+    "categoryTab": "Atmospheric & Futuristic",
+    "whereToUse": "Synthwave music apps, retro-futuristic events, creative WebGL showcases, gaming streams.",
+    "howToUse": "Combine deep violet night skies with neon magenta/cyan glows, perspective horizon grids, and chrome/sunset gradients.",
+    "palette": [
+      "#120428",
+      "#FF2A85",
+      "#00F0FF",
+      "#FF9E00",
+      "#240B36"
+    ],
+    "aiPrompt": "Design a Synthwave music player UI with a #120428 deep violet background, neon pink-to-gold sunset gradient, glowing cyan wireframe borders, and retro perspective grid.",
+    "cssSnippet": "background: linear-gradient(180deg, #120428 0%, #240B36 100%);\nborder: 1px solid #FF2A85;\nbox-shadow: 0 0 18px rgba(255, 42, 133, 0.45);\n/* wireframe grid: */ perspective: 600px; transform: rotateX(62deg);",
+    "imagePath": "/images/style-22.png",
+    "sourcePage": 24
+  },
+  {
+    "id": 23,
+    "name": "Editorial / Magazine UI",
+    "categoryTab": "Minimal & Typographic",
+    "whereToUse": "Digital magazines, long-form journalism, fashion lookbooks, brand storytelling essays.",
+    "howToUse": "Pair expressive high-contrast serif headlines with clean sans-serif body copy, drop caps, pull quotes, and multi-column grids.",
+    "palette": [
+      "#FAF7F2",
+      "#141414",
+      "#B91C1C",
+      "#6B7280",
+      "#E5E0D8"
+    ],
+    "aiPrompt": "Build an Editorial Magazine article layout on warm #FAF7F2 newsprint with large Playfair-style serif headlines, a crimson drop cap, 1px column rules, and crisp bylines.",
+    "cssSnippet": "background: #FAF7F2; color: #141414;\nfont-family: 'Georgia', serif; column-gap: 32px;\nborder-bottom: 1px solid #E5E0D8;",
+    "imagePath": "/images/style-23.png",
+    "sourcePage": 25
+  },
+  {
+    "id": 24,
+    "name": "Scrollytelling / Narrative UI",
+    "categoryTab": "Atmospheric & Futuristic",
+    "whereToUse": "Data journalism, annual impact reports, interactive product launches, documentary microsites.",
+    "howToUse": "Pin a sticky visual stage on one side while narrative text chapters scroll past and trigger state/chart transitions.",
+    "palette": [
+      "#0F172A",
+      "#F8FAFC",
+      "#38BDF8",
+      "#F59E0B",
+      "#334155"
+    ],
+    "aiPrompt": "Create a Scrollytelling data story layout with a sticky right-hand chart stage and scrolling left-hand chapter cards that highlight active milestones.",
+    "cssSnippet": "/* Pinned Stage: */ position: sticky; top: 10vh; height: 80vh;\n/* Chapter Step: */ scroll-snap-align: start;\ntransition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);",
+    "imagePath": "/images/style-24.png",
+    "sourcePage": 26
+  },
+  {
+    "id": 25,
+    "name": "Monochrome / Noir UI",
+    "categoryTab": "Minimal & Typographic",
+    "whereToUse": "Photography portfolios, luxury fashion, architecture firms, minimalist reading tools.",
+    "howToUse": "Eliminate all hue—rely solely on pure #000000, #FFFFFF, grayscale steps, and razor-sharp 1px borders for hierarchy.",
+    "palette": [
+      "#000000",
+      "#171717",
+      "#737373",
+      "#E5E5E5",
+      "#FFFFFF"
+    ],
+    "aiPrompt": "Design a Monochrome Noir photography portfolio using only black, white, and grayscale, with 1px hairline borders, stark contrast, and crisp inverted hover buttons.",
+    "cssSnippet": "background: #000000; color: #FFFFFF; border: 1px solid #333333;\n/* Inverted Hover State: */\nbackground: #FFFFFF; color: #000000;",
+    "imagePath": "/images/style-25.png",
+    "sourcePage": 27
+  },
+  {
+    "id": 26,
+    "name": "Organic / Biophilic UI",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Sustainability brands, mindfulness/wellness apps, organic skincare e-commerce, eco-tourism.",
+    "howToUse": "Replace sharp rectangles with fluid organic blob radii, warm sand/sage palettes, and gentle natural spacing.",
+    "palette": [
+      "#F4F1EA",
+      "#4A6B53",
+      "#C86D51",
+      "#2C3531",
+      "#DCE5DC"
+    ],
+    "aiPrompt": "Create an Organic Biophilic wellness landing page with warm #F4F1EA sand backgrounds, sage green and terracotta accents, soft blob-shaped cards, and calm serif headings.",
+    "cssSnippet": "background: #F4F1EA;\n/* Organic Card: */\nborder-radius: 42% 58% 48% 52% / 46% 42% 58% 54%;\nbackground: #DCE5DC;",
+    "imagePath": "/images/style-26.png",
+    "sourcePage": 28
+  },
+  {
+    "id": 27,
+    "name": "Paper / Craft Collage UI",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Independent bookstores, artisanal food/coffee brands, creative zines, personal scrapbooks.",
+    "howToUse": "Layer slightly tilted paper cards with subtle drop shadows, masking-tape accents, and warm textured off-white backgrounds.",
+    "palette": [
+      "#F5EFE0",
+      "#FFFFFF",
+      "#D97706",
+      "#1F2937",
+      "#E11D48"
+    ],
+    "aiPrompt": "Design a tactile Paper Collage indie bookstore UI with warm craft-paper backgrounds, slightly rotated note cards, amber masking-tape badges, and typewriter-style headers.",
+    "cssSnippet": "background: #FFFFFF;\nbox-shadow: 2px 4px 10px rgba(0,0,0,0.12);\ntransform: rotate(-1.5deg);\nborder: 1px solid #E5DFD0;",
+    "imagePath": "/images/style-27.png",
+    "sourcePage": 29
+  },
+  {
+    "id": 28,
+    "name": "Kinetic / Motion-First UI",
+    "categoryTab": "Atmospheric & Futuristic",
+    "whereToUse": "Interactive product demos, consumer mobile apps, onboarding flows, creative agency sites.",
+    "howToUse": "Use spring-physics cubic-bezier transitions, interactive hover/tap scale states, and reduced-motion fallbacks.",
+    "palette": [
+      "#0F172A",
+      "#FFFFFF",
+      "#8B5CF6",
+      "#10B981",
+      "#F43F5E"
+    ],
+    "aiPrompt": "Build a Motion-First interactive card UI using spring cubic-bezier hover physics, staggered entrance animations, magnetic buttons, and prefers-reduced-motion support.",
+    "cssSnippet": "transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n/* Spring Scale Hover: */\ntransform: translateY(-6px) scale(1.02);\nwill-change: transform; box-shadow: 0 20px 35px -10px rgba(139,92,246,0.3);",
+    "imagePath": "/images/style-28.png",
+    "sourcePage": 30
+  },
+  {
+    "id": 29,
+    "name": "Data-Dense Analytics UI",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Financial trading terminals, DevOps observability, sports/futsal telemetry, BI dashboards.",
+    "howToUse": "Maximize data-ink ratio with compact 8–12px padding, tabular monospace numbers, inline sparklines, and muted gridlines.",
+    "palette": [
+      "#0F172A",
+      "#1E293B",
+      "#22C55E",
+      "#EF4444",
+      "#38BDF8"
+    ],
+    "aiPrompt": "Create a Data-Dense financial/observability dashboard with compact KPI cards, tabular-nums monospace metrics, inline SVG sparklines, and color-coded delta badges.",
+    "cssSnippet": "font-variant-numeric: tabular-nums;\npadding: 10px 12px; border: 1px solid #334155;\nbackground: #0F172A; display: grid; gap: 8px;",
+    "imagePath": "/images/style-29.png",
+    "sourcePage": 31
+  },
+  {
+    "id": 30,
+    "name": "Command-First / Keyboard UI",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Developer IDEs, issue trackers (Raycast, Linear), note-taking apps, power-user SaaS.",
+    "howToUse": "Center workflows around a floating ⌘K command palette, visible <kbd> shortcut chips, and instant keyboard-navigable lists.",
+    "palette": [
+      "#111113",
+      "#1C1C21",
+      "#2E2E36",
+      "#A1A1AA",
+      "#3B82F6"
+    ],
+    "aiPrompt": "Build a Command-First ⌘K spotlight modal with fuzzy-search input, keyboard shortcut kbd badges, active row highlight, and grouped quick actions.",
+    "cssSnippet": "background: #1C1C21; border: 1px solid #2E2E36;\nbox-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);\nborder-radius: 12px; backdrop-filter: blur(16px);",
+    "imagePath": "/images/style-30.png",
+    "sourcePage": 32
+  },
+  {
+    "id": 31,
+    "name": "Spatial / VisionOS UI",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Spatial/XR apps, floating media browsers, next-gen OS dashboards, immersive galleries.",
+    "howToUse": "Float frosted glass windows with generous 28px+ corners, subtle inner white specular rims, and detached pill toolbars.",
+    "palette": [
+      "rgba(120, 120, 128, 0.28)",
+      "#FFFFFF",
+      "#38BDF8",
+      "#0F172A",
+      "#F8FAFC"
+    ],
+    "aiPrompt": "Design a VisionOS Spatial UI floating media window with translucent frosted glass, specular white rim border, detached bottom pill ornament, and soft depth shadow.",
+    "cssSnippet": "background: rgba(120, 120, 128, 0.28); backdrop-filter: blur(40px);\nborder: 1px solid rgba(255, 255, 255, 0.35);\nborder-radius: 32px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);",
+    "imagePath": "/images/style-31.png",
+    "sourcePage": 33
+  },
+  {
+    "id": 32,
+    "name": "Flat 2.0 (Semi-Flat)",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Modern SaaS web apps (Stripe/Notion-adjacent), e-commerce checkouts, banking, B2B portals.",
+    "howToUse": "Keep flat 2D clarity while adding 1px borders and ultra-soft micro-shadows (0 1px 3px) so interactive buttons and cards read instantly.",
+    "palette": [
+      "#F8FAFC",
+      "#FFFFFF",
+      "#2563EB",
+      "#1E293B",
+      "#E2E8F0"
+    ],
+    "aiPrompt": "Build a Flat 2.0 SaaS pricing and checkout card with crisp #FFFFFF surfaces, 1px #E2E8F0 borders, subtle micro-shadows, and accessible blue CTA buttons.",
+    "cssSnippet": "background: #FFFFFF; border: 1px solid #E2E8F0;\nborder-radius: 12px;\nbox-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);\n/* Crisp interactive affordance with zero skeuomorphic noise */",
+    "imagePath": "/images/style-32.png",
+    "sourcePage": 34
+  },
+  {
+    "id": 33,
+    "name": "Corporate Memphis",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "SaaS onboarding, HR/collaboration tools, fintech explainers, friendly empty states.",
+    "howToUse": "Pair clean white UI cards with stylized, flat geometric vector characters in warm primary and pastel tones.",
+    "palette": [
+      "#FFFFFF",
+      "#3B82F6",
+      "#F59E0B",
+      "#FB7185",
+      "#1E293B"
+    ],
+    "aiPrompt": "Create a friendly SaaS onboarding screen in Corporate Memphis style with clean white cards, warm yellow/coral/blue flat vector shapes, and welcoming copy.",
+    "cssSnippet": "background: #FFFFFF; border-radius: 16px; padding: 32px;\n/* Accent Pill Badge: */\nbackground: #FEF3C7; color: #D97706; border-radius: 999px;\nbox-shadow: 0 20px 25px -5px rgba(30,41,59,0.08);",
+    "imagePath": "/images/style-33.png",
+    "sourcePage": 35
+  },
+  {
+    "id": 34,
+    "name": "Isometric UI",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Cloud infrastructure diagrams, fintech/crypto explainers, smart-city maps, SaaS workflow hero graphics.",
+    "howToUse": "Project UI cards and server/node blocks along a 30-degree isometric plane using CSS rotateX/rotateZ transforms.",
+    "palette": [
+      "#F0F9FF",
+      "#0284C7",
+      "#38BDF8",
+      "#0F172A",
+      "#E0F2FE"
+    ],
+    "aiPrompt": "Design an Isometric cloud architecture UI card stack rotated on a 30-degree plane with crisp blue layered planes, connecting data lines, and clean labels.",
+    "cssSnippet": "transform: rotateX(55deg) rotateZ(-45deg);\nbox-shadow: -8px 8px 0 #0284C7, -16px 16px 24px rgba(15,23,42,0.15);\ntransform-style: preserve-3d; /* 30° True Axonometric */",
+    "imagePath": "/images/style-34.png",
+    "sourcePage": 36
+  },
+  {
+    "id": 35,
+    "name": "Holographic / Iridescent UI",
+    "categoryTab": "Atmospheric & Futuristic",
+    "whereToUse": "Digital collectibles, Web3 membership passes, music/festival VIP tickets, AI creative tools.",
+    "howToUse": "Apply multi-stop conic/linear pastel rainbow gradients with subtle metallic sheen borders over dark or crisp white cards.",
+    "palette": [
+      "#09090B",
+      "#E0C3FC",
+      "#8EC5FC",
+      "#FBCFE8",
+      "#A7F3D0"
+    ],
+    "aiPrompt": "Create a Holographic VIP membership pass card on a #09090B background with an iridescent pastel rainbow foil gradient border and metallic shimmer.",
+    "cssSnippet": "/* Foil Border Container: */\nbackground: linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 35%, #FBCFE8 70%, #A7F3D0 100%);\n/* Card Surface: */ background: #09090B; border-radius: 16px;",
+    "imagePath": "/images/style-35.png",
+    "sourcePage": 37
+  },
+  {
+    "id": 36,
+    "name": "Acid Graphics / Anti-Design",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Experimental art collectives, rave/club flyers, avant-garde fashion, indie music drops.",
+    "howToUse": "Break symmetry with stretched/warped display type, neon acid-green on pitch black, and chrome/wireframe globe motifs.",
+    "palette": [
+      "#000000",
+      "#CCFF00",
+      "#D4D4D8",
+      "#FF00FF",
+      "#FFFFFF"
+    ],
+    "aiPrompt": "Design an Acid Graphics experimental event poster UI on pure black with #CCFF00 acid-green warped pill badges, stretched uppercase display type, and wireframe borders.",
+    "cssSnippet": "background: #000000; color: #CCFF00;\nborder: 1px solid #CCFF00; border-radius: 9999px;\nletter-spacing: 0.15em; text-transform: uppercase;",
+    "imagePath": "/images/style-36.png",
+    "sourcePage": 38
+  },
+  {
+    "id": 37,
+    "name": "Terminal / CLI Retro UI",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Developer portfolios, CLI tool docs, cybersecurity consoles, hacker-culture landing pages.",
+    "howToUse": "Use monospace fonts exclusively, phosphor green/amber text on #0A0A0A, ASCII box borders, and blinking cursor prompts.",
+    "palette": [
+      "#0A0A0A",
+      "#22C55E",
+      "#F59E0B",
+      "#166534",
+      "#E5E7EB"
+    ],
+    "aiPrompt": "Build a Terminal CLI developer portfolio on #0A0A0A with monospace phosphor green text, ASCII-style 1px borders, command prompt prefixes ($), and blinking cursor.",
+    "cssSnippet": "background: #0A0A0A; color: #22C55E;\nfont-family: ui-monospace, monospace;\nborder: 1px dashed #166534;\n/* Scanline Affordance */ text-shadow: 0 0 4px rgba(34,197,94,0.45);",
+    "imagePath": "/images/style-37.png",
+    "sourcePage": 39
+  },
+  {
+    "id": 38,
+    "name": "Windows 95 / Classic OS UI",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Nostalgic artist portfolios, indie game sites, retro web utilities, creative agency Easter eggs.",
+    "howToUse": "Recreate classic 3D inset/outset gray borders (#DFDFDF / #808080), navy-blue title bars, and square [X] window controls.",
+    "palette": [
+      "#008080",
+      "#C0C0C0",
+      "#000080",
+      "#FFFFFF",
+      "#808080"
+    ],
+    "aiPrompt": "Design a Windows 95 nostalgic desktop UI on #008080 teal with #C0C0C0 beveled window frames, #000080 title bar, and square 3D-pressable buttons.",
+    "cssSnippet": "background: #C0C0C0;\nborder-top: 2px solid #FFFFFF; border-left: 2px solid #FFFFFF;\nborder-right: 2px solid #404040; border-bottom: 2px solid #404040;\nbox-shadow: inset 1px 1px #DFDFDF, inset -1px -1px #808080;",
+    "imagePath": "/images/style-38.png",
+    "sourcePage": 40
+  },
+  {
+    "id": 39,
+    "name": "Playful / Gamified UI",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Language learning apps (Duolingo style), fitness/habit trackers, kids edtech, loyalty rewards.",
+    "howToUse": "Give buttons a thick darker bottom-border lip that depresses on click, paired with rounded progress bars and streak badges.",
+    "palette": [
+      "#FFFFFF",
+      "#58CC02",
+      "#46A302",
+      "#FFC800",
+      "#1CB0F6"
+    ],
+    "aiPrompt": "Build a Gamified habit tracker card with chunky 3D-lipped green buttons that depress on active click, rounded XP progress bars, and gold streak badges.",
+    "cssSnippet": "background: #58CC02; border-radius: 16px;\nborder-bottom: 4px solid #46A302; box-shadow: 0 6px 0 #46A302;\n/* Active Press: */\ntransform: translateY(2px); border-bottom-width: 2px;",
+    "imagePath": "/images/style-39.png",
+    "sourcePage": 41
+  },
+  {
+    "id": 40,
+    "name": "Neoclassical / Luxury Heritage",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Heritage fashion houses, fine wine/spirits, museum exhibitions, private wealth portals.",
+    "howToUse": "Center-align classical serif headlines on warm ivory/alabaster surfaces with muted antique-gold accents and generous margins.",
+    "palette": [
+      "#F9F6F0",
+      "#1C1917",
+      "#B4975A",
+      "#E7E0D3",
+      "#44403C"
+    ],
+    "aiPrompt": "Design a Neoclassical heritage brand landing page on #F9F6F0 alabaster with centered classical serif headings, muted #B4975A gold hairlines, and balanced symmetry.",
+    "cssSnippet": "background: #F9F6F0; color: #1C1917;\nfont-family: \"Times New Roman\", Georgia, serif;\nborder: 1px solid #B4975A; letter-spacing: 0.08em;",
+    "imagePath": "/images/style-40.png",
+    "sourcePage": 42
+  },
+  {
+    "id": 41,
+    "name": "Japanese Zen / Wabi-Sabi UI",
+    "categoryTab": "Minimal & Typographic",
+    "whereToUse": "Tea/ceramics boutiques, meditation apps, architectural journals, slow-living blogs.",
+    "howToUse": "Embrace intentional asymmetry (ma / negative space), warm washi-paper neutrals, muted charcoal ink, and subtle organic lines.",
+    "palette": [
+      "#F2EFE9",
+      "#2D2A26",
+      "#8C857B",
+      "#7A8B7B",
+      "#D6CFC2"
+    ],
+    "aiPrompt": "Create a Wabi-Sabi tea house website on #F2EFE9 washi-paper background with generous asymmetric negative space, #2D2A26 sumi-ink typography, and muted matcha accents.",
+    "cssSnippet": "background: #F2EFE9; color: #2D2A26;\npadding: 64px 48px; line-height: 1.8;\nborder-left: 2px solid #7A8B7B; /* quiet ma accent */",
+    "imagePath": "/images/style-41.png",
+    "sourcePage": 43
+  },
+  {
+    "id": 42,
+    "name": "Pop Art / Comic UI",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Comic/merch stores, viral marketing campaigns, youth entertainment, creative event promos.",
+    "howToUse": "Use Ben-Day halftone dot backgrounds, thick 4px comic-ink outlines, speech-bubble callouts, and bold primary CMYK colors.",
+    "palette": [
+      "#FFE600",
+      "#FF2E63",
+      "#08D9D6",
+      "#FFFFFF",
+      "#111111"
+    ],
+    "aiPrompt": "Design a Pop Art Comic UI promo card with halftone dot background, thick 4px black ink outlines, speech-bubble badges, and bright yellow/red/cyan fills.",
+    "cssSnippet": "background-image: radial-gradient(#111111 1.5px, transparent 1.5px);\nbackground-size: 10px 10px; border: 4px solid #111111;\nbox-shadow: 8px 8px 0px #111111;",
+    "imagePath": "/images/style-42.png",
+    "sourcePage": 44
+  },
+  {
+    "id": 43,
+    "name": "Kinetic / Variable Font UI",
+    "categoryTab": "Minimal & Typographic",
+    "whereToUse": "Design conferences, type foundries, interactive brand manifestos, creative portfolios.",
+    "howToUse": "Animate CSS font-variation-settings ('wght', 'wdth') on hover or scroll so letters stretch and thicken interactively.",
+    "palette": [
+      "#0F0F11",
+      "#F4F4F5",
+      "#3B82F6",
+      "#F97316",
+      "#27272A"
+    ],
+    "aiPrompt": "Build a Variable Font interactive hero where hovering each nav word smoothly morphs font-variation-settings weight from 300 to 900 over a #0F0F11 canvas.",
+    "cssSnippet": "/* Default: */ font-variation-settings: \"wght\" 300, \"wdth\" 100;\ntransition: font-variation-settings 0.3s ease;\n/* Hover: */ font-variation-settings: \"wght\" 900, \"wdth\" 125;",
+    "imagePath": "/images/style-43.png",
+    "sourcePage": 45
+  },
+  {
+    "id": 44,
+    "name": "Low-Poly / Faceted Geometric UI",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Indie games, tech/AI conference branding, digital art platforms, modern hero backdrops.",
+    "howToUse": "Compose backgrounds and hero cards from sharp triangular polygon facets with stepped tonal shading, directional highlights, and zero card bloat.",
+    "palette": [
+      "#1E1B4B",
+      "#4338CA",
+      "#6366F1",
+      "#06B6D4",
+      "#F8FAFC"
+    ],
+    "aiPrompt": "Design a Low-Poly Geometric landing hero with faceted indigo-to-cyan polygon triangles, sharp angular CSS clip-path cards, and crisp white typography.",
+    "cssSnippet": "clip-path: polygon(0 12%, 100% 0, 100% 88%, 0 100%);\nbackground: linear-gradient(135deg, #4338CA, #06B6D4);\n/* Stepped faceted lighting model */",
+    "imagePath": "/images/style-44.png",
+    "sourcePage": 46
+  },
+  {
+    "id": 45,
+    "name": "Obsidian Glass (Dark Frosted)",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Dark-mode fintech apps, crypto/AI dashboards, music streaming, night-mode OS overlays.",
+    "howToUse": "Use dark rgba(15,23,42,0.65) glass panels with backdrop-filter blur and a subtle 1px top-highlight border over dark ambient glows.",
+    "palette": [
+      "#030712",
+      "#111827",
+      "#38BDF8",
+      "#818CF8",
+      "#F9FAFB"
+    ],
+    "aiPrompt": "Create an Obsidian Dark Glass dashboard card with rgba(17,24,39,0.65) backdrop blur, subtle 1px top white-alpha rim light, and deep ambient blue glow.",
+    "cssSnippet": "background: rgba(17, 24, 39, 0.65);\nbackdrop-filter: blur(20px);\nborder: 1px solid rgba(255, 255, 255, 0.1);\nborder-top-color: rgba(255, 255, 255, 0.22);",
+    "imagePath": "/images/style-45.png",
+    "sourcePage": 47
+  },
+  {
+    "id": 46,
+    "name": "Tactile Hardware UI (Industrial)",
+    "categoryTab": "Morphism & Depth",
+    "whereToUse": "Music hardware apps (Teenage Engineering style), synth plugins, camera/drone controllers, IoT panels.",
+    "howToUse": "Combine matte light-gray industrial housing with safety-orange accents, precision grid ticks, and circular/pill physical switches.",
+    "palette": [
+      "#E5E5E0",
+      "#FF4F00",
+      "#1A1A1A",
+      "#9CA3AF",
+      "#FACC15"
+    ],
+    "aiPrompt": "Design an Industrial Tactile audio synth UI inspired by Teenage Engineering with matte #E5E5E0 housing, #FF4F00 safety-orange knobs, and precision grid markings.",
+    "cssSnippet": "background: #E5E5E0; border: 1px solid #C4C4BE;\n/* Rotary Knob */ border-radius: 50%; background: #FF4F00;\nbox-shadow: 0 4px 0 #B33700, 0 10px 15px -3px rgba(0,0,0,0.3);",
+    "imagePath": "/images/style-46.png",
+    "sourcePage": 48
+  },
+  {
+    "id": 47,
+    "name": "Heatmap / Telemetry Dashboard",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Product analytics, sports/futsal pitch heatmaps, conversion funnels, GitHub-style activity trackers.",
+    "howToUse": "Map numeric intensity to stepped color scales (light-to-saturated) with crisp tooltips and clear funnel drop-off callouts.",
+    "palette": [
+      "#FFFFFF",
+      "#0F172A",
+      "#ECFDF5",
+      "#34D399",
+      "#059669",
+      "#EF4444"
+    ],
+    "aiPrompt": "Build a Heatmap & Conversion Funnel analytics card with a 7x4 stepped green activity grid, horizontal funnel bars, and red drop-off callout badges.",
+    "cssSnippet": "display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;\n/* Cell: */ aspect-ratio: 1; border-radius: 4px;\nbackground: #34D399;",
+    "imagePath": "/images/style-47.png",
+    "sourcePage": 49
+  },
+  {
+    "id": 48,
+    "name": "Modular Masonry / Waterfall UI",
+    "categoryTab": "Modern SaaS & Dashboards",
+    "whereToUse": "Design galleries (Pinterest, Dribbble), AI image feeds, moodboards, e-commerce lookbooks.",
+    "howToUse": "Use CSS columns (column-count) with break-inside: avoid so variable-height visual cards pack tightly with zero awkward gaps.",
+    "palette": [
+      "#FAFAFA",
+      "#FFFFFF",
+      "#18181B",
+      "#E11D48",
+      "#E4E4E7"
+    ],
+    "aiPrompt": "Create a responsive Masonry inspiration gallery using CSS multi-column layout with variable-height rounded cards, hover save pills, and category filter tabs.",
+    "cssSnippet": "column-count: 3; column-gap: 16px;\n/* Card: */ break-inside: avoid; margin-bottom: 16px;\nborder-radius: 16px;",
+    "imagePath": "/images/style-48.png",
+    "sourcePage": 50
+  },
+  {
+    "id": 49,
+    "name": "Kawaii / Pastel Cute UI",
+    "categoryTab": "Bold, Retro & Expressive",
+    "whereToUse": "Stationery/gift e-commerce, cozy mobile games, habit pets, Japanese/Korean lifestyle apps.",
+    "howToUse": "Pair extra-rounded pill containers and soft pastel fills with 2px warm-brown or berry outlines and cheerful heart/star badges.",
+    "palette": [
+      "#FFF5F7",
+      "#FFB7C5",
+      "#BAE6FD",
+      "#FEF08A",
+      "#5C3D46"
+    ],
+    "aiPrompt": "Design a Kawaii Pastel Cute habit-pet app card on #FFF5F7 blush cream with #FFB7C5 sakura-pink pill buttons, 2px #5C3D46 cocoa borders, and cozy rounded typography.",
+    "cssSnippet": "background: #FFB7C5; border: 2px solid #5C3D46;\nborder-radius: 28px; box-shadow: 0 4px 0 #5C3D46;\ncolor: #5C3D46; /* Chunky tactile affordance */",
+    "imagePath": "/images/style-49.png",
+    "sourcePage": 51
+  },
+  {
+    "id": 50,
+    "name": "Hand-Drawn / Sketchbook UI",
+    "categoryTab": "Art & Heritage Movements",
+    "whereToUse": "Whiteboard/ideation tools (Excalidraw style), indie notebooks, creative portfolios, educational explainers.",
+    "howToUse": "Use irregular organic border-radius values, dashed/solid ink outlines, highlighter-yellow accents, and informal handwriting-style type.",
+    "palette": [
+      "#FDFBF7",
+      "#1F2937",
+      "#FEF08A",
+      "#3B82F6",
+      "#E5E7EB"
+    ],
+    "aiPrompt": "Build a Hand-Drawn Sketchbook ideation card on #FDFBF7 paper with wobbly organic 2px ink borders, highlighter-yellow callout marks, and Excalidraw-style scribble accents.",
+    "cssSnippet": "background: #FDFBF7; border: 2px solid #1F2937;\nborder-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;\nbox-shadow: 3px 3px 0 #1F2937;",
+    "imagePath": "/images/style-50.png",
+    "sourcePage": 52
+  }
+]
