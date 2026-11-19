@@ -1,0 +1,227 @@
+/* Live demo CSS for style 12. Palette: #FF007F #FF6B00 #A3E635 #3B0764 #FFFFFF */
+.root {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px 12px;
+  padding: 0 14px 14px;
+  background-color: #12091f;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: #fff;
+  font-family: "Space Grotesk", "Arial Black", ui-sans-serif, system-ui, sans-serif;
+}
+
+.ticker {
+  grid-column: 1 / -1;
+  margin: 0 -14px;
+  padding: 6px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font: 700 10px/1 ui-monospace, monospace;
+  letter-spacing: 0.04em;
+  color: #12091f;
+  background: #a3e635;
+}
+.ticker > span {
+  display: inline-block;
+  animation: ticker 14s linear infinite;
+}
+@keyframes ticker {
+  to { transform: translateX(-50%); }
+}
+
+.sticker {
+  position: absolute;
+  z-index: 2;
+  padding: 3px 8px;
+  border: 2px solid #12091f;
+  border-radius: 999px;
+  font: 800 9px/1.2 ui-monospace, monospace;
+  pointer-events: none;
+}
+.live { top: -10px; right: 18px; background: #22d3ee; color: #12091f; transform: rotate(-8deg); }
+.raw { bottom: -9px; right: 60px; background: #ff007f; color: #12091f; transform: rotate(-10deg); }
+.new { bottom: -10px; right: -4px; background: #a3e635; color: #12091f; transform: rotate(14deg); }
+
+.hero {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 12px;
+  border: 3px solid #fff;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff007f, #7e22ce);
+}
+.sun {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 107, 0, 0.45);
+  pointer-events: none;
+}
+.title,
+.copy {
+  position: relative;
+  margin: 0;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(59, 7, 100, 0.78);
+}
+.title {
+  font-size: 17px;
+  white-space: nowrap;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.copy {
+  font-size: 9.5px;
+  line-height: 1.35;
+}
+.actions {
+  position: relative;
+  display: flex;
+  gap: 8px;
+}
+.cta,
+.stage {
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font: 700 9px/1 ui-monospace, monospace;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cta {
+  border: 2px solid #12091f;
+  color: #12091f;
+  background: #22d3ee;
+}
+.stage {
+  border: 2px solid #a3e635;
+  border-radius: 6px;
+  color: #a3e635;
+  background: #12091f;
+}
+.cta:active,
+.stage:active {
+  transform: translateY(2px);
+}
+
+.artists {
+  position: relative;
+  padding: 10px 12px;
+  border: 3px solid #fff;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #c2410c, #be123c);
+}
+.kicker {
+  margin: 0 0 4px;
+  font: 600 9px/1.2 ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.spectrum {
+  display: block;
+  width: 100%;
+  height: 34px;
+  fill: none;
+  stroke: #a3e635;
+  stroke-width: 2.5;
+}
+.names {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.collage {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 3px solid #12091f;
+  border-radius: 12px;
+  color: #12091f;
+  background: #ffe600;
+  box-shadow: 0 0 0 2px #ffe600;
+}
+.collageTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.passes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pass {
+  min-height: 26px;
+  padding: 0 8px;
+  border: 2px solid #12091f;
+  border-radius: 999px;
+  font: 700 9px/1 ui-monospace, monospace;
+  color: #12091f;
+  background: #fff;
+  cursor: pointer;
+}
+.pass[aria-checked="true"] {
+  color: #fff;
+  background: #12091f;
+  transform: rotate(-3deg);
+}
+
+.attrs {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 2px solid #818cf8;
+  border-radius: 12px;
+  background: #0f172a;
+}
+.attrs > .kicker {
+  color: #7dd3fc;
+}
+.meterLabel {
+  font: 700 8.5px/1 ui-monospace, monospace;
+  color: #e2e8f0;
+}
+.meter {
+  display: block;
+  height: 8px;
+  border-radius: 3px;
+  background: #1e293b;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #ff007f;
+  transition: width 0.3s;
+}
+.cyan > span {
+  background: #22d3ee;
+}
+.status {
+  margin: 0;
+  font: 600 8.5px/1.2 ui-monospace, monospace;
+  color: #a7f3d0;
+}
+
+.cta:focus-visible,
+.stage:focus-visible,
+.pass:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}

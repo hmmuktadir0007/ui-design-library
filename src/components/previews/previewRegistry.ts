@@ -31,6 +31,17 @@ export const previewRegistry: Partial<Record<number, () => Promise<PreviewModule
   34: () => import("./styles/34-isometric"),
   45: () => import("./styles/45-obsidian-glass"),
   46: () => import("./styles/46-tactile-hardware"),
+  // Phase 2B batch 2: Bold, Retro & Expressive
+  7: () => import("./styles/07-neo-brutalism"),
+  12: () => import("./styles/12-maximalism"),
+  15: () => import("./styles/15-y2k"),
+  21: () => import("./styles/21-pixel-art"),
+  33: () => import("./styles/33-corporate-memphis"),
+  36: () => import("./styles/36-acid-graphics"),
+  38: () => import("./styles/38-windows-95"),
+  39: () => import("./styles/39-gamified"),
+  42: () => import("./styles/42-pop-art"),
+  49: () => import("./styles/49-kawaii"),
 };
 
 export const hasPreview = (id: number) => previewRegistry[id] !== undefined;

@@ -1,0 +1,191 @@
+/* Live demo CSS for style 36. Palette: #000000 #CCFF00 #D4D4D8 #FF00FF #FFFFFF */
+.root {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  gap: 8px;
+  padding: 0 16px 10px;
+  background: #000;
+  color: #fff;
+  font-family: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 -16px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #27272a;
+  font: 600 9.5px/1 ui-monospace, monospace;
+}
+.brand {
+  color: #ccff00;
+}
+.nav {
+  display: flex;
+  gap: 6px;
+}
+.navBtn {
+  min-height: 28px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  font: inherit;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  background: transparent;
+  cursor: pointer;
+}
+.navBtn:hover {
+  color: #000;
+  background: #ccff00;
+}
+.navBtn[aria-pressed="true"] {
+  color: #ccff00;
+  border-color: #ccff00;
+  transform: skewX(-12deg);
+}
+
+.chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 9.5px/1 ui-monospace, monospace;
+}
+.live {
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #000;
+  background: #ccff00;
+}
+.bpm {
+  min-height: 26px;
+  padding: 0 12px;
+  border: 2px solid #ccff00;
+  border-radius: 999px;
+  font: inherit;
+  color: #ccff00;
+  background: #000;
+  cursor: pointer;
+}
+.bpm:hover {
+  color: #000;
+  background: #ccff00;
+}
+
+/* oversized, warped type; the distortion and RGB-offset levels are separate modifier classes */
+.type {
+  align-self: center;
+  max-width: 64%;
+  line-height: 0.92;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  transition: transform 0.25s;
+}
+.type p {
+  margin: 0;
+}
+.l1 { font-size: 40px; color: #fff; }
+.l2 { font-size: 40px; color: #ccff00; }
+.l3 { margin-top: 4px; font-size: 22px; color: #d4d4d8; }
+.d0 { transform: none; }
+.d1 { transform: skewX(-6deg) scaleY(1.06); }
+.d2 { transform: skewX(-14deg) scaleY(1.14) rotate(-2deg); }
+.rgb1 .l1,
+.rgb1 .l2 { text-shadow: 1px 0 #ff00ff, -1px 0 #22d3ee; }
+.rgb2 .l1,
+.rgb2 .l2 { text-shadow: 3px 0 #ff00ff, -3px 0 #22d3ee; }
+
+/* wireframe sphere with a chrome star */
+.orb {
+  position: absolute;
+  right: 22px;
+  top: 74px;
+  width: 112px;
+  height: 112px;
+  border: 1px solid #52525b;
+  border-radius: 50%;
+  animation: spin 12s linear infinite;
+}
+.ring {
+  position: absolute;
+  inset: 0 34px;
+  border: 1px solid #52525b;
+  border-radius: 50%;
+}
+.ringV {
+  inset: 34px 0;
+}
+.spark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 46px;
+  color: #ccff00;
+  text-shadow: 0 0 12px rgba(204, 255, 0, 0.6);
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.card {
+  display: grid;
+  gap: 3px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid #3f3f46;
+  border-radius: 6px;
+  font: 600 9.5px/1.2 ui-monospace, monospace;
+  text-align: left;
+  color: #ccff00;
+  background: #111;
+  cursor: pointer;
+}
+.cardKicker {
+  color: #a1a1aa;
+  text-transform: uppercase;
+}
+.cardValue {
+  font-size: 10.5px;
+}
+.neon {
+  border: 2px solid #ff00ff;
+  color: #ff4dff;
+  background: #1f001f;
+}
+.neon .cardKicker {
+  color: #f9a8d4;
+}
+.card:hover {
+  border-color: #ccff00;
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #ccff00;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 -16px;
+  padding: 8px 16px 0;
+  border-top: 1px solid #27272a;
+  font: 600 8.5px/1 ui-monospace, monospace;
+  color: #a1a1aa;
+}
+.acidText {
+  color: #ccff00;
+}
+
+.navBtn:focus-visible,
+.bpm:focus-visible,
+.card:focus-visible {
+  outline: 3px solid #ff00ff;
+  outline-offset: 3px;
+}

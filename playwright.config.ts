@@ -6,7 +6,9 @@ const BASE = "http://127.0.0.1:4173";
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: true,
+  workers: 4, // the default (half the cores) starves the preview server and Chromium on this machine; 4 keeps runs stable
   reporter: [["list"]],
+  expect: { timeout: 10_000 }, // lazy preview chunks can take >5s to render when 8 workers share the machine
   use: {
     baseURL: BASE,
     browserName: "chromium",

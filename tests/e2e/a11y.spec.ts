@@ -1,8 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Locator } from "@playwright/test";
-import { expect, openLive, test } from "./fixtures";
-
-const LIVE_IDS = [1, 4, 5, 6, 10, 18, 31, 34, 45, 46];
+import { expect, LIVE_IDS, openLive, test } from "./fixtures";
 const WCAG = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 const CONTROLS = 'button, input, [role="slider"], [role="radio"], [role="switch"]';
 
@@ -46,6 +44,7 @@ const settle = (stage: Locator) => expect.poll(() => stage.locator("[data-hit]")
 
 for (const id of LIVE_IDS) {
   test(`style ${id}: targets >= 24x24 without overlap, visible keyboard focus, axe WCAG 2.2 AA`, async ({ page }) => {
+    test.slow(); // hit-testing walk + Tab loop + axe: ~7s alone, >30s with 8 parallel workers
     await page.goto("/");
     const stage = await openLive(page, id);
     await settle(stage);
@@ -63,7 +62,7 @@ for (const id of LIVE_IDS) {
         const c = getComputedStyle(el);
         return [c.outlineStyle, c.outlineWidth, c.outlineColor].join(" ");
       });
-    await page.getByRole("button", { name: "Close" }).focus();
+    await page.getByRole("button", { name: "Close details" }).focus();
     const seen = new Set<number>();
     for (let n = 0; n < 40 && seen.size < (await controls.count()); n++) {
       await page.keyboard.press("Tab");
@@ -91,6 +90,7 @@ const SLIDERS: [number, string][] = [
   [10, "Playback position"],
   [31, "Scrub"],
   [46, "Output attenuation"],
+  [15, "Track position"],
 ];
 for (const [id, name] of SLIDERS) {
   test(`style ${id}: ${name} slider works from its enlarged area, then by keyboard`, async ({ page }) => {

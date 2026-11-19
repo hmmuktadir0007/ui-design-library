@@ -1,0 +1,196 @@
+/* Live demo CSS for style 49. Palette: #FFF5F7 #FFB7C5 #BAE6FD #FEF08A #5C3D46 */
+.root {
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 12px 20px;
+  background: #0b0b10;
+  color: #5c3d46;
+  font-family: "Fredoka", "Nunito", ui-rounded, ui-sans-serif, system-ui, sans-serif;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 8px;
+  padding: 12px 16px 8px;
+  border: 3px solid #5c3d46;
+  border-radius: 28px;
+  background: #fff5f7;
+  box-shadow: 0 6px 0 #5c3d46;
+}
+.chips {
+  display: flex;
+  gap: 8px;
+}
+.chip,
+.pill {
+  min-height: 28px;
+  padding: 0 12px;
+  border: 2px solid #5c3d46;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5c3d46;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.chip {
+  cursor: default;
+}
+.chip[aria-pressed],
+.pill {
+  cursor: pointer;
+  box-shadow: 0 3px 0 #5c3d46;
+}
+.pink { background: #ffb7c5; }
+.yellow { background: #fef08a; }
+.blue { background: #bae6fd; }
+.lvl {
+  margin-left: auto;
+  font-family: ui-monospace, monospace;
+}
+
+.pet {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  border: 2px solid #5c3d46;
+  border-radius: 22px;
+  background: #fff;
+}
+.bunny {
+  width: 92px;
+  height: 100px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.body {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 78px;
+  margin: 18px auto 0;
+  border: 2px solid #5c3d46;
+  border-radius: 50%;
+  background: #ffb7c5;
+}
+/* two identical keyframes, alternated per click, so the hop replays every time */
+.hopA { animation: hopA 0.4s ease-out; }
+.hopB { animation: hopB 0.4s ease-out; }
+@keyframes hopA { 40% { transform: translateY(-10px) scale(1.04, 0.96); } }
+@keyframes hopB { 40% { transform: translateY(-10px) scale(1.04, 0.96); } }
+.ear {
+  position: absolute;
+  top: -28px;
+  width: 20px;
+  height: 36px;
+  border: 2px solid #5c3d46;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 12px #ffb7c5;
+}
+.earL { left: 18px; transform: rotate(-8deg); }
+.earR { right: 18px; transform: rotate(8deg); }
+.face {
+  font-size: 13px;
+  font-weight: 700;
+  color: #5c3d46;
+  text-shadow: -16px 6px 0 rgba(255, 255, 255, 0.4);
+}
+
+.info {
+  display: grid;
+  gap: 4px;
+}
+.name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+}
+.role {
+  margin: -2px 0 2px;
+  font: 600 8.5px/1 ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  color: #be185d;
+}
+.stat {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  align-items: center;
+  font: 600 8.5px/1 ui-monospace, monospace;
+}
+.track {
+  height: 10px;
+  padding: 1px;
+  border: 2px solid #5c3d46;
+  border-radius: 999px;
+  background: #fff5f7;
+}
+.fillPink,
+.fillBlue {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #ffb7c5;
+  transition: width 0.3s;
+}
+.fillBlue {
+  background: #7dd3fc;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.actions > .pill {
+  padding: 0 10px;
+  font-size: 10px;
+}
+.pill:active,
+.chip[aria-pressed]:active,
+.cta:active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 #5c3d46;
+}
+
+.cta {
+  min-height: 40px;
+  border: 3px solid #5c3d46;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #5c3d46;
+  background: #ffb7c5;
+  box-shadow: 0 5px 0 #5c3d46;
+  cursor: pointer;
+}
+.cta[aria-pressed="true"] {
+  background: #fef08a;
+}
+.note {
+  margin: 0;
+  font: 600 8px/1 ui-monospace, monospace;
+  text-align: center;
+  color: #7a5562;
+}
+
+.chip[aria-pressed]:focus-visible,
+.pill:focus-visible,
+.bunny:focus-visible,
+.cta:focus-visible {
+  outline: 3px solid #be185d;
+  outline-offset: 3px;
+}

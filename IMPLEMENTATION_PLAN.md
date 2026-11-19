@@ -58,7 +58,7 @@ Gallery grid is `repeat(auto-fill, minmax(min(100%,320px),1fr))`: column count f
 
 ## Style preview architecture (Phase 2B batch 1 built: 10 of 50)
 
-- `previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>>`. A style is registered only when its preview is finished. Registered now: 1, 4, 5, 6, 10, 18, 31, 34, 45, 46 (Morphism & Depth).
+- `previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>>`. A style is registered only when its preview is finished. Registered now (20): 1, 4, 5, 6, 10, 18, 31, 34, 45, 46 (Morphism & Depth) and 7, 12, 15, 21, 33, 36, 38, 39, 42, 49 (Bold, Retro & Expressive).
 - `hasPreview(id)` gates every Live CSS control: unregistered styles render the reference image plus a "planned" note, no toggle.
 - Each preview: `previews/styles/NN-name.tsx` + `NN-name.module.css`. CSS isolation:
   - CSS Modules hash every class name; `scoping.test.ts` fails the build's test run if a preview stylesheet has a selector not rooted in a class, `:global`, `@import`, `position: fixed` or `!important`, or if registry and stylesheets disagree.
@@ -100,12 +100,14 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | 2A | gallery foundation, detail view, preview contract | build + browser checks pass — **complete** |
 | 2B batch 1 | 10 Morphism & Depth live previews | pointer + keyboard interaction tested per preview — **complete** |
 | 2B batch 1 a11y | target size, focus, axe WCAG 2.2 AA for the 10 previews | a11y suite passes at 375/768/1440 — **complete** |
-| 2B remaining | 40 previews (5 category batches) | not started |
+| 2B batch 2 | 10 Bold, Retro & Expressive live previews, a11y suite from the start | functional + a11y suites pass at 375/768/1440 — **complete** |
+| 2B remaining | 30 previews (4 category batches) | not started |
 | 2B playground | viewport frame, variable controls, generated CSS, reset | not started |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |
 
 ## Scope notes for Phase 2B
 
-- Previews are built in category batches with a review gate each (batch 1 done). Next batch needs approval.
+- Previews are built in category batches with a review gate each (batches 1–2 done). Next batch needs approval.
+- Playwright runs with 4 workers (more starves the local preview server); add new preview ids to `LIVE_IDS` in `tests/e2e/fixtures.ts` and a pointer + keyboard case in `previews.spec.ts`.
 - Playground "generated CSS" will cover only the CSS variables a preview actually uses; no export is offered for controls without CSS output.

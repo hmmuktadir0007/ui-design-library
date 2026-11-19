@@ -1,0 +1,267 @@
+/* Live demo CSS for style 38. Palette: #008080 #C0C0C0 #000080 #FFFFFF #808080 */
+.root {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #008080;
+  color: #000;
+  font-family: "Inter", "Tahoma", "MS Sans Serif", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+
+.icons {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: grid;
+  gap: 10px;
+}
+.icon {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  width: 52px;
+  padding: 2px;
+  border: 1px dotted transparent;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+}
+.icon:active {
+  border-color: #fff;
+  background: #000080;
+}
+.pc,
+.doc,
+.bin {
+  width: 30px;
+  height: 26px;
+  border: 2px solid #1f2937;
+}
+.pc { background: #0284c7; box-shadow: inset 0 0 0 3px #e5e7eb; }
+.doc { width: 24px; height: 30px; background: repeating-linear-gradient(#e5e7eb 0 5px, #94a3b8 5px 6px); }
+.bin { width: 22px; border-radius: 0 0 4px 4px; background: #94a3b8; }
+
+/* 2px Win95 bevel: light top-left, dark bottom-right */
+.win {
+  position: absolute;
+  left: 82px;
+  top: 30px;
+  width: 300px;
+  padding: 3px;
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, inset 2px 2px 0 #dfdfdf, inset -2px -2px 0 #808080;
+}
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  background: #000080;
+}
+.inactive .titleBar {
+  background: #707070;
+}
+.handle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  min-height: 24px;
+  padding: 0 4px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+  color: #fff;
+  background: transparent;
+  cursor: move;
+  touch-action: none;
+}
+.appIcon {
+  display: inline-block;
+  flex: none;
+  width: 14px;
+  height: 11px;
+  border: 2px solid #fff;
+  background: #000080;
+}
+.tbBtn {
+  width: 30px; /* wider than Win95's 16px so the touch target reaches 24px at 375px */
+  height: 22px;
+  border: 0;
+  font: 700 11px/1 ui-sans-serif, system-ui, sans-serif;
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, inset -2px -2px 0 #808080;
+  cursor: pointer;
+}
+.tbBtn:active,
+.btn:active {
+  box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #fff, inset 2px 2px 0 #808080;
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 6px 4px 0;
+}
+.tab {
+  min-height: 26px;
+  padding: 0 10px;
+  border: 0;
+  font: inherit;
+  color: #000;
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px 0 0 #000;
+  cursor: pointer;
+}
+.tab[aria-selected="true"] {
+  position: relative;
+  z-index: 1;
+  margin-bottom: -2px;
+  font-weight: 700;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px 0 0 #000, 0 2px 0 #c0c0c0;
+}
+.pane {
+  display: grid;
+  gap: 6px;
+  margin: 0 4px;
+  padding: 8px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, inset -2px -2px 0 #808080;
+}
+.about {
+  display: flex;
+  gap: 8px;
+}
+.info {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font: italic 700 16px/1 Georgia, serif;
+  color: #fff;
+  background: #0369a1;
+}
+.product {
+  margin: 0;
+  font-weight: 700;
+}
+.desc {
+  margin: 2px 0 0;
+  font-size: 9px;
+  color: #1f2937;
+}
+.console {
+  padding: 4px 6px;
+  font: 9px/1.35 ui-monospace, monospace;
+  color: #000080;
+  background: #fff;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff, inset 2px 2px 0 #000;
+}
+.console p {
+  margin: 0;
+}
+.console .ok {
+  color: #166534;
+}
+.progress {
+  display: flex;
+  gap: 2px;
+  height: 12px;
+  padding: 2px;
+  background: #fff;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff;
+}
+.progress > span {
+  width: 18px;
+  background: #000080;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 4px 4px;
+}
+.btn {
+  min-width: 64px;
+  min-height: 26px;
+  border: 0;
+  font: inherit;
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, inset 2px 2px 0 #dfdfdf, inset -2px -2px 0 #808080;
+  cursor: pointer;
+}
+
+.taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px;
+  background: #c0c0c0;
+  box-shadow: inset 0 1px 0 #fff;
+}
+.start {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 26px;
+  padding: 0 8px;
+  font-weight: 700;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, inset -2px -2px 0 #808080;
+}
+.flag {
+  width: 12px;
+  height: 12px;
+  background: conic-gradient(#ef4444 0 25%, #22c55e 0 50%, #eab308 0 75%, #3b82f6 0);
+}
+.task {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 120px;
+  min-height: 26px;
+  padding: 0 8px;
+  border: 0;
+  font: inherit;
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, inset -2px -2px 0 #808080;
+  cursor: pointer;
+}
+.task > .appIcon {
+  border-color: #000080;
+}
+.task[aria-pressed="true"] {
+  font-weight: 700;
+  background: #dfdfdf;
+  box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #fff, inset 2px 2px 0 #808080;
+}
+.clock {
+  margin-left: auto;
+  padding: 6px 10px;
+  font-family: ui-monospace, monospace;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff;
+}
+
+.icon:focus-visible,
+.handle:focus-visible,
+.tbBtn:focus-visible,
+.tab:focus-visible,
+.btn:focus-visible,
+.task:focus-visible {
+  outline: 2px dotted #000;
+  outline-offset: -4px;
+}
+.handle:focus-visible,
+.icon:focus-visible {
+  outline-color: #fff;
+}

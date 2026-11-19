@@ -1,13 +1,14 @@
 # Progress
 
-**Current phase:** Phase 2B batch 1 complete and accessibility-stabilized (2026-11-19) — awaiting approval for batch 2.
+**Current phase:** Phase 2B batch 2 complete (Bold, Retro & Expressive) — 20 of 50 live previews; awaiting approval for batch 3.
 
 | Scope | Status |
 |---|---|
 | Phase 1 — extraction + validation | complete |
 | Phase 2A — application foundation | complete |
 | Phase 2B batch 1 — 10 Morphism & Depth live previews | complete, verified 2026-11-19 |
-| Remaining 40 interactive previews | not started |
+| Phase 2B batch 2 — 10 Bold, Retro & Expressive live previews | complete, verified 2026-11-19 |
+| Remaining 30 interactive previews (Modern SaaS & Dashboards 9, Art & Heritage Movements 8, Minimal & Typographic 7, Atmospheric & Futuristic 6) | not started |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -173,8 +174,60 @@ Preview blobs use `#7c3aed` (source palette "Violet") and `#06b6d4` ("Cyan"); th
 
 ### Screenshots
 
-`docs/screenshots/phase-2b/`: `comparison-sheet.png` (Slide Visual vs Live CSS, all 10), `live-NN.png` (10), `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-desktop-1440.png`, `detail-mobile-375.png`.
+`docs/screenshots/phase-2b/`: `comparison-sheet.png` (Slide Visual vs Live CSS, all registered previews — 20 after batch 2), `live-NN.png` (one per preview), `gallery-desktop-1440.png`, `gallery-mobile-375.png` (all live cards switched on), `detail-06-*.png` and `detail-38-*.png` (desktop 1440 / mobile 375).
 Regenerate: `npm run capture:previews` (builds, serves `dist/` on port 4174 itself, writes the files; script `scripts/capture-previews.mjs`).
+
+## Phase 2B batch 2 — Bold, Retro & Expressive live previews
+
+Verified 2026-11-19. Same architecture and rules as batch 1 (CSS Module per preview, scaled artboard, hit-area extender, track pseudo-elements for sliders). Total live previews: **20**; image-only: **30**.
+
+| # | Style | Main interactions (all keyboard-operable) |
+|---|---|---|
+| 07 | Neo-Brutalism | sidebar navigation (`aria-current`), metric cards as radios driving the chart, Refresh, Log out / Log in; hard shadows collapse on press |
+| 12 | Maximalism | pass-tier radios (Day / Weekend / VIP) driving the vibrancy meter, Get passes (cart count), stage cycle (A/B/C + BPM) driving layer depth and the spectrum line; scrolling ticker |
+| 15 | Y2K / Retro Web | previous / next track, Play and Pause (silent simulation: the clock advances, no audio), seek slider, volume slider, EQ preset cycle, Bass Boost toggle; EQ bars animate while playing |
+| 21 | Pixel Art / 8-Bit | equipped-item radios changing ATK/DEF, START spends (or with the mana gem refills) MP shown on a segmented meter, CRT scanline toggle |
+| 33 | Corporate Memphis | 3-step onboarding: Get Started / Next / Finish, Back, progress bar + "Step n of 3", Start over; illustration changes per step |
+| 36 | Acid Graphics | section switch (System / Disrupt / Rave) swapping the headline, BPM cycle, distortion level (skew), RGB-offset level (chromatic text shadow) |
+| 38 | Windows 95 | tabs (General / Hardware / Performance), Minimize and restore from the taskbar, Close / Cancel and reopen from "My PC", OK, active vs inactive title bar, window drag by title bar with arrow-key alternative (10px steps, clamped to the desktop) |
+| 39 | Playful / Gamified | boost radios, Continue quest adds XP (Sprint doubles it), level-up raises level + streak with a bump animation and a status message, Reset |
+| 42 | Pop Art / Comic | edition radios, sound-effect starburst (BOOM! / POW! / ZAP! / WHAM!), Buy now updates the speech bubble |
+| 49 | Kawaii / Pastel | Pet Mochi (hop + happiness), Feed snack, Log habit (hydration), level-up when both bars fill, Cozy mode toggle, routine start/pause |
+
+### Verification (2026-11-19)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | 0 errors |
+| `npm run build` | ok — JS 299.6 kB (95.0 kB gzip), CSS 29.3 kB (6.6 kB gzip); each preview its own chunk (2–5 kB) |
+| `npm test` (Vitest) | 30/30 pass (3 files; the CSS-scoping test now covers 20 stylesheets) |
+| `npm run validate:data` | 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | 172 pass, 2 skipped (58 tests × 3 viewports; the 375-only layout test is skipped at 768/1440) |
+
+Test changes: `LIVE_IDS` moved to `tests/e2e/fixtures.ts` (20 ids, shared); 10 new pointer + keyboard cases; a Win95 pointer-drag test (moves, stays clamped); the a11y suite (target size by hit testing, no overlap, Tab + visible focus, axe WCAG 2.2 AA) now runs for all 20 previews; the slider test also covers 15's seek bar; "the other 30 styles stay image-only". Unchanged and still passing: gallery search, categories, theme persistence, clipboard, CSS-leak probe, console-error guard.
+Stability: Playwright now runs with 4 workers and a 10 s expect timeout. With the default 6 workers the heavier suite starved the preview server on this machine (lazy chunks took > 5 s; failures disappeared when run alone). The per-preview a11y test is marked `test.slow()`. No assertion was loosened.
+
+### Accessibility (automated, real hit testing)
+
+- 768 px: every control in all 10 new previews ≥ 44×44, except 12's tilted "Weekend" pass (42 tall, rotated −3°).
+- 1440 px: all ≥ 44×44 except 12 "Weekend" (39 tall) and 15 seek bar (41 tall).
+- 375 px: all ≥ 24×24 (WCAG 2.5.8 AA). Under 44 at this width: 07 nav items 66×29; 12 "Weekend" 74×42; 15 seek bar 26 tall, volume 28 tall, Pause 43×45; 36 "System" tab 41 wide; 38 Minimize 27 wide; 42 "Collector" 37 tall.
+- axe-core WCAG 2.2 AA: 0 violations on all 10 new detail views; no new exclusions (the single batch-1 exclusion for style 10 is unchanged).
+- Built in from the start: visible `:focus-visible` outline on every control, accessible names that contain the visible text, no drag-only action (38 has arrow keys), no initially-disabled controls hiding from Tab, motion limited to CSS animations/transitions that the app's global `prefers-reduced-motion` rule turns off.
+- Not done: screen reader pass, real touch devices, Firefox/Safari (see batch 1 list).
+
+### Visual deviations from the slides (see comparison sheet)
+
+- 07: flat, not the slide's perspective tilt; transactions table and sticker icons left out; chart is bars only.
+- 12: pass-tier chips replace the Collage Zone bullet list; title box shortened; hero copy on dark plates for contrast.
+- 15: window buttons (– □ ✕) are decorative; Play and Pause are separate keys as on the slide; no surround chip.
+- 21: no Unicode emoji item icons (⚔ ⛨ ◆ glyphs instead); stats line replaces "CLASS: PALADIN • RANK S".
+- 33: figures are simplified CSS shapes (no arms/hair), illustration varies per step; secondary button is "Back" instead of "Take Tour".
+- 36: sphere is three CSS ellipses; the chrome orb is replaced by the acid star; nav labels are buttons.
+- 38: title bar shortened to "System.exe — Device Manager"; inactive title bar #707070 (not #808080) so white text keeps 4.5:1; title-bar buttons 30 px wide (Win95: 16 px) for touch.
+- 39: CTA text is dark green on green (white on #58CC02 is 2.1:1); boosts are selectable; Reset added.
+- 42: headline fill is ink black with pink/white offsets (the slide uses pink/white fills, which fail contrast on yellow); edition chips added.
+- 49: bunny drawn with CSS shapes; Cozy mode is a toggle; routine button toggles.
 
 ## Known defects
 
@@ -191,7 +244,7 @@ None blocking.
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
-- Approval for Phase 2B batch 2 (next category).
+- Approval for Phase 2B batch 3 (next category).
 - Whether to space slide compositions further to reach 44 px targets at 375 px (AAA).
 
 ## Git checkpoints
@@ -200,8 +253,9 @@ None blocking.
 - `cea3fec` Phase 1 housekeeping: source metadata and negative validation tests
 - `497e9da` Phase 2A: application foundation
 - `1f3fbee` Phase 2B batch 1: Morphism & Depth live previews
-- Phase 2B batch 1 accessibility stabilization (hash in `git log`)
+- `b9c5460` Phase 2B batch 1: accessibility stabilization
+- Phase 2B batch 2: Bold Retro Expressive live previews (hash in `git log`)
 
 ## Next recommended action
 
-Review `docs/screenshots/phase-2b/comparison-sheet.png`, then approve Phase 2B batch 2.
+Review `docs/screenshots/phase-2b/comparison-sheet.png` (rows 07–49), then approve Phase 2B batch 3.

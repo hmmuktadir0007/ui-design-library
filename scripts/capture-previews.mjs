@@ -48,16 +48,19 @@ try {
   );
   await page.screenshot({ path: `${OUT}/comparison-sheet.png`, fullPage: true });
 
-  // 3. Gallery with four cards switched to Live CSS, and one detail view, per viewport.
+  // 3. Gallery with every live card switched to Live CSS, and two detail views (one per batch), per viewport.
   for (const [label, width, height] of [["desktop-1440", 1440, 900], ["mobile-375", 375, 812]]) {
     await page.setViewportSize({ width, height });
     await page.goto(BASE);
-    for (const id of IDS.slice(0, 4)) await page.locator("article").nth(id - 1).getByRole("button", { name: "Live CSS" }).click();
+    for (const id of IDS) await page.locator("article").nth(id - 1).getByRole("button", { name: "Live CSS" }).click();
     await page.waitForTimeout(500);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `${OUT}/gallery-${label}.png` });
-    await openDetail(6);
-    await page.screenshot({ path: `${OUT}/detail-${label}.png` });
+    for (const id of [6, 38]) {
+      await page.goto(BASE);
+      await openDetail(id);
+      await page.screenshot({ path: `${OUT}/detail-${nn(id)}-${label}.png` });
+    }
   }
   console.log(`captured ${IDS.length} previews to ${OUT}`);
 } finally {

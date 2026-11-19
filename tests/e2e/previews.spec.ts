@@ -1,7 +1,5 @@
 import type { Locator } from "@playwright/test";
-import { card, expect, look, openLive, test } from "./fixtures";
-
-const LIVE_IDS = [1, 4, 5, 6, 10, 18, 31, 34, 45, 46];
+import { card, expect, LIVE_IDS, look, openLive, test } from "./fixtures";
 
 interface Case {
   id: number;
@@ -194,6 +192,213 @@ const CASES: Case[] = [
       await expect(p.getByText("447.50 Hz")).toBeVisible();
     },
   },
+  // ── Batch 2: Bold, Retro & Expressive ──
+  {
+    id: 7,
+    identity: "DA$H_BOARD",
+    mouse: async (p) => {
+      const users = p.getByRole("radio", { name: /Active users/ });
+      const before = await look(users);
+      await users.click();
+      await expect(users).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByRole("img", { name: /Active users chart/ })).toBeVisible();
+      await expect.poll(() => look(users)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      await p.getByRole("button", { name: "Log out" }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByRole("button", { name: "Log in" })).toBeVisible();
+      await expect(p.getByText("GUEST")).toBeVisible();
+    },
+  },
+  {
+    id: 12,
+    identity: "SONIC REVOLT",
+    mouse: async (p) => {
+      const vip = p.getByRole("radio", { name: /VIP wristband/ });
+      const before = await look(vip);
+      await vip.click();
+      await expect(vip).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByText("VIBRANCY: 98%")).toBeVisible();
+      await expect.poll(() => look(vip)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      await p.getByRole("button", { name: /Get passes/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText("1 × VIP WRISTBAND IN CART")).toBeVisible();
+      await p.getByRole("button", { name: /STAGE_A/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByRole("button", { name: /STAGE_B \/\/ 128 BPM/ })).toBeVisible();
+    },
+  },
+  {
+    id: 15,
+    identity: "CYBER_BEAT 2000",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: "Next track" }).click();
+      await expect(p.getByText("02. NEON_MALL.MP3")).toBeVisible();
+      const play = p.getByRole("button", { name: /Play/ });
+      const before = await look(play);
+      await play.click();
+      await expect(play).toHaveAttribute("aria-pressed", "true");
+      await expect.poll(() => look(play)).not.toBe(before);
+      await expect(p.getByRole("slider", { name: "Track position" })).not.toHaveValue("0", { timeout: 3000 }); // silent clock advances
+      await p.getByRole("button", { name: "Pause" }).click();
+      await expect(play).toHaveAttribute("aria-pressed", "false");
+    },
+    keyboard: async (p) => {
+      const vol = p.getByRole("slider", { name: "Volume" });
+      await vol.focus();
+      await p.page().keyboard.press("ArrowDown");
+      await expect(vol).toHaveValue("84");
+      await expect(p.getByText("VOL: 84%")).toBeVisible();
+    },
+  },
+  {
+    id: 21,
+    identity: "HERO_UNIT // KNIGHT",
+    mouse: async (p) => {
+      const def = p.getByRole("radio", { name: /DEF\+12/ });
+      const before = await look(def);
+      await def.click();
+      await expect(def).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByText(/DEF 42/)).toBeVisible();
+      await expect.poll(() => look(def)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      await p.getByRole("button", { name: /START/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText("RUN 1 COMPLETE")).toBeVisible();
+      await expect(p.getByRole("meter", { name: "Mana" })).toHaveAttribute("aria-valuenow", "420");
+    },
+  },
+  {
+    id: 33,
+    identity: "Welcome Aboard!",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: "Get Started →" }).click();
+      await expect(p.getByRole("heading", { name: "Invite your team" })).toBeVisible();
+      await expect(p.getByText("Step 2 of 3")).toBeVisible();
+      await expect(p.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "33");
+    },
+    keyboard: async (p) => {
+      await p.getByRole("button", { name: "Back" }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByRole("heading", { name: "Welcome Aboard!" })).toBeVisible();
+      await expect(p.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "0");
+    },
+  },
+  {
+    id: 36,
+    identity: "ANTI_CORP",
+    mouse: async (p) => {
+      const rave = p.getByRole("button", { name: "Rave" });
+      const before = await look(rave);
+      await rave.click();
+      await expect(rave).toHaveAttribute("aria-pressed", "true");
+      await expect(p.getByText("AFTERBURN")).toBeVisible();
+      await expect.poll(() => look(rave)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      await p.getByRole("button", { name: /RGB OFFSET/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText("RGB OFFSET // OFF")).toBeVisible();
+    },
+  },
+  {
+    id: 38,
+    identity: "Microsoft Windows 95",
+    mouse: async (p) => {
+      const hw = p.getByRole("tab", { name: "Hardware" });
+      await hw.click();
+      await expect(hw).toHaveAttribute("aria-selected", "true");
+      await expect(p.getByText("[OK] Sound Blaster 16 detected")).toBeVisible();
+      await p.getByRole("button", { name: "Minimize" }).click();
+      await expect(p.getByRole("tab", { name: "Hardware" })).toHaveCount(0);
+      const task = p.getByRole("button", { name: "System.exe", exact: true });
+      await expect(task).toHaveAttribute("aria-pressed", "false");
+      await task.click();
+      await expect(task).toHaveAttribute("aria-pressed", "true");
+      await expect(p.getByRole("tab", { name: "Hardware" })).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const win = p.locator('section[aria-label="System.exe"]');
+      await p.getByRole("button", { name: /Move window/ }).focus();
+      await p.page().keyboard.press("ArrowRight");
+      await p.page().keyboard.press("ArrowDown");
+      await expect(win).toHaveAttribute("style", /translate\(10px, 10px\)/);
+      await p.getByRole("button", { name: "Close" }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(win).toHaveCount(0);
+    },
+  },
+  {
+    id: 39,
+    identity: "Daily Habit Mastery",
+    mouse: async (p) => {
+      const cta = p.getByRole("button", { name: /Continue quest/ });
+      const before = await look(cta);
+      await cta.hover();
+      await p.page().mouse.down();
+      await expect.poll(() => look(cta)).not.toBe(before); // chunky button sinks while pressed
+      await p.page().mouse.up();
+      await expect(p.getByRole("status")).toHaveText("LEVEL 15! +100 XP · streak 8");
+      await expect(p.getByText("8 DAY STREAK!")).toBeVisible();
+      await expect(p.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "50");
+    },
+    keyboard: async (p) => {
+      await p.getByRole("radio", { name: /2x Gems/ }).focus();
+      await p.page().keyboard.press("Space");
+      await p.getByRole("button", { name: /Continue quest/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText("100 / 500 XP")).toBeVisible();
+      await p.getByRole("button", { name: "Reset" }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText("450 / 500 XP")).toBeVisible();
+      await expect(p.getByText("7 DAY STREAK!")).toBeVisible();
+    },
+  },
+  {
+    id: 42,
+    identity: "SPECIAL COMIC DROP",
+    mouse: async (p) => {
+      const col = p.getByRole("radio", { name: /Collector/ });
+      const before = await look(col);
+      await col.click();
+      await expect(col).toHaveAttribute("aria-checked", "true");
+      await expect.poll(() => look(col)).not.toBe(before);
+      await p.getByRole("button", { name: "BOOM!" }).click();
+      await expect(p.getByRole("button", { name: "POW!" })).toBeVisible();
+    },
+    keyboard: async (p) => {
+      await p.getByRole("button", { name: /BUY NOW/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText("★ 1 × COLLECTOR IN CART ★")).toBeVisible();
+    },
+  },
+  {
+    id: 49,
+    identity: "Mochi the Bunny",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: /Log Habit/ }).click();
+      await expect(p.getByRole("progressbar", { name: "Hydration" })).toHaveAttribute("aria-valuenow", "90");
+      const cta = p.getByRole("button", { name: /Adopt Pet/ });
+      await cta.click();
+      await expect(p.getByRole("button", { name: /Routine running/ })).toHaveAttribute("aria-pressed", "true");
+    },
+    keyboard: async (p) => {
+      await p.getByRole("button", { name: "Pet Mochi" }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByRole("progressbar", { name: "Happiness" })).toHaveAttribute("aria-valuenow", "90");
+      await p.getByRole("button", { name: /Feed Snack/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await p.getByRole("button", { name: /Log Habit/ }).focus();
+      await p.page().keyboard.press("Enter");
+      // both bars full -> level up, bars restart at half
+      await expect(p.getByText("LVL 05")).toBeVisible();
+      await expect(p.getByRole("progressbar", { name: "Happiness" })).toHaveAttribute("aria-valuenow", "50");
+    },
+  },
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -220,6 +425,22 @@ test("rotary knob responds to vertical drag", async ({ page }) => {
   await expect.poll(async () => Number(await knob.getAttribute("aria-valuenow"))).toBeLessThan(82);
 });
 
+test("style 38: window drags with the pointer and stays on the desktop", async ({ page }) => {
+  const stage = await openLive(page, 38);
+  const win = stage.locator('section[aria-label="System.exe"]');
+  const handle = stage.getByRole("button", { name: /Move window/ });
+  const before = (await win.boundingBox())!;
+  const box = (await handle.boundingBox())!;
+  await page.mouse.move(box.x + 20, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x - 400, box.y + box.height / 2 + 30, { steps: 5 });
+  await page.mouse.up();
+  const after = (await win.boundingBox())!;
+  expect(after.x).toBeLessThan(before.x);
+  expect(after.y).toBeGreaterThan(before.y);
+  expect(after.x).toBeGreaterThanOrEqual((await stage.boundingBox())!.x); // clamped to the desktop
+});
+
 test("registered styles get a working Slide Visual / Live CSS toggle in cards and detail", async ({ page }) => {
   await expect(page.getByRole("group", { name: /preview mode$/ })).toHaveCount(LIVE_IDS.length);
   for (const id of LIVE_IDS) {
@@ -240,7 +461,7 @@ test("registered styles get a working Slide Visual / Live CSS toggle in cards an
   await expect(dialog.locator('[data-preview-id="1"]')).toBeVisible();
 });
 
-test("the other 40 styles stay image-only", async ({ page }) => {
+test("the other 30 styles stay image-only", async ({ page }) => {
   for (let id = 1; id <= 50; id++) {
     if (LIVE_IDS.includes(id)) continue;
     const c = card(page, id);
@@ -277,5 +498,9 @@ test("card previews are display-only", async ({ page }) => {
   await expect(c.getByText("Display only")).toBeVisible();
   await expect(c.getByText("Smart Home Thermostat")).toBeVisible(); // lazy preview chunk loaded (slow under parallel load)
   await expect(c.locator("[inert]")).toHaveCount(1);
-  await expect(c.getByRole("button", { name: "Increase temperature" })).toHaveCount(0); // inert hides it from the a11y tree
+  // inert: the preview's controls cannot take focus (checked on the DOM, not via the role heuristics)
+  const focusable = await c
+    .locator('button[aria-label="Increase temperature"]')
+    .evaluate((el: HTMLElement) => (el.focus(), document.activeElement === el));
+  expect(focusable).toBe(false);
 });
