@@ -66,7 +66,8 @@ Gallery grid is `repeat(auto-fill, minmax(min(100%,320px),1fr))`: column count f
   - Playwright compares computed styles of shell elements before/after all 10 previews are switched on (leak test).
 - `PreviewStage` renders each preview on a fixed 420 px artboard (969:777, the reference image ratio) and scales it to the available width, so card, dialog and mobile show the same composition with no layout shift when toggling.
 - Gallery cards: Live CSS is **display only** (`inert`, labelled "Display only"); the detail dialog (default mode Live CSS) is the interactive one.
-- Touch targets: `PreviewStage` grows each control's hit area toward 44×44 screen px with a transparent `::after` (buttons, ARIA widgets) or a transparent border offset by negative margin (range inputs), each side limited to half the gap to the nearest control on that axis, so hit areas never overlap. Range tracks that need this are painted on `::-webkit-slider-runnable-track` / `::-moz-range-track`.
+- Touch targets: `PreviewStage` grows each control's hit area toward 44×44 screen px with a transparent `::after` (buttons, ARIA widgets) or a transparent border offset by negative margins (range inputs). Each side grows independently, up to half the gap to the nearest control on that side (or the stage edge), so hit areas never overlap.
+- Preview authoring rules that follow: range inputs draw their visible track on `::-webkit-slider-runnable-track` / `::-moz-range-track` and keep the input box transparent; leave ≥ 24 artboard px between a slider and the nearest control above/below it so it reaches 24 px at 375 px; text must pass axe contrast on the slide background.
 - `PreviewProps.vars` (`--radius`, `--accent`, …) is the hook for Playground customization via CSS custom properties (unused so far).
 
 ## Style Playground architecture (not started)
@@ -80,6 +81,7 @@ generated CSS = those variables with current values, Reset = defaults.
 - Phase 1: `scripts/validate_styles.py` (blocking errors vs warnings, exit 1 on error; full re-parse equality against the PPTX) and `scripts/test_validate_styles.py` (negative fixtures, in memory).
 - Phase 2A: `npm run typecheck`, `npm test` (Vitest, search/counts), `npm run validate:data`, browser checks via Playwright MCP (scripted, not yet committed as a suite).
 - Phase 2B: Vitest `scoping.test.ts`; committed Playwright suite `tests/e2e/` (`npm run test:e2e`, builds first, runs at 375/768/1440); screenshots via `npm run capture:previews`.
+- Accessibility (`tests/e2e/a11y.spec.ts`): hit-tested target size ≥ 24×24 and no overlap, Tab reachability + visible focus, axe-core WCAG 2.2 AA on every preview dialog and the gallery, slider/switch use from the enlarged area. Every new preview batch must pass it.
 - Phase 3: ESLint, Playwright over the playground, perf.
 
 ## Performance strategy
@@ -97,6 +99,7 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | 1 | extract text + images, contact sheet, report, validator | 50 records, 50 images, validator exit 0, all crops inspected, commit — **complete** |
 | 2A | gallery foundation, detail view, preview contract | build + browser checks pass — **complete** |
 | 2B batch 1 | 10 Morphism & Depth live previews | pointer + keyboard interaction tested per preview — **complete** |
+| 2B batch 1 a11y | target size, focus, axe WCAG 2.2 AA for the 10 previews | a11y suite passes at 375/768/1440 — **complete** |
 | 2B remaining | 40 previews (5 category batches) | not started |
 | 2B playground | viewport frame, variable controls, generated CSS, reset | not started |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |

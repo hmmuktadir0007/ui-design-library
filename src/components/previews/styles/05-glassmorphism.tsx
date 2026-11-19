@@ -25,11 +25,10 @@ export default function Glassmorphism() {
         type="button"
         className={`${s.cardScene} ${flipped ? s.isFlipped : ""}`}
         aria-pressed={flipped}
-        aria-label={flipped ? "Show card front" : "Flip card to show back"}
         onClick={() => setFlipped((f) => !f)}
       >
         <span className={s.cardInner}>
-          <span className={`${s.glass} ${s.face}`}>
+          <span className={`${s.glass} ${s.face}`} aria-hidden={flipped}>
             <span className={s.chip} aria-hidden />
             <span className={s.number}>•••• •••• •••• 4892</span>
             <span className={s.cardMeta}>
@@ -37,7 +36,7 @@ export default function Glassmorphism() {
               <span>09/31</span>
             </span>
           </span>
-          <span className={`${s.glass} ${s.face} ${s.back}`}>
+          <span className={`${s.glass} ${s.face} ${s.back}`} aria-hidden={!flipped}>
             <span className={s.stripe} aria-hidden />
             <span className={s.cardMeta}>
               <span>CVV •••</span>

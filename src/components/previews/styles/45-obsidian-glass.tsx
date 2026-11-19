@@ -69,7 +69,7 @@ export default function ObsidianGlass() {
             <span className={s.tileLabel}>Specular reflection</span>
             <span className={s.tileValue}>{rim ? "0.22 Rim Light" : "Rim off"}</span>
           </button>
-          <button type="button" className={s.tile} onClick={() => setBlur((b) => (b + 1) % BLURS.length)} aria-label={`Backdrop blur ${BLURS[blur]} pixels, change`}>
+          <button type="button" className={s.tile} onClick={() => setBlur((b) => (b + 1) % BLURS.length)}>
             <span className={s.tileLabel}>Backdrop blur</span>
             <span className={`${s.tileValue} ${s.accent}`}>{BLURS[blur]}px Gaussian</span>
           </button>

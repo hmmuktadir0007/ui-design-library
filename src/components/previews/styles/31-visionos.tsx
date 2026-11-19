@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import s from "./31-visionos.module.css";
 
 const TABS = [
@@ -37,7 +37,7 @@ export default function VisionOS() {
             <button type="button" className={s.bigPlay} aria-pressed={playing} aria-label={playing ? "Pause" : "Play"} onClick={() => setPlaying((p) => !p)}>
               {playing ? "❚❚" : "▶"}
             </button>
-            <input type="range" min={0} max={100} value={progress} onChange={(e) => setProgress(+e.target.value)} aria-label="Scrub" className={s.scrub} />
+            <input type="range" min={0} max={100} value={progress} onChange={(e) => setProgress(+e.target.value)} style={{ "--fill": `${progress}%` } as CSSProperties} aria-label="Scrub" className={s.scrub} />
           </div>
           <footer className={s.winFoot}>
             <span className={s.mono}>

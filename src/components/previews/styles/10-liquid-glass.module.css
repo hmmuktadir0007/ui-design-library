@@ -100,17 +100,28 @@
   transform: scale(0.94);
 }
 
+/* track painted on the track pseudo-element, so the transparent input box can carry an enlarged touch target */
 .scrub {
   grid-column: 1 / -1;
-  margin-top: 10px;
+  margin-top: 19px; /* spacing so the touch target can reach 24px+ at 375px (PreviewStage) */
   height: 6px;
   appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.scrub::-webkit-slider-runnable-track {
+  height: 6px;
   border-radius: 999px;
   background: linear-gradient(90deg, #38bdf8 var(--fill), rgba(255, 255, 255, 0.3) var(--fill));
-  cursor: pointer;
+}
+.scrub::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38bdf8 var(--fill), rgba(255, 255, 255, 0.3) var(--fill));
 }
 .scrub::-webkit-slider-thumb {
   appearance: none;
+  margin-top: -5px;
   width: 16px;
   height: 16px;
   border-radius: 50%;

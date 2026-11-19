@@ -48,7 +48,7 @@ export default function TactileHardware() {
         <div className={s.top}>
           <div className={s.screen}>
             <div className={s.screenRow}>
-              <button type="button" className={s.waveBtn} onClick={() => setWave((w) => WAVES[(WAVES.indexOf(w) + 1) % WAVES.length])} aria-label={`Waveform ${wave}, change`}>
+              <button type="button" className={s.waveBtn} onClick={() => setWave((w) => WAVES[(WAVES.indexOf(w) + 1) % WAVES.length])} aria-label={`WAVE: ${wave}, next waveform`}>
                 WAVE: {wave}
               </button>
               <span className={s.hz} aria-live="polite">

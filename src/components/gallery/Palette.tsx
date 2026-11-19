@@ -22,7 +22,7 @@ function Swatch({ color, name, compact }: { color: string; name?: string | null;
         type="button"
         onClick={() => copy(color)}
         title={label}
-        aria-label={label}
+        aria-label={compact ? label : undefined} // with visible text, the text is the name (WCAG 2.5.3) and the title describes it
         className={compact ? "grid min-h-9 min-w-9 place-items-center rounded-full" : "group flex w-full flex-col gap-1.5 rounded-xl p-1 text-left hover:bg-surface-2"}
       >
         {chip}

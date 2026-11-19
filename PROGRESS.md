@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2B batch 1 complete (10 Morphism & Depth previews) — awaiting approval for the next batch.
+**Current phase:** Phase 2B batch 1 complete and accessibility-stabilized (2026-11-19) — awaiting approval for batch 2.
 
 | Scope | Status |
 |---|---|
@@ -106,28 +106,53 @@ Verified 2026-11-19. Architecture (artboard scaling, CSS isolation, touch target
 
 Gallery cards: Slide Visual / Live CSS toggle; Live CSS in a card is display only (`inert`, labelled "Display only"). Detail dialog opens in Live CSS and is fully interactive.
 
-### Verification (2026-11-19, after the accessibility changes)
+### Verification (2026-11-19, after accessibility stabilization)
 
 | Check | Result |
 |---|---|
 | `npm run typecheck` | 0 errors |
-| `npm run build` | ok — JS 297.4 kB (94.2 kB gzip), CSS 28.3 kB (6.6 kB gzip); each preview its own chunk (2–4 kB) |
-| `npm test` (Vitest) | 16/16 pass (2 files: search + CSS scoping) |
+| `npm run build` | ok — JS 298.1 kB (94.5 kB gzip), CSS 29.3 kB (6.6 kB gzip); each preview its own chunk (2–4 kB) |
+| `npm test` (Vitest) | 20/20 pass (3 files: search, CSS scoping, touch-target split) |
 | `npm run validate:data` | 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
-| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | 57/57 pass (19 tests × 3 viewports; was 54 — new: display-only cards + non-overlapping touch targets) |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | 106 pass, 2 skipped (36 tests × 3 viewports; the 375-only layout test is skipped at 768/1440). Full suite run twice, stable. |
 
-Playwright coverage (`tests/e2e/`): gallery basics; per preview, pointer interaction with a visible state change plus a keyboard-only interaction; knob drag; Slide Visual / Live CSS toggle in cards and detail; the other 40 styles stay image-only; no CSS leak into the shell; card previews inert; no control covered by a neighbour's hit area. Any browser console error or warning fails a test.
+Playwright coverage (`tests/e2e/`): gallery basics; per preview, pointer interaction with a visible state change plus a keyboard-only interaction; knob drag; Slide Visual / Live CSS toggle in cards and detail; the other 40 styles stay image-only; no CSS leak into the shell; card previews inert. Any browser console error or warning fails a test.
+
+Accessibility suite (`tests/e2e/a11y.spec.ts`, all three viewports unless noted):
+- per preview: effective target ≥ 24×24 for every control, measured by real hit testing (`elementFromPoint`, so the scale transform and invisible extenders count, not bounding boxes); no point of a control's visible box is hit-tested as another control (no overlap); every control reachable with Tab and showing a non-zero outline while focused; axe-core (`@axe-core/playwright`, tags wcag2a/aa, wcag21a/aa, wcag22aa) on the open dialog, 0 violations;
+- 04/10/31/46 sliders: a click inside the enlarged area but outside the visible track moves the value, then ArrowLeft changes it by one step;
+- 46 Power: a click just outside the visible switch toggles it, Space toggles it back;
+- 375 px only: preview fully on screen, no horizontal overflow in page or dialog;
+- gallery page: axe WCAG 2.2 AA, 0 violations.
 
 ### Accessibility findings
 
-- Card previews: inert (no tab stops, no touch targets), so the miniature scale is not an accessibility problem; the toggle pills keep a 32 px look with a 44 px tall hit area.
-- Detail view at 375 px (preview scale ≈ 0.78): hit areas grown toward 44×44 without visual change and without overlap. Fully ≥ 44×44: all controls of 06 and 18, most of 01, 31 and 10. Remaining short of 44 because neighbours on the slide layout sit closer than 44 px (measured hit width × height, screen px):
-  - 01 previous/next 40×44 · 04 AUTO/ECO 37×40, volume slider ~20 tall · 05 day radios 24×46 · 10 chips 38–42×44, scrubber ~15 tall
-  - 31 sidebar tabs 45×33, play 42×36, scrubber ~18 tall, transport 35–36×44 · 34 Explode 50×40 · 45 range radios 26×44
-  - 46 Power 60×20, TRIG/HOLD 64×26, output fader ~14 tall
-- Below the WCAG 2.5.8 (AA) 24 px minimum: the thin sliders (04 volume, 10/31 scrubbers, 46 fader) and 46 Power. All are keyboard-operable and fully clickable along their width. Fixing them needs layout changes away from the slide (more spacing); not done.
-- At 768/1440 the detail stage is larger; only the sliders, 05 day radios (38 wide @1440) and 45 range radios (42 wide @1440) stay slightly under 44.
-- Not checked: screen-reader pass, dark-shell contrast inside previews (previews use the slide colours).
+Stabilization pass 2026-11-19. Automated results (hit-testing measurements, axe) first, then what still needs a person.
+
+**Corrected**
+- Hit-area algorithm (`PreviewStage`): each side grows independently (a control next to empty space now grows fully on that side), the stage edge counts as a boundary, and growth starts from the visible border edge (borders were previously lost). Range inputs keep their transparent border equal on both sides because Chrome centres the track in the border box.
+- Sliders: all five range inputs (04, 10, 18, 31, 46) now draw their track on `::-webkit-slider-runnable-track` / `::-moz-range-track`; the input box is transparent. 18 and 31 were native (`accent-color`) sliders and are now custom-styled in the same colours.
+- Spacing added so sliders have room (artboard px): 04 volume `margin-bottom: 10px`; 10 scrubber `margin-top` 10 → 19; 31 play button `margin-bottom` 2 → 12 and scrubber `margin-top: 12px`; 46 fader `margin-top: 12px` and pad/fader column gap 8 → 14.
+- Contrast (axe): 04 AUTO/ECO text (#5a6475, active #1d4ed8); 05 cyan glow moved top-centre (as on the slide) away from the weather header, darker card back; 34 Explode button #0369a1; 46 TRIG label dark on orange.
+- Label in name (axe, WCAG 2.5.3): 05 card button is named by its visible text; 45 blur tile and 46 waveform button names contain their visible text. App shell: the header logo link had no name at 375 px (text is now `sr-only` below `sm`); detail palette swatches use their visible text as name, with the copy action in `title`.
+
+**Measured effective targets (screen px, real hit testing)**
+- 768 px: every control in all 10 previews ≥ 44×44.
+- 1440 px: all ≥ 44×44 except 05 Tue/Wed/Fri radios (41×76).
+- 375 px (preview scale ≈ 0.78): all ≥ 24×24 (WCAG 2.5.8 AA). Still under 44 because controls sit closer than 44 px on the slide layout:
+  - sliders (full width): 04 volume 28 tall, 10 scrubber 27, 31 scrubber 28, 46 fader 28
+  - 05 Tue/Wed/Fri radios 25×46 · 10 chips 40–41×45 · 31 sidebar tabs 45×33, transport play 35×45 · 45 1W/1M radios 27×45 · 46 HOLD 64×33
+  - 46 Power is now 60×43 (was 60×20).
+- WCAG 2.5.5 (AAA, 44×44) is met at 768 px but not fully at 375 px; reaching it would need the slide compositions spaced out further.
+
+**Automated-check caveat**
+- One verified axe false positive, filtered in the test by element: style 10's "Slide Visual" toggle is reported as low contrast against the preview's blue glow; the stage clips that glow (confirmed with `elementsFromPoint` and a screenshot).
+
+**Needs manual testing (not done)**
+- Screen reader pass (NVDA / VoiceOver) through the dialog and each preview.
+- Real touch devices (automated checks click with a mouse in desktop Chromium at mobile width).
+- Firefox / Safari: tests run in Chromium only; the `::-moz-range-*` styles are unverified.
+- Text contrast over blurred glass is only as good as axe's background detection.
 
 ### Glassmorphism colour
 
@@ -160,21 +185,22 @@ None blocking.
 ` (OS behaviour); the dataset keeps `
 `.
 - Card images use the full 969 px PNGs (~140 kB avg); thumbnails are a Phase 3 performance item.
-- Thin preview sliders and style 46 Power are below 24 px touch height at 375 px (see Phase 2B accessibility findings).
+- At 375 px some preview controls are between 24 and 44 px (WCAG AA met, AAA not); see Phase 2B accessibility findings.
 - Stop hook: the global `~/.claude/settings.json` runs `bash .claude/hooks/stop-path-guard.sh` and `bash .claude/hooks/stop-session-snapshot.sh` on Stop in every project; this repo has no `.claude/hooks/`, so the hook errors here. The original scripts are in the TYMINO-Finances repo. Deliberately not copied and settings not changed; resolve separately.
 
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
 - Approval for Phase 2B batch 2 (next category).
-- Whether to change preview layouts to reach 44 px targets where the slide spacing prevents it.
+- Whether to space slide compositions further to reach 44 px targets at 375 px (AAA).
 
 ## Git checkpoints
 
 - `06fd15d` Phase 1: source extraction and asset validation
 - `cea3fec` Phase 1 housekeeping: source metadata and negative validation tests
 - `497e9da` Phase 2A: application foundation
-- Phase 2B batch 1: commit "Phase 2B batch 1: Morphism & Depth live previews" (hash in `git log`)
+- `1f3fbee` Phase 2B batch 1: Morphism & Depth live previews
+- Phase 2B batch 1 accessibility stabilization (hash in `git log`)
 
 ## Next recommended action
 

@@ -113,5 +113,6 @@ dialog::backdrop {
 [data-preview-id] [data-hit]::after {
   content: "";
   position: absolute;
-  inset: calc(-1 * var(--hy)) calc(-1 * var(--hx));
+  inset: calc(-1 * var(--ht)) calc(-1 * var(--hr)) calc(-1 * var(--hb)) calc(-1 * var(--hl));
+  z-index: 1; /* above non-interactive siblings painted later, e.g. captions under a slider */
 }

@@ -111,7 +111,7 @@
 .side {
   display: grid;
   align-content: start;
-  gap: 8px;
+  gap: 14px; /* room for the pads and fader touch targets (PreviewStage) */
 }
 .pads {
   display: grid;
@@ -127,7 +127,7 @@
   transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
 }
 .trig {
-  color: #fff;
+  color: #1a1a1a; /* white on #ff4f00 is 3.3:1; dark text keeps the orange and passes AA */
   background: #ff4f00;
   box-shadow: 0 3px 0 #b33700;
 }
@@ -158,6 +158,7 @@
 .fader {
   width: 100%;
   height: 8px;
+  margin-top: 12px; /* spacing so the touch target can reach 24px+ at 375px (PreviewStage) */
   appearance: none;
   background: transparent;
   cursor: pointer;

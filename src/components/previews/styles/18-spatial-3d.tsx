@@ -71,14 +71,14 @@ export default function Spatial3D() {
       <div className={s.controls}>
         <label className={s.slider}>
           <span>Rotate Y</span>
-          <input type="range" min={-60} max={60} value={rotY} onChange={(e) => setRotY(+e.target.value)} aria-valuetext={`${rotY} degrees`} />
+          <input type="range" min={-60} max={60} value={rotY} onChange={(e) => setRotY(+e.target.value)} style={{ "--fill": `${((rotY + 60) / 120) * 100}%` } as CSSProperties} aria-valuetext={`${rotY} degrees`} />
         </label>
         <button type="button" className={s.explore} onClick={explore}>
           ▶ Explore 3D
         </button>
         <label className={s.slider}>
           <span>Tilt X</span>
-          <input type="range" min={-35} max={5} value={tiltX} onChange={(e) => setTiltX(+e.target.value)} aria-valuetext={`${tiltX} degrees`} />
+          <input type="range" min={-35} max={5} value={tiltX} onChange={(e) => setTiltX(+e.target.value)} style={{ "--fill": `${((tiltX + 35) / 40) * 100}%` } as CSSProperties} aria-valuetext={`${tiltX} degrees`} />
         </label>
       </div>
     </div>

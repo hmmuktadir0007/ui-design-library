@@ -18,7 +18,7 @@ export function Header({ total, query, onQuery, theme, onToggleTheme }: Props) {
           <span className="row-span-2 rounded-[2px] bg-accent-fg/70" />
           <span className="rounded-[2px] bg-accent-fg/85" />
         </span>
-        <span className="hidden leading-tight sm:block">
+        <span className="sr-only leading-tight sm:not-sr-only sm:block">
           <span className="block text-[15px] font-semibold tracking-tight text-fg">UI Design Library</span>
           <span className="block text-xs text-muted">{total} design styles</span>
         </span>

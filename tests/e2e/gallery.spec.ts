@@ -23,7 +23,7 @@ test("copy actions write exact values", async ({ page }) => {
   const read = () => page.evaluate(() => navigator.clipboard.readText());
   await card(page, 10).getByRole("button", { name: "View details" }).click();
   const dialog = page.locator("dialog");
-  await dialog.getByRole("button", { name: /Copy Liquid Fill rgba/ }).click();
+  await dialog.getByRole("button", { name: /rgba.*Liquid Fill/ }).click();
   expect(await read()).toBe("rgba(255,255,255,0.22)");
   await dialog.getByRole("button", { name: "Copy AI Prompt" }).click();
   expect(await read()).toMatch(/^Design a Liquid Glass floating navigation dock/);

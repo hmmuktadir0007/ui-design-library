@@ -109,11 +109,11 @@
 .explode {
   padding: 5px 10px;
   border-radius: 4px;
-  border: 1px solid #0284c7;
+  border: 1px solid #0369a1;
   font: 600 9px/1 ui-monospace, monospace;
   text-transform: uppercase;
   color: #e0f2fe;
-  background: #0284c7;
+  background: #0369a1;
   cursor: pointer;
 }
 .explode[aria-pressed="true"] {
