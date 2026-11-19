@@ -11,3 +11,5 @@ __pycache__/
 data/*.pptx
 data/*.pdf
 .playwright-mcp/
+test-results/
+playwright-report/

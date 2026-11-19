@@ -1,0 +1,253 @@
+/* Live demo CSS for style 01. Palette: #2B2D30 #D8DCE3 #C97A3E #141619 #E8B86D */
+.root {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  /* stitched leather backdrop */
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.06), transparent 60%),
+    repeating-radial-gradient(circle at 50% 50%, #1b1d20 0 1px, #141619 1px 3px);
+}
+
+.plate {
+  position: relative;
+  width: 360px;
+  padding: 18px 22px;
+  display: grid;
+  gap: 14px;
+  border-radius: 18px;
+  /* source CSS surface + brushed-metal grain */
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0 1px, rgba(0, 0, 0, 0.04) 1px 2px),
+    linear-gradient(145deg, #e2e6ed, #b8bec9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 8px 18px rgba(0, 0, 0, 0.45), 0 0 0 6px #2b2d30, 0 0 0 7px #0d0e10;
+  border: 1px solid #8a9099;
+}
+
+.screw {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f4f6f9, #8a9099 70%);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+.screw::after {
+  content: "";
+  position: absolute;
+  inset: 4px 1px auto;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.5);
+  transform: rotate(35deg);
+}
+.tl { top: 7px; left: 7px; }
+.tr { top: 7px; right: 7px; }
+.bl { bottom: 7px; left: 7px; }
+.br { bottom: 7px; right: 7px; }
+
+.lcd {
+  display: grid;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #0f2a17, #0b1f12);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.6);
+  font-family: ui-monospace, monospace;
+  color: #8dff9a;
+  text-shadow: 0 0 6px rgba(141, 255, 154, 0.6);
+  transition: opacity 0.3s;
+}
+.lcdOff {
+  opacity: 0.25;
+  text-shadow: none;
+}
+.lcdLabel {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #e8b86d;
+  text-shadow: 0 0 6px rgba(232, 184, 109, 0.6);
+}
+.lcdTime {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.lcdBar {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(141, 255, 154, 0.15);
+}
+.lcdBar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #8dff9a;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.knobWrap {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+.knob {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: ns-resize;
+  background: conic-gradient(from 0deg, #f5f7fa, #9aa1ab, #eef1f5, #8a9099, #f5f7fa);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.45), inset 0 -3px 4px rgba(0, 0, 0, 0.3), inset 0 2px 2px #fff;
+  display: grid;
+  place-items: center;
+}
+.knob:focus-visible {
+  outline: 2px solid #e8b86d;
+  outline-offset: 3px;
+}
+.knobCap {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #ffffff, #c4c9d1 60%, #9aa1ab);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  position: relative;
+  transform: rotate(calc(-135deg + var(--turn) * 270deg));
+  transition: transform 0.12s ease-out;
+}
+.knobCap::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 3px;
+  width: 3px;
+  height: 11px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: #c97a3e;
+}
+.engrave {
+  font: 600 9px/1 ui-monospace, monospace;
+  letter-spacing: 0.1em;
+  color: #3a3d42;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.toggle {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 42px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+.toggle::before {
+  content: "";
+  grid-area: 1 / 1;
+  width: 22px;
+  height: 44px;
+  border-radius: 11px;
+  background: linear-gradient(90deg, #1a1c1f, #3b3e43);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.toggleLever {
+  grid-area: 1 / 1;
+  width: 16px;
+  height: 20px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #f0d39a, #c97a3e);
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 #fff3d6;
+  transform: translateY(-9px);
+  transition: transform 0.15s;
+}
+.toggle[aria-checked="false"] .toggleLever {
+  transform: translateY(9px);
+  background: linear-gradient(180deg, #b9bec6, #7d838c);
+}
+.toggle:focus-visible {
+  outline: 2px solid #e8b86d;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.transport {
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #7d838c;
+  font-size: 13px;
+  color: #2b2d30;
+  cursor: pointer;
+  background: linear-gradient(160deg, #f4f6f9, #b8bec9);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 #fff, inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.btnMain {
+  width: 48px;
+  height: 48px;
+  font-size: 15px;
+}
+.btn:active,
+.btn[aria-pressed="true"] {
+  transform: translateY(2px);
+  background: linear-gradient(160deg, #b8bec9, #dfe3e9);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.35);
+  color: #c97a3e;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn:focus-visible {
+  outline: 2px solid #e8b86d;
+  outline-offset: 2px;
+}
+
+.vu {
+  position: relative;
+  width: 120px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: radial-gradient(ellipse at 50% 120%, #fff3d6, #e8b86d 75%);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.45), 0 0 0 3px #2b2d30, 0 1px 0 4px rgba(255, 255, 255, 0.5);
+}
+.vuScale {
+  position: absolute;
+  inset: auto 0 6px;
+  text-align: center;
+  font: 700 10px/1 ui-monospace, monospace;
+  color: #6b3f17;
+}
+.vu::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 8px;
+  height: 40px;
+  border-top: 2px dotted rgba(107, 63, 23, 0.6);
+  border-radius: 50% 50% 0 0;
+}
+.needle {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 2px;
+  height: 52px;
+  margin-left: -1px;
+  background: #141619;
+  transform-origin: 50% 100%;
+  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}

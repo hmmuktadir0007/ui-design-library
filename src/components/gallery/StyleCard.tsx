@@ -1,5 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
+import { useState } from "react";
 import type { Style } from "../../types/style";
+import { PreviewStage } from "../previews/PreviewStage";
+import { PreviewToggle, type PreviewMode } from "../previews/PreviewToggle";
+import { hasPreview } from "../previews/previewRegistry";
 import { Palette } from "./Palette";
 import { StyleImage } from "./StyleImage";
 
@@ -11,14 +15,29 @@ interface Props {
 
 export function StyleCard({ style, eager, onOpen }: Props) {
   const open = () => onOpen(style.id);
+  const live = hasPreview(style.id);
+  const [mode, setMode] = useState<PreviewMode>("slide");
   return (
     <article
       aria-labelledby={`style-${style.id}-name`}
       className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-card transition-[box-shadow,border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-card-hover"
     >
-      <button type="button" onClick={open} aria-label={`Enlarge ${style.name}`} className="block overflow-hidden border-b border-line">
-        <StyleImage style={style} eager={eager} className="transition-transform duration-300 group-hover:scale-[1.015]" />
-      </button>
+      {mode === "live" ? (
+        <div className="border-b border-line">
+          <PreviewStage id={style.id} name={style.name} interactive={false} />
+        </div>
+      ) : (
+        <button type="button" onClick={open} aria-label={`Enlarge ${style.name}`} className="block overflow-hidden border-b border-line">
+          <StyleImage style={style} eager={eager} className="transition-transform duration-300 group-hover:scale-[1.015]" />
+        </button>
+      )}
+      {live && (
+        <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2">
+          {/* Card previews are display-only; the detail view is the interactive one. */}
+          <span className="text-xs font-medium text-muted">{mode === "live" ? "Display only" : "Preview"}</span>
+          <PreviewToggle mode={mode} onChange={setMode} name={style.name} />
+        </div>
+      )}
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex items-start justify-between gap-3">

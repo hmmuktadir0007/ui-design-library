@@ -1,0 +1,35 @@
+import { test as base, expect, type Locator, type Page } from "@playwright/test";
+
+/** Fails any test that logs a browser console error/warning or throws an uncaught page error. */
+export const test = base.extend<{ consoleErrors: string[] }>({
+  consoleErrors: [
+    async ({ page }, use) => {
+      const errors: string[] = [];
+      page.on("console", (m) => {
+        if (m.type() === "error" || m.type() === "warning") errors.push(m.text());
+      });
+      page.on("pageerror", (e) => errors.push(String(e)));
+      await use(errors);
+      expect(errors, "browser console errors").toEqual([]);
+    },
+    { auto: true },
+  ],
+});
+export { expect };
+
+export const card = (page: Page, id: number) => page.locator("article").nth(id - 1);
+
+/** Opens the detail dialog for a style and returns its live preview stage. */
+export async function openLive(page: Page, id: number): Promise<Locator> {
+  await card(page, id).getByRole("button", { name: "View details" }).click();
+  const stage = page.locator(`dialog [data-preview-id="${id}"]`);
+  await expect(stage).toBeVisible();
+  return stage;
+}
+
+/** Visual state of an element, to prove an interaction changed what the user sees. */
+export const look = (l: Locator) =>
+  l.evaluate((el) => {
+    const c = getComputedStyle(el);
+    return [c.backgroundColor, c.backgroundImage, c.boxShadow, c.color, c.transform, c.filter, c.borderColor].join("|");
+  });

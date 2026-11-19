@@ -47,30 +47,40 @@ src/hooks/useCopy.ts            clipboard write + idle/copied/failed state
 src/components/ui/              CopyButton (visible + role=status feedback), CssCode (display-only highlighter, text nodes only)
 src/components/gallery/         Header, CategoryTabs (aria-pressed filters), StyleCard, StyleImage, Palette, SourceTabs (ARIA tabs)
 src/components/playground/      StyleDetail: native <dialog>.showModal() (focus trap, Esc, inert page, focus return)
-src/components/previews/        previewRegistry.ts (empty), StylePreview.tsx (lazy, per-style code split)
+src/components/previews/        previewRegistry.ts, StylePreview.tsx (lazy, per-style code split),
+                                PreviewStage.tsx (artboard scaling + touch targets), PreviewToggle.tsx (Slide Visual / Live CSS),
+                                shared/Knob.tsx (headless ARIA rotary slider), styles/NN-name.tsx + NN-name.module.css,
+                                scoping.test.ts (CSS isolation rules)
 ```
 
 Shell tokens are CSS custom properties in `src/index.css` (`:root` / `.dark`), exposed to Tailwind via `@theme inline`.
 Gallery grid is `repeat(auto-fill, minmax(min(100%,320px),1fr))`: column count follows usable width (1 @375, 2 @768, 4 @1440).
 
-## Style preview architecture (contract ready, no previews yet)
+## Style preview architecture (Phase 2B batch 1 built: 10 of 50)
 
-- `previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>>`, starts empty. A style is registered only when its preview is finished (`7: () => import("./styles/07-neo-brutalism")`).
+- `previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>>`. A style is registered only when its preview is finished. Registered now: 1, 4, 5, 6, 10, 18, 31, 34, 45, 46 (Morphism & Depth).
 - `hasPreview(id)` gates every Live CSS control: unregistered styles render the reference image plus a "planned" note, no toggle.
-- Each preview: `previews/styles/NN-name.tsx` + `NN-name.module.css` (CSS Modules = scoped class names, no leakage). Source `cssSnippet` is never injected; it is shown as text only.
-- `PreviewProps.vars` (`--radius`, `--accent`, …) is the hook for Playground customization via CSS custom properties.
+- Each preview: `previews/styles/NN-name.tsx` + `NN-name.module.css`. CSS isolation:
+  - CSS Modules hash every class name; `scoping.test.ts` fails the build's test run if a preview stylesheet has a selector not rooted in a class, `:global`, `@import`, `position: fixed` or `!important`, or if registry and stylesheets disagree.
+  - The source `cssSnippet` is never injected; it is shown as text only.
+  - Playwright compares computed styles of shell elements before/after all 10 previews are switched on (leak test).
+- `PreviewStage` renders each preview on a fixed 420 px artboard (969:777, the reference image ratio) and scales it to the available width, so card, dialog and mobile show the same composition with no layout shift when toggling.
+- Gallery cards: Live CSS is **display only** (`inert`, labelled "Display only"); the detail dialog (default mode Live CSS) is the interactive one.
+- Touch targets: `PreviewStage` grows each control's hit area toward 44×44 screen px with a transparent `::after` (buttons, ARIA widgets) or a transparent border offset by negative margin (range inputs), each side limited to half the gap to the nearest control on that axis, so hit areas never overlap. Range tracks that need this are painted on `::-webkit-slider-runnable-track` / `::-moz-range-track`.
+- `PreviewProps.vars` (`--radius`, `--accent`, …) is the hook for Playground customization via CSS custom properties (unused so far).
 
-## Style Playground architecture (Phase 2B+)
+## Style Playground architecture (not started)
 
-`StyleDetail` is the Playground shell. Planned additions inside it: Live CSS / Slide Visual toggle (only when `hasPreview`),
+`StyleDetail` is the Playground shell. Built so far: only the Slide Visual / Live CSS toggle. Still planned:
 a viewport frame that resizes a container (375/768/1280 px), controls built from each preview's declared variables,
-generated CSS = those variables with current values, Reset = defaults. Nothing of this is rendered yet.
+generated CSS = those variables with current values, Reset = defaults.
 
 ## Testing approach
 
 - Phase 1: `scripts/validate_styles.py` (blocking errors vs warnings, exit 1 on error; full re-parse equality against the PPTX) and `scripts/test_validate_styles.py` (negative fixtures, in memory).
 - Phase 2A: `npm run typecheck`, `npm test` (Vitest, search/counts), `npm run validate:data`, browser checks via Playwright MCP (scripted, not yet committed as a suite).
-- Phase 3: `tsc --noEmit`, ESLint, Vitest for filter/search logic, Playwright over all 50 cards + playground at 375/768/1440.
+- Phase 2B: Vitest `scoping.test.ts`; committed Playwright suite `tests/e2e/` (`npm run test:e2e`, builds first, runs at 375/768/1440); screenshots via `npm run capture:previews`.
+- Phase 3: ESLint, Playwright over the playground, perf.
 
 ## Performance strategy
 
@@ -86,11 +96,13 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 |---|---|---|
 | 1 | extract text + images, contact sheet, report, validator | 50 records, 50 images, validator exit 0, all crops inspected, commit — **complete** |
 | 2A | gallery foundation, detail view, preview contract | build + browser checks pass — **complete** |
-| 2B | 50 live previews in category batches, playground controls | every preview has a working interaction |
+| 2B batch 1 | 10 Morphism & Depth live previews | pointer + keyboard interaction tested per preview — **complete** |
+| 2B remaining | 40 previews (5 category batches) | not started |
+| 2B playground | viewport frame, variable controls, generated CSS, reset | not started |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |
 
-## Scope questions for Phase 2 (raised, not decided)
+## Scope notes for Phase 2B
 
-- 50 hand-built interactive previews are the bulk of the effort. Proposal: one shared preview shell + per-style component, built in batches of ~10 per category with a review gate each.
+- Previews are built in category batches with a review gate each (batch 1 done). Next batch needs approval.
 - Playground "generated CSS" will cover only the CSS variables a preview actually uses; no export is offered for controls without CSS output.

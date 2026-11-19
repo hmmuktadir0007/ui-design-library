@@ -1,0 +1,66 @@
+// Regenerates docs/screenshots/phase-2b/*: one Live CSS shot per registered preview, a Slide Visual vs Live CSS
+// comparison sheet, and gallery + detail shots at 1440 and 375 px.
+// Usage: npm run capture:previews   (builds first, then serves dist/ itself on port 4174)
+import { chromium } from "@playwright/test";
+import { mkdirSync, readFileSync } from "node:fs";
+import { preview } from "vite";
+
+const PORT = 4174; // not 4173, so it never reuses a stale server left over from the e2e run
+const BASE = `http://127.0.0.1:${PORT}`;
+const OUT = "docs/screenshots/phase-2b";
+const IDS = [...readFileSync("src/components/previews/previewRegistry.ts", "utf8").matchAll(/^\s*(\d+): \(\) => import/gm)].map((m) => Number(m[1]));
+const styles = JSON.parse(readFileSync("src/data/styles.json", "utf8"));
+const nameOf = (id) => (styles.styles ?? styles).find((s) => s.id === id).name;
+const nn = (id) => String(id).padStart(2, "0");
+const esc = (s) => s.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
+mkdirSync(OUT, { recursive: true });
+
+const server = await preview({ preview: { host: "127.0.0.1", port: PORT, strictPort: true } });
+const browser = await chromium.launch();
+try {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
+  await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+  const openDetail = async (id) => {
+    await page.locator("article").nth(id - 1).getByRole("button", { name: "View details" }).click();
+    const stage = page.locator(`dialog [data-preview-id="${id}"]`);
+    await stage.waitFor();
+    await page.waitForTimeout(500); // lazy chunk + fonts
+    return stage;
+  };
+
+  // 1. Live preview of each style at the detail-view stage width (1440 px viewport, 2x density).
+  const live = {};
+  for (const id of IDS) {
+    await page.goto(BASE);
+    live[id] = (await (await openDetail(id)).screenshot({ path: `${OUT}/live-${nn(id)}.png` })).toString("base64");
+  }
+
+  // 2. Side-by-side sheet: Slide Visual (source PNG) | Live CSS.
+  const rows = IDS.map(
+    (id) =>
+      `<tr><th>${nn(id)}<br>${esc(nameOf(id))}</th><td><img src="${BASE}/images/style-${nn(id)}.png"></td><td><img src="data:image/png;base64,${live[id]}"></td></tr>`,
+  ).join("");
+  await page.goto(BASE); // same origin so /images resolve
+  await page.setContent(
+    `<style>body{font:14px system-ui;margin:16px}table{border-collapse:collapse}th,td{border:1px solid #ccc;padding:8px;vertical-align:top}th{width:140px;text-align:left}img{width:600px;display:block}</style>
+<table><tr><th>Style</th><th>Slide Visual (source)</th><th>Live CSS preview</th></tr>${rows}</table>`,
+    { waitUntil: "load" },
+  );
+  await page.screenshot({ path: `${OUT}/comparison-sheet.png`, fullPage: true });
+
+  // 3. Gallery with four cards switched to Live CSS, and one detail view, per viewport.
+  for (const [label, width, height] of [["desktop-1440", 1440, 900], ["mobile-375", 375, 812]]) {
+    await page.setViewportSize({ width, height });
+    await page.goto(BASE);
+    for (const id of IDS.slice(0, 4)) await page.locator("article").nth(id - 1).getByRole("button", { name: "Live CSS" }).click();
+    await page.waitForTimeout(500);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.screenshot({ path: `${OUT}/gallery-${label}.png` });
+    await openDetail(6);
+    await page.screenshot({ path: `${OUT}/detail-${label}.png` });
+  }
+  console.log(`captured ${IDS.length} previews to ${OUT}`);
+} finally {
+  await browser.close();
+  await server.close();
+}

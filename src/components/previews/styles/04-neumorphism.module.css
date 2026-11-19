@@ -1,0 +1,192 @@
+/* Live demo CSS for style 04. Palette: #E0E5EC #FFFFFF #A3B1C6 #4A5568 #3B82F6 */
+.root {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 22px;
+  padding: 26px;
+  background: #e0e5ec;
+  color: #4a5568;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.panel {
+  display: grid;
+  justify-items: center;
+  align-content: space-between;
+  padding: 14px 12px;
+  border-radius: 20px;
+  background: #e0e5ec;
+  box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
+}
+
+.caption {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* extruded ring with a recessed face; --p (0..1) drives the accent arc */
+.dial {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  padding: 9px;
+  background: conic-gradient(from 225deg, #3b82f6 calc(var(--p) * 270deg), transparent 0) border-box, #e0e5ec;
+  box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+  transition: background 0.3s;
+}
+.dialInner {
+  height: 100%;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  background: #e0e5ec;
+  box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+}
+.temp {
+  font-size: 30px;
+  font-weight: 300;
+  color: #2d3748;
+  line-height: 1;
+}
+.temp sup {
+  font-size: 11px;
+}
+.status {
+  margin-top: 3px;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.adjust {
+  display: flex;
+  gap: 54px;
+}
+.round {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  font-size: 17px;
+  color: #4a5568;
+  cursor: pointer;
+  background: #e0e5ec;
+  box-shadow: 4px 4px 8px #a3b1c6, -4px -4px 8px #ffffff;
+  transition: box-shadow 0.15s, color 0.15s;
+}
+.round:active {
+  box-shadow: inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff;
+  color: #3b82f6;
+}
+.round:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.segment {
+  display: flex;
+  padding: 3px;
+  border-radius: 999px;
+  box-shadow: inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff;
+}
+.segBtn {
+  min-width: 46px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: #8a96a8;
+  background: transparent;
+  cursor: pointer;
+  transition: box-shadow 0.2s, color 0.2s;
+}
+.segBtn[aria-checked="true"] {
+  color: #3b82f6;
+  background: #e0e5ec;
+  box-shadow: 3px 3px 6px #a3b1c6, -3px -3px 6px #ffffff;
+}
+
+.player {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 16px 10px;
+  border-radius: 16px;
+  box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 11px;
+}
+.play {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 0;
+  color: #4a5568;
+  cursor: pointer;
+  background: #e0e5ec;
+  box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+  transition: box-shadow 0.15s, color 0.15s;
+}
+.play[aria-pressed="true"] {
+  color: #3b82f6;
+  box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+}
+
+/* recessed slider track with an extruded thumb; the track is painted on the track pseudo-element so the
+   input box itself stays transparent and can carry an enlarged touch target (PreviewStage) */
+.range {
+  width: 100%;
+  height: 8px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #e0e5ec;
+  box-shadow: inset 2px 2px 4px #a3b1c6, inset -2px -2px 4px #ffffff;
+}
+.range::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #e0e5ec;
+  box-shadow: inset 2px 2px 4px #a3b1c6, inset -2px -2px 4px #ffffff;
+}
+.range::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e0e5ec;
+  box-shadow: 3px 3px 6px #a3b1c6, -3px -3px 6px #ffffff;
+}
+.range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: #e0e5ec;
+  box-shadow: 3px 3px 6px #a3b1c6, -3px -3px 6px #ffffff;
+}
+
+.round:focus-visible,
+.segBtn:focus-visible,
+.play:focus-visible,
+.range:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+}

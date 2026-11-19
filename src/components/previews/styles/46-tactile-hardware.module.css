@@ -1,0 +1,255 @@
+/* Live demo CSS for style 46. Palette: #E5E5E0 #FF4F00 #1A1A1A #9CA3AF #FACC15 */
+.root {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: #1a1a1a;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+/* source CSS chassis */
+.chassis {
+  width: 100%;
+  padding: 10px 14px 12px;
+  display: grid;
+  gap: 10px;
+  border-radius: 10px;
+  background: #e5e5e0;
+  border: 1px solid #c4c4be;
+  box-shadow: inset 0 1px 0 #fff, 0 10px 24px rgba(0, 0, 0, 0.5);
+  color: #1a1a1a;
+  transition: filter 0.3s;
+}
+.off {
+  filter: saturate(0.2) brightness(0.92);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font: 700 9px/1 ui-monospace, monospace;
+  letter-spacing: 0.08em;
+}
+.pwr {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 6px;
+  border: 1px solid #c4c4be;
+  border-radius: 4px;
+  font: 600 8px/1 ui-monospace, monospace;
+  color: #1a1a1a;
+  background: #ededea;
+  cursor: pointer;
+}
+.led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6b6b5f;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.pwr[aria-checked="true"] .led {
+  background: #facc15;
+  box-shadow: 0 0 6px #facc15;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 12px;
+}
+.screen {
+  padding: 7px 9px;
+  display: grid;
+  gap: 2px;
+  border-radius: 6px;
+  background: #101010;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 1px 0 #fff;
+  font: 600 8px/1 ui-monospace, monospace;
+  color: #22c55e;
+}
+.off .screen > * {
+  opacity: 0.15;
+}
+.screenRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.waveBtn {
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border: 0;
+  border-radius: 3px;
+  font: inherit;
+  color: #22c55e;
+  background: transparent;
+  cursor: pointer;
+}
+.waveBtn:hover {
+  background: rgba(34, 197, 94, 0.15);
+}
+.hz {
+  color: #facc15;
+}
+.res {
+  color: #38bdf8;
+}
+.wave {
+  width: 100%;
+  height: 44px;
+}
+.wave path {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-linejoin: round;
+}
+
+.side {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+.pads {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.pad {
+  padding: 7px 0;
+  border-radius: 999px;
+  border: 0;
+  font: 700 9px/1 ui-monospace, monospace;
+  cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
+}
+.trig {
+  color: #fff;
+  background: #ff4f00;
+  box-shadow: 0 3px 0 #b33700;
+}
+.hold {
+  color: #fff;
+  background: #1a1a1a;
+  box-shadow: 0 3px 0 #000;
+}
+.pad:active,
+.hold[aria-pressed="true"] {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 transparent;
+}
+.hold[aria-pressed="true"] {
+  color: #facc15;
+}
+.flash {
+  filter: brightness(1.35);
+  box-shadow: 0 0 14px #ff4f00;
+}
+.pad:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* hardware fader */
+/* track painted on the track pseudo-element, so the transparent input box can carry an enlarged touch target */
+.fader {
+  width: 100%;
+  height: 8px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.fader::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(90deg, #9ca3af 0 1px, transparent 1px 12%) 0 100% / 100% 3px no-repeat, #d4d4ce;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.fader::-moz-range-track {
+  height: 8px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(90deg, #9ca3af 0 1px, transparent 1px 12%) 0 100% / 100% 3px no-repeat, #d4d4ce;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.fader::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -7px;
+  width: 14px;
+  height: 22px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #ff4f00 0 40%, #fff 40% 60%, #ff4f00 60%);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+}
+.fader::-moz-range-thumb {
+  width: 14px;
+  height: 22px;
+  border: 0;
+  border-radius: 3px;
+  background: #ff4f00;
+}
+.small {
+  font: 600 7.5px/1.2 ui-monospace, monospace;
+  letter-spacing: 0.05em;
+  color: #57574f;
+}
+
+.knobs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-top: 10px;
+  border-top: 1px solid #c4c4be;
+}
+.knobCell {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+}
+/* rotary knob from the source CSS, dark variant by default */
+.knob {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  cursor: ns-resize;
+  background: radial-gradient(circle at 40% 30%, #3a3a3a, #1a1a1a 70%);
+  box-shadow: 0 4px 0 #000, 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 0 0 5px #e5e5e0, 0 0 0 6px #9ca3af;
+}
+.orange {
+  background: radial-gradient(circle at 40% 30%, #ff8a4c, #ff4f00 65%);
+  box-shadow: 0 4px 0 #b33700, 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 0 0 5px #e5e5e0, 0 0 0 6px #9ca3af;
+}
+.pointer {
+  position: absolute;
+  inset: 0;
+  transform: rotate(calc(-135deg + var(--turn) * 270deg));
+  transition: transform 0.1s ease-out;
+}
+.pointer::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 4px;
+  height: 22px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: #fff;
+}
+.knobLabel {
+  margin-top: 6px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.pwr:focus-visible,
+.waveBtn:focus-visible,
+.pad:focus-visible,
+.fader:focus-visible,
+.knob:focus-visible {
+  outline: 2px solid #ff4f00;
+  outline-offset: 3px;
+}

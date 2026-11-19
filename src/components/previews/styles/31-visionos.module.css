@@ -1,0 +1,201 @@
+/* Live demo CSS for style 31. Palette: rgba(120,120,128,0.28) #FFFFFF #38BDF8 #0F172A #F8FAFC
+   Spatial depth is approximated with layered shadows and scale; no real 3D space. */
+.root {
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background:
+    radial-gradient(ellipse at 60% 30%, rgba(56, 189, 248, 0.25), transparent 55%),
+    radial-gradient(ellipse at 20% 90%, rgba(129, 140, 248, 0.25), transparent 50%),
+    #0f172a;
+  color: #f8fafc;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+/* source CSS */
+.glass {
+  background: rgba(120, 120, 128, 0.28);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 32px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.ornament {
+  display: grid;
+  gap: 8px;
+  padding: 10px 6px;
+  border-radius: 999px;
+}
+.tabBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  color: #f8fafc;
+  font-size: 13px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.tabBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.tabBtn[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 0 2px #38bdf8, 0 0 14px rgba(56, 189, 248, 0.6);
+}
+
+.column {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+.window {
+  width: 100%;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+  border-radius: 28px;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s;
+}
+.expanded {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(56, 189, 248, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+.winHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chip {
+  padding: 4px 9px;
+  border-radius: 999px;
+  font: 600 8px/1 ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.hint {
+  font: 9px/1 ui-monospace, monospace;
+  color: rgba(248, 250, 252, 0.65);
+}
+
+.media {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: linear-gradient(120deg, #3730a3, #0e7490 70%, #0f766e);
+}
+.mediaTitle {
+  justify-self: start;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+.mediaMeta {
+  justify-self: start;
+  margin: 0;
+  font-size: 9px;
+  opacity: 0.85;
+}
+.bigPlay {
+  width: 40px;
+  height: 40px;
+  margin: 2px 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  color: #fff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.18);
+  transition: transform 0.15s, background 0.2s;
+}
+.bigPlay[aria-pressed="true"] {
+  background: rgba(56, 189, 248, 0.55);
+}
+.bigPlay:active {
+  transform: scale(0.93);
+}
+.scrub {
+  width: 100%;
+  accent-color: #38bdf8;
+  cursor: pointer;
+}
+
+.winFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.mono {
+  font: 8px/1.4 ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  color: #7dd3fc;
+}
+.expand {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #38bdf8;
+  font: 600 9px/1 ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7dd3fc;
+  background: rgba(56, 189, 248, 0.08);
+  cursor: pointer;
+}
+.expand[aria-pressed="true"] {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 5px 14px;
+  border-radius: 999px;
+}
+.pill > button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0;
+  color: #f8fafc;
+  font-size: 11px;
+  cursor: pointer;
+  background: transparent;
+}
+.pill > button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.pill > .pillMain {
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+}
+.pill > .pillMain[aria-pressed="true"] {
+  background: rgba(56, 189, 248, 0.5);
+}
+.handle {
+  width: 70px;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+  background: rgba(248, 250, 252, 0.6);
+}
+
+.tabBtn:focus-visible,
+.bigPlay:focus-visible,
+.scrub:focus-visible,
+.expand:focus-visible,
+.pill > button:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}

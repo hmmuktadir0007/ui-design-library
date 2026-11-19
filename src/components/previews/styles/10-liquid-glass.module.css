@@ -1,0 +1,175 @@
+/* Live demo CSS for style 10. Palette: rgba(255,255,255,0.22) #FFFFFF #38BDF8 #FB7185 #0F172A
+   Optical refraction is approximated with backdrop blur + saturate + specular highlights (no real light simulation). */
+.root {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 14px;
+  padding: 18px;
+  background: linear-gradient(160deg, #1e3a8a, #312e81 45%, #0f172a);
+  color: #fff;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+}
+.o1 { width: 220px; height: 220px; left: -60px; bottom: -70px; background: #38bdf8; opacity: 0.75; }
+.o2 { width: 240px; height: 240px; right: -60px; bottom: -80px; background: #fb7185; opacity: 0.8; }
+.o3 { width: 170px; height: 170px; left: 150px; top: -40px; background: #f59e0b; opacity: 0.55; }
+
+/* source CSS + a brighter specular rim */
+.liquid {
+  position: relative;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+.liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(170deg, rgba(255, 255, 255, 0.45), transparent 35%, transparent 70%, rgba(255, 255, 255, 0.12));
+}
+
+.deck {
+  width: 100%;
+  padding: 12px 16px 12px;
+  border-radius: 26px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 12px;
+}
+.chip {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font: 600 8px/1.2 ui-monospace, monospace;
+  letter-spacing: 0.1em;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+.chip i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4ade80;
+}
+.title {
+  grid-column: 1;
+  margin: 8px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+.sub {
+  grid-column: 1;
+  margin: 2px 0 0;
+  font-size: 10px;
+  opacity: 0.85;
+}
+.play {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+  font-size: 17px;
+  cursor: pointer;
+  background: rgba(15, 23, 42, 0.25);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  transition: box-shadow 0.25s, transform 0.15s;
+}
+.play[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px #38bdf8, 0 0 18px rgba(56, 189, 248, 0.7);
+}
+.play:active {
+  transform: scale(0.94);
+}
+
+.scrub {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  height: 6px;
+  appearance: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38bdf8 var(--fill), rgba(255, 255, 255, 0.3) var(--fill));
+  cursor: pointer;
+}
+.scrub::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.6), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.scrub::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+}
+.times {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font: 9px/1 ui-monospace, monospace;
+  opacity: 0.85;
+}
+
+.dock {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 9999px;
+}
+.dockBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, color 0.2s;
+}
+.dockBtn:hover {
+  transform: translateY(-2px);
+}
+.dockBtn[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f172a;
+  transform: scale(1.12);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35), inset 0 1px 1px #fff;
+}
+.dockLabel {
+  position: relative;
+  margin: -6px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+.play:focus-visible,
+.scrub:focus-visible,
+.dockBtn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}

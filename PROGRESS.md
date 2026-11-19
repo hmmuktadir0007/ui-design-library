@@ -1,6 +1,14 @@
 # Progress
 
-**Current phase:** Phase 2A complete — awaiting approval for Phase 2B (live previews).
+**Current phase:** Phase 2B batch 1 complete (10 Morphism & Depth previews) — awaiting approval for the next batch.
+
+| Scope | Status |
+|---|---|
+| Phase 1 — extraction + validation | complete |
+| Phase 2A — application foundation | complete |
+| Phase 2B batch 1 — 10 Morphism & Depth live previews | complete, verified 2026-11-19 |
+| Remaining 40 interactive previews | not started |
+| Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
 
@@ -79,6 +87,70 @@ Screenshots: `docs/screenshots/phase-2a/` (gallery light/dark 1440, light 768, l
 
 Fixed during review: card palette wrapping into two rows (moved View details below palette), category tabs wrapping at 1440 (tighter pills), double scrollbar in dialog at 768 (`html:has(dialog[open])` + dialog overflow hidden), low-contrast active tab in dark mode.
 
+## Phase 2B batch 1 — Morphism & Depth live previews
+
+Verified 2026-11-19. Architecture (artboard scaling, CSS isolation, touch targets): see IMPLEMENTATION_PLAN.md "Style preview architecture".
+
+| # | Style | Main interactions (all also keyboard-operable) |
+|---|---|---|
+| 01 | Skeuomorphism | play/pause, previous/next track, Volume/Bass/Tone rotary knobs (drag, arrows, Page/Home/End), power switch, VU meter |
+| 04 | Neumorphism | thermostat −/+, AUTO/ECO mode radios, volume slider, play |
+| 05 | Glassmorphism | forecast day radios, weather-alerts switch, credit card flip |
+| 06 | Claymorphism | three habit toggles drive the progress bar, Start fresh reset |
+| 10 | Liquid Glass | material chips (Specular/Caustics/Diffusion/Prism/Flow), playback scrubber, play |
+| 18 | 3D / Spatial UI | Rotate Y / Tilt X sliders, Explore 3D animation |
+| 31 | Spatial / visionOS | sidebar tabs, play, scrubber, Expand to room / Return to window, transport buttons |
+| 34 | Isometric UI | L1–L3 layer radios, Explode / Collapse |
+| 45 | Obsidian Glass | 1D/1W/1M/1Y chart range, Hide balance, rim-light toggle, backdrop-blur cycle |
+| 46 | Tactile Hardware | power, TRIG/HOLD, waveform cycle, Frequency/Resonance/Modulation knobs, output fader |
+
+Gallery cards: Slide Visual / Live CSS toggle; Live CSS in a card is display only (`inert`, labelled "Display only"). Detail dialog opens in Live CSS and is fully interactive.
+
+### Verification (2026-11-19, after the accessibility changes)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | 0 errors |
+| `npm run build` | ok — JS 297.4 kB (94.2 kB gzip), CSS 28.3 kB (6.6 kB gzip); each preview its own chunk (2–4 kB) |
+| `npm test` (Vitest) | 16/16 pass (2 files: search + CSS scoping) |
+| `npm run validate:data` | 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | 57/57 pass (19 tests × 3 viewports; was 54 — new: display-only cards + non-overlapping touch targets) |
+
+Playwright coverage (`tests/e2e/`): gallery basics; per preview, pointer interaction with a visible state change plus a keyboard-only interaction; knob drag; Slide Visual / Live CSS toggle in cards and detail; the other 40 styles stay image-only; no CSS leak into the shell; card previews inert; no control covered by a neighbour's hit area. Any browser console error or warning fails a test.
+
+### Accessibility findings
+
+- Card previews: inert (no tab stops, no touch targets), so the miniature scale is not an accessibility problem; the toggle pills keep a 32 px look with a 44 px tall hit area.
+- Detail view at 375 px (preview scale ≈ 0.78): hit areas grown toward 44×44 without visual change and without overlap. Fully ≥ 44×44: all controls of 06 and 18, most of 01, 31 and 10. Remaining short of 44 because neighbours on the slide layout sit closer than 44 px (measured hit width × height, screen px):
+  - 01 previous/next 40×44 · 04 AUTO/ECO 37×40, volume slider ~20 tall · 05 day radios 24×46 · 10 chips 38–42×44, scrubber ~15 tall
+  - 31 sidebar tabs 45×33, play 42×36, scrubber ~18 tall, transport 35–36×44 · 34 Explode 50×40 · 45 range radios 26×44
+  - 46 Power 60×20, TRIG/HOLD 64×26, output fader ~14 tall
+- Below the WCAG 2.5.8 (AA) 24 px minimum: the thin sliders (04 volume, 10/31 scrubbers, 46 fader) and 46 Power. All are keyboard-operable and fully clickable along their width. Fixing them needs layout changes away from the slide (more spacing); not done.
+- At 768/1440 the detail stage is larger; only the sliders, 05 day radios (38 wide @1440) and 45 range radios (42 wide @1440) stay slightly under 44.
+- Not checked: screen-reader pass, dark-shell contrast inside previews (previews use the slide colours).
+
+### Glassmorphism colour
+
+Preview blobs use `#7c3aed` (source palette "Violet") and `#06b6d4` ("Cyan"); the unsupported magenta `#D946EF` is gone. Source data unchanged. Visually checked against `public/images/style-05.png`: the slide image itself shows a magenta/pink glow top-right that the extracted palette does not list, so the preview is less pink than the slide by design.
+
+### Visual deviations from the slides (see comparison sheet)
+
+- 01: slide shows a music player and a calculator; preview builds the music player only.
+- 04: close match; volume slider moved into the player card.
+- 05: no magenta glow, no Weekly Rainfall card, no reflections, no extra sliders; 74° instead of 72°.
+- 06: slide is a 3D phone mockup; preview is a flat clay card with the same content.
+- 10: slide has three tab pills; preview has five material chips with a caption.
+- 18: close; adds Rotate Y / Tilt X sliders.
+- 31: slide sidebar has 5 icons, preview 4; no "detached capsule window handle" caption.
+- 34: footer shows selection status and an Explode button instead of the slide's angle/affordance captions.
+- 45: no "Interact with frosted container" button; adds chart-range radios and Hide; APY figure differs.
+- 46: close; no footer spec line.
+
+### Screenshots
+
+`docs/screenshots/phase-2b/`: `comparison-sheet.png` (Slide Visual vs Live CSS, all 10), `live-NN.png` (10), `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-desktop-1440.png`, `detail-mobile-375.png`.
+Regenerate: `npm run capture:previews` (builds, serves `dist/` on port 4174 itself, writes the files; script `scripts/capture-previews.mjs`).
+
 ## Known defects
 
 None blocking.
@@ -88,19 +160,22 @@ None blocking.
 ` (OS behaviour); the dataset keeps `
 `.
 - Card images use the full 969 px PNGs (~140 kB avg); thumbnails are a Phase 3 performance item.
-- Browser checks were run as Playwright MCP scripts; a committed Playwright suite is Phase 3 work.
+- Thin preview sliders and style 46 Power are below 24 px touch height at 375 px (see Phase 2B accessibility findings).
+- Stop hook: the global `~/.claude/settings.json` runs `bash .claude/hooks/stop-path-guard.sh` and `bash .claude/hooks/stop-session-snapshot.sh` on Stop in every project; this repo has no `.claude/hooks/`, so the hook errors here. The original scripts are in the TYMINO-Finances repo. Deliberately not copied and settings not changed; resolve separately.
 
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
-- Phase 2B batching proposal (see IMPLEMENTATION_PLAN.md).
+- Approval for Phase 2B batch 2 (next category).
+- Whether to change preview layouts to reach 44 px targets where the slide spacing prevents it.
 
 ## Git checkpoints
 
 - `06fd15d` Phase 1: source extraction and asset validation
 - `cea3fec` Phase 1 housekeeping: source metadata and negative validation tests
-- Phase 2A: commit "Phase 2A: application foundation" (hash in `git log`)
+- `497e9da` Phase 2A: application foundation
+- Phase 2B batch 1: commit "Phase 2B batch 1: Morphism & Depth live previews" (hash in `git log`)
 
 ## Next recommended action
 
-Review the Phase 2A screenshots / `npm run dev`, then approve Phase 2B (first batch).
+Review `docs/screenshots/phase-2b/comparison-sheet.png`, then approve Phase 2B batch 2.

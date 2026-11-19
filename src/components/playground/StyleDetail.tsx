@@ -1,11 +1,12 @@
 import { ExternalLink, X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Style } from "../../types/style";
 import { Palette } from "../gallery/Palette";
 import { SourceTabs } from "../gallery/SourceTabs";
 import { StyleImage } from "../gallery/StyleImage";
 import { hasPreview } from "../previews/previewRegistry";
-import { StylePreview } from "../previews/StylePreview";
+import { PreviewStage } from "../previews/PreviewStage";
+import { PreviewToggle, type PreviewMode } from "../previews/PreviewToggle";
 import { CopyButton } from "../ui/CopyButton";
 
 interface Props {
@@ -65,29 +66,7 @@ export function StyleDetail({ style, onClose }: Props) {
           </header>
 
           <div className="grid flex-1 gap-6 overflow-y-auto overscroll-contain p-4 sm:p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-            <section aria-label="Reference visual" className="space-y-3">
-              <div className="overflow-hidden rounded-xl border border-line">
-                <StyleImage style={style} eager />
-              </div>
-              <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-                <span className="text-muted">Original reference image</span>
-                <a
-                  href={style.imagePath}
-                  target="_blank"
-                  rel="noopener"
-                  className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 font-medium text-accent hover:bg-accent-soft"
-                >
-                  Open full size <ExternalLink className="size-4" aria-hidden />
-                </a>
-              </div>
-              {hasPreview(style.id) ? (
-                <StylePreview id={style.id} />
-              ) : (
-                <p className="rounded-xl border border-dashed border-line px-3 py-2 text-sm text-muted">
-                  Live interactive CSS preview: planned, not yet available for this style.
-                </p>
-              )}
-            </section>
+            <DetailVisual key={style.id} style={style} />
 
             <div className="min-w-0 space-y-6">
               <section aria-labelledby="where-h">
@@ -116,5 +95,43 @@ export function StyleDetail({ style, onClose }: Props) {
         </div>
       )}
     </dialog>
+  );
+}
+
+/** Reference image, or (for registered styles) a Slide Visual / Live CSS switch. Keyed by style id so mode resets per style. */
+function DetailVisual({ style }: { style: Style }) {
+  const live = hasPreview(style.id);
+  const [mode, setMode] = useState<PreviewMode>(live ? "live" : "slide");
+  return (
+    <section aria-label="Reference visual" className="space-y-3">
+      <div className="overflow-hidden rounded-xl border border-line">
+        {mode === "live" ? <PreviewStage id={style.id} name={style.name} /> : <StyleImage style={style} eager />}
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+        {live ? (
+          <PreviewToggle mode={mode} onChange={setMode} name={style.name} />
+        ) : (
+          <span className="text-muted">Original reference image</span>
+        )}
+        <a
+          href={style.imagePath}
+          target="_blank"
+          rel="noopener"
+          className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 font-medium text-accent hover:bg-accent-soft"
+        >
+          Open original image <ExternalLink className="size-4" aria-hidden />
+        </a>
+      </div>
+      {live ? (
+        <p className="text-xs text-muted">
+          Live CSS is a hand-built interactive interpretation of the slide, not the original artwork. Its CSS is separate from the
+          original snippet below.
+        </p>
+      ) : (
+        <p className="rounded-xl border border-dashed border-line px-3 py-2 text-sm text-muted">
+          Live interactive CSS preview: planned, not yet available for this style.
+        </p>
+      )}
+    </section>
   );
 }

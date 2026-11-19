@@ -19,6 +19,18 @@ export interface PreviewModule {
  *   7: () => import("./styles/07-neo-brutalism"),
  * Unregistered styles show the reference image only; no Live CSS control is rendered for them.
  */
-export const previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>> = {};
+export const previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>> = {
+  // Phase 2B batch 1: Morphism & Depth
+  1: () => import("./styles/01-skeuomorphism"),
+  4: () => import("./styles/04-neumorphism"),
+  5: () => import("./styles/05-glassmorphism"),
+  6: () => import("./styles/06-claymorphism"),
+  10: () => import("./styles/10-liquid-glass"),
+  18: () => import("./styles/18-spatial-3d"),
+  31: () => import("./styles/31-visionos"),
+  34: () => import("./styles/34-isometric"),
+  45: () => import("./styles/45-obsidian-glass"),
+  46: () => import("./styles/46-tactile-hardware"),
+};
 
 export const hasPreview = (id: number) => previewRegistry[id] !== undefined;
