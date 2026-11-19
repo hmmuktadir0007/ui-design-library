@@ -1,5 +1,5 @@
 // Regenerates docs/screenshots/phase-2b/*: one Live CSS shot per registered preview, a Slide Visual vs Live CSS
-// comparison sheet, and gallery + detail shots at 1440 and 375 px.
+// comparison sheet (JPEG), and gallery + detail shots at 1440 and 375 px.
 // Usage: npm run capture:previews   (builds first, then serves dist/ itself on port 4174)
 import { chromium } from "@playwright/test";
 import { mkdirSync, readFileSync } from "node:fs";
@@ -31,8 +31,17 @@ try {
   // 1. Live preview of each style at the detail-view stage width (1440 px viewport, 2x density).
   const live = {};
   for (const id of IDS) {
-    await page.goto(BASE);
-    live[id] = (await (await openDetail(id)).screenshot({ path: `${OUT}/live-${nn(id)}.png` })).toString("base64");
+    // one retry: on this machine a lazy chunk occasionally misses the first 30s window
+    for (let attempt = 1; ; attempt++) {
+      try {
+        await page.goto(BASE);
+        live[id] = (await (await openDetail(id)).screenshot({ path: `${OUT}/live-${nn(id)}.png` })).toString("base64");
+        break;
+      } catch (e) {
+        if (attempt === 2) throw e;
+        console.warn(`style ${id}: retrying after ${e.name}`);
+      }
+    }
   }
 
   // 2. Side-by-side sheet: Slide Visual (source PNG) | Live CSS.
@@ -46,9 +55,10 @@ try {
 <table><tr><th>Style</th><th>Slide Visual (source)</th><th>Live CSS preview</th></tr>${rows}</table>`,
     { waitUntil: "load" },
   );
-  await page.screenshot({ path: `${OUT}/comparison-sheet.png`, fullPage: true });
+  // JPEG: the 2x full-page sheet of 29 PNG pairs is ~11 MB as PNG, ~2-3 MB as JPEG and still readable.
+  await page.screenshot({ path: `${OUT}/comparison-sheet.jpg`, type: "jpeg", quality: 82, fullPage: true });
 
-  // 3. Gallery with every live card switched to Live CSS, and two detail views (one per batch), per viewport.
+  // 3. Gallery with every live card switched to Live CSS, and one detail view per batch, per viewport.
   for (const [label, width, height] of [["desktop-1440", 1440, 900], ["mobile-375", 375, 812]]) {
     await page.setViewportSize({ width, height });
     await page.goto(BASE);
@@ -56,7 +66,7 @@ try {
     await page.waitForTimeout(500);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `${OUT}/gallery-${label}.png` });
-    for (const id of [6, 38]) {
+    for (const id of [6, 38, 30]) {
       await page.goto(BASE);
       await openDetail(id);
       await page.screenshot({ path: `${OUT}/detail-${nn(id)}-${label}.png` });

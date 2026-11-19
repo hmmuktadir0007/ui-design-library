@@ -1,0 +1,226 @@
+/* Live demo CSS for style 08. Palette: #F5F5F7 #FFFFFF #111827 #3B82F6 #10B981 */
+.root {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  height: 100%;
+  overflow: hidden;
+  padding: 10px;
+  background: #f5f5f7;
+  color: #111827;
+  font-family: "Inter", "SF Pro Display", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+
+.tile {
+  min-width: 0;
+  min-height: 0;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+}
+.kicker {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* 2x2 hero */
+.hero {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  color: #f9fafb;
+  background: #111827;
+  border-color: #111827;
+}
+.heroHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.seg {
+  display: flex;
+  padding: 2px;
+  border-radius: 999px;
+  background: #1f2937;
+}
+.segBtn {
+  min-width: 34px;
+  min-height: 24px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  color: #d1d5db;
+  background: transparent;
+  cursor: pointer;
+}
+.segBtn[aria-checked="true"] {
+  color: #111827;
+  background: #f9fafb;
+}
+.heroValue {
+  margin: 8px 0 4px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.up {
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 600;
+  vertical-align: middle;
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.18);
+}
+.chart {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+.area {
+  fill: rgba(59, 130, 246, 0.22);
+}
+.line {
+  fill: none;
+  stroke: #60a5fa;
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+
+/* KPI 1x1 tiles are the selectable compartments */
+.kpi {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.kpi[aria-pressed="true"] {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+.kpiLabel {
+  font-size: 9px;
+  font-weight: 600;
+  color: #4b5563;
+}
+.kpiValue {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+.bars > span {
+  flex: 1;
+  border-radius: 3px;
+  background: #bfdbfe;
+}
+.bars > span:last-child {
+  background: #3b82f6;
+}
+.completion {
+  color: #f9fafb;
+  background: #111827;
+  border-color: #111827;
+}
+.completion .kpiLabel {
+  color: #d1d5db;
+}
+.gauge {
+  align-self: center;
+  flex: none;
+  margin-top: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(#111827 58%, transparent 60%), conic-gradient(#3b82f6 var(--p), #374151 0);
+}
+
+.activity {
+  grid-column: 1 / 3;
+}
+.log {
+  display: grid;
+  gap: 3px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.log > li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+}
+.avatar {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fbbf24, #3b82f6);
+}
+.status {
+  margin-left: auto;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 600;
+  color: #047857;
+  background: #d1fae5;
+}
+
+.actions {
+  grid-column: 3 / 5;
+  display: flex;
+  flex-direction: column;
+}
+.actionRow {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+  margin-top: 6px;
+}
+.action {
+  flex: 1;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 600;
+  color: #111827;
+  background: #f9fafb;
+  cursor: pointer;
+}
+.action:hover {
+  border-color: #3b82f6;
+}
+
+.segBtn:focus-visible,
+.kpi:focus-visible,
+.action:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+.completion:focus-visible,
+.segBtn:focus-visible {
+  outline-color: #93c5fd;
+}

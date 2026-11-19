@@ -42,6 +42,16 @@ export const previewRegistry: Partial<Record<number, () => Promise<PreviewModule
   39: () => import("./styles/39-gamified"),
   42: () => import("./styles/42-pop-art"),
   49: () => import("./styles/49-kawaii"),
+  // Phase 2B batch 3: Modern SaaS & Dashboards
+  3: () => import("./styles/03-material"),
+  8: () => import("./styles/08-bento"),
+  14: () => import("./styles/14-cyberminimalism"),
+  29: () => import("./styles/29-data-dense"),
+  30: () => import("./styles/30-command-first"),
+  32: () => import("./styles/32-flat-2"),
+  37: () => import("./styles/37-terminal"),
+  47: () => import("./styles/47-heatmap"),
+  48: () => import("./styles/48-masonry"),
 };
 
 export const hasPreview = (id: number) => previewRegistry[id] !== undefined;

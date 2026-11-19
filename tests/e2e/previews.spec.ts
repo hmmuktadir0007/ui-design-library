@@ -399,6 +399,243 @@ const CASES: Case[] = [
       await expect(p.getByRole("progressbar", { name: "Happiness" })).toHaveAttribute("aria-valuenow", "50");
     },
   },
+  // ── Batch 3: Modern SaaS & Dashboards ──
+  {
+    id: 3,
+    identity: "My Tasks",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: "Add task" }).click();
+      await expect(p.getByRole("checkbox", { name: /Draft release notes/ })).toBeVisible();
+      await expect(p.getByRole("progressbar", { name: "Tasks completed" })).toHaveAttribute("aria-valuenow", "20");
+      const ship = p.getByRole("checkbox", { name: /Ship onboarding flow/ });
+      const before = await look(ship.locator("span").first());
+      await ship.click();
+      await expect(ship).toHaveAttribute("aria-checked", "true");
+      await expect.poll(() => look(ship.locator("span").first())).not.toBe(before);
+      await expect(p.getByRole("progressbar", { name: "Tasks completed" })).toHaveAttribute("aria-valuenow", "40");
+    },
+    keyboard: async (p) => {
+      await p.getByRole("radio", { name: /Done/ }).focus();
+      await p.page().keyboard.press("Space");
+      await expect(p.getByRole("checkbox", { name: /Call with design team/ })).toHaveCount(0);
+      await p.getByRole("checkbox", { name: /Review sprint backlog/ }).focus();
+      await p.page().keyboard.press("Space");
+      await expect(p.getByRole("checkbox", { name: /Review sprint backlog/ })).toHaveCount(0); // no longer done
+      await expect(p.getByRole("progressbar", { name: "Tasks completed" })).toHaveAttribute("aria-valuenow", "20");
+    },
+  },
+  {
+    id: 8,
+    identity: "Analytics Overview",
+    mouse: async (p) => {
+      const revenue = p.getByRole("button", { name: /^Revenue/ });
+      const before = await look(revenue);
+      await revenue.click();
+      await expect(revenue).toHaveAttribute("aria-pressed", "true");
+      await expect(p.getByRole("img", { name: "Revenue, last 30D: $148.5K" })).toBeVisible();
+      await expect.poll(() => look(revenue)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      await p.getByRole("radio", { name: "7D" }).focus();
+      await p.page().keyboard.press("Space");
+      await expect(p.getByRole("img", { name: "Revenue, last 7D: $36.2K" })).toBeVisible();
+      await p.getByRole("button", { name: /Export/ }).focus();
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText("Exported revenue_7d.csv")).toBeVisible();
+    },
+  },
+  {
+    id: 14,
+    identity: "ACTIONS & WORKFLOWS",
+    mouse: async (p) => {
+      await p.getByRole("option", { name: /Rotate Environment Secrets/ }).click();
+      await expect(p.getByRole("status")).toHaveText("Secrets rotated");
+      await expect(p.getByText("VAULT // LAST UPDATED JUST NOW")).toBeVisible();
+      await p.getByRole("button", { name: "Pause" }).click();
+      await expect(p.getByText("PAUSED (0 RPS)")).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("button", { name: "Resume" }).focus();
+      await kb.press("Control+k"); // shortcut scoped to the preview
+      const box = p.getByRole("combobox", { name: "Search commands" });
+      await expect(box).toBeFocused();
+      await kb.press("ArrowDown"); // from Rotate, the row last clicked
+      await expect(p.getByRole("option", { name: /Stream Telemetry/ })).toHaveAttribute("aria-selected", "true");
+      await kb.press("Enter");
+      await expect(p.getByRole("status")).toHaveText("Trace stream started");
+      await kb.type("roll");
+      await expect(p.getByRole("option")).toHaveCount(1);
+      await kb.press("Enter");
+      await expect(p.getByRole("status")).toHaveText("Rolled back to v1.4.1");
+      await kb.press("Escape"); // clears the query, keeps the detail dialog open
+      await expect(box).toHaveValue("");
+      await expect(p.getByRole("option")).toHaveCount(3);
+    },
+  },
+  {
+    id: 29,
+    identity: "METRIC TELEMETRY ENGINE",
+    mouse: async (p) => {
+      const conv = p.getByRole("radio", { name: /^CONVERSION/ });
+      const before = await look(conv);
+      await conv.click();
+      await expect(conv).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByRole("img", { name: /^CONVERSION trend over 24H/ })).toBeVisible();
+      await expect.poll(() => look(conv)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: "7D" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("img", { name: /^CONVERSION trend over 7D, now \+11\.6%/ })).toBeVisible();
+      const reqs = p.getByRole("columnheader", { name: /REQ\/S/ });
+      await reqs.getByRole("button").focus();
+      await kb.press("Enter");
+      await expect(reqs).toHaveAttribute("aria-sort", "descending");
+      await expect(p.getByRole("row").nth(1)).toContainText("edge.proxy.stream.pipe");
+      await kb.press("Enter");
+      await expect(reqs).toHaveAttribute("aria-sort", "ascending");
+      await expect(p.getByRole("row").nth(1)).toContainText("db.replica.wal.sync");
+    },
+  },
+  {
+    id: 30,
+    identity: "SUGGESTED COMMANDS",
+    mouse: async (p) => {
+      await p.getByRole("option", { name: /Toggle Dark Mode/ }).click();
+      await expect(p.getByRole("status")).toContainText("Theme set to light");
+      await expect(p.getByRole("combobox")).toHaveCount(0);
+      await p.getByRole("button", { name: /Open command palette/ }).click();
+      await expect(p.getByRole("combobox", { name: "Type a command or search" })).toBeFocused();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await kb.press("ArrowDown");
+      await kb.press("ArrowDown");
+      await expect(p.getByRole("option", { name: /Switch Workspace/ })).toHaveAttribute("aria-selected", "true");
+      await kb.press("Enter");
+      await expect(p.getByRole("status")).toContainText("Switched to Globex workspace");
+      const trigger = p.getByRole("button", { name: /Open command palette/ });
+      await expect(trigger).toBeFocused(); // focus returns to the opener
+      await kb.press("Control+k");
+      await kb.type("settings");
+      await kb.press("Enter");
+      await expect(p.getByRole("status")).toContainText("Settings opened");
+      await kb.press("Control+k");
+      await expect(p.getByRole("combobox")).toBeFocused();
+      await kb.press("Escape"); // closes the palette only
+      await expect(p.getByRole("combobox")).toHaveCount(0);
+      await expect(trigger).toBeFocused();
+      await expect(p.page().locator("dialog")).toBeVisible();
+    },
+  },
+  {
+    id: 32,
+    identity: "SaaSMetrics OS",
+    mouse: async (p) => {
+      const monthly = p.getByRole("radio", { name: "Monthly" });
+      const before = await look(monthly);
+      await monthly.click();
+      await expect(monthly).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByText("Total per month")).toBeVisible();
+      await expect(p.getByText("$177", { exact: true })).toHaveCount(2); // 3 seats x $59: subtotal and total
+      await expect.poll(() => look(monthly)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("button", { name: "Add seat" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("$236", { exact: true })).toHaveCount(2);
+      await p.getByRole("button", { name: /Upgrade Plan/ }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("You're on Pro")).toBeVisible();
+      await expect(p.getByText("Demo only — no payment was taken.")).toBeVisible();
+      await p.getByRole("button", { name: "Change plan" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByRole("button", { name: /Upgrade Plan/ })).toBeVisible();
+    },
+  },
+  {
+    id: 37,
+    identity: "BASH 5.2",
+    mouse: async (p) => {
+      const input = p.getByRole("textbox", { name: "Terminal command" });
+      await p.getByText("operator@mainframe:~$").last().click(); // the prompt is the input's label
+      await expect(input).toBeFocused();
+      await p.page().keyboard.type("help");
+      await p.page().keyboard.press("Enter");
+      await expect(p.getByText(/available: help · about/)).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      const input = p.getByRole("textbox", { name: "Terminal command" });
+      await input.focus();
+      await kb.type("theme amber");
+      await kb.press("Enter");
+      await expect(p.getByText("[OK] CRT EMISSION 590NM ACTIVE // PROMPT STANDBY")).toBeVisible();
+      await expect(p.getByText(/BASH 5\.2 • AMBER/)).toBeVisible();
+      await kb.press("ArrowUp");
+      await expect(input).toHaveValue("theme amber");
+      await kb.press("ArrowUp");
+      await expect(input).toHaveValue("help");
+      await kb.press("ArrowDown");
+      await expect(input).toHaveValue("theme amber");
+      await input.fill("rm -rf /");
+      await kb.press("Enter");
+      await expect(p.getByText('rm: command not found. Type "help".')).toBeVisible();
+      await input.fill("clear");
+      await kb.press("Enter");
+      await expect(p.getByRole("log")).toBeEmpty();
+    },
+  },
+  {
+    id: 47,
+    identity: "TELEMETRY & CONVERSION FUNNEL",
+    mouse: async (p) => {
+      const cell = p.getByRole("button", { name: /day 4: / });
+      const before = await look(cell);
+      await cell.click();
+      await expect(cell).toHaveAttribute("aria-pressed", "true");
+      await expect(p.getByText("2,380 Active Sessions")).toBeVisible();
+      await expect.poll(() => look(cell)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: "Prior 28d" }).focus();
+      await kb.press("Space");
+      await expect(p.getByText("2,222 Active Sessions")).toBeVisible(); // same day, prior dataset
+      await p.getByRole("button", { name: /4\. Paid Conv/ }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText(/Stage 4/)).toBeVisible();
+      await expect(p.getByText("2.6k (5.90% of visitors)")).toBeVisible();
+    },
+  },
+  {
+    id: 48,
+    identity: "Masonry Pack",
+    mouse: async (p) => {
+      const chroma = p.getByRole("button", { name: /^Chromatic Flow LOOKBOOK/ });
+      await chroma.click();
+      await expect(chroma).toHaveAttribute("aria-pressed", "true");
+      await expect(p.getByText(/Lookbooks · 1,240 saves/)).toBeVisible();
+      const save = p.getByRole("button", { name: "Save Chromatic Flow" });
+      const before = await look(save);
+      await save.click();
+      await expect(save).toHaveAttribute("aria-pressed", "true");
+      await expect.poll(() => look(save)).not.toBe(before);
+      await expect(p.getByText("♥ IN YOUR BOARD")).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: /Saved \(1\)/ }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("button", { name: /^Isometric Cyber/ })).toHaveCount(0);
+      await p.getByRole("button", { name: "Save Chromatic Flow" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("Nothing saved yet. Tap ♥ Save on a card.")).toBeVisible();
+    },
+  },
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -461,7 +698,7 @@ test("registered styles get a working Slide Visual / Live CSS toggle in cards an
   await expect(dialog.locator('[data-preview-id="1"]')).toBeVisible();
 });
 
-test("the other 30 styles stay image-only", async ({ page }) => {
+test("the other 21 styles stay image-only", async ({ page }) => {
   for (let id = 1; id <= 50; id++) {
     if (LIVE_IDS.includes(id)) continue;
     const c = card(page, id);

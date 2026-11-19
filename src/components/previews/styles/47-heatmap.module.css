@@ -1,0 +1,233 @@
+/* Live demo CSS for style 47. Palette: #FFFFFF #0F172A #ECFDF5 #34D399 #059669 #EF4444 */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  overflow: hidden;
+  padding: 9px 12px;
+  background: #fff;
+  color: #0f172a;
+  font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 9px;
+}
+.root p {
+  margin: 0;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.title {
+  margin: 0;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.demo {
+  padding: 2px 6px;
+  border-radius: 999px;
+  font: 700 7.5px ui-monospace, monospace;
+  white-space: nowrap;
+  color: #065f46;
+  background: #d1fae5;
+}
+.seg {
+  display: flex;
+  gap: 3px;
+  margin-left: auto;
+}
+.segBtn {
+  min-height: 26px;
+  padding: 0 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  color: #334155;
+  background: #fff;
+  cursor: pointer;
+}
+.segBtn[aria-checked="true"] {
+  border-color: #0f172a;
+  color: #fff;
+  background: #0f172a;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+}
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.label {
+  font: 600 7.5px ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  color: #475569;
+}
+.grid {
+  display: grid;
+  gap: 4px;
+}
+.week {
+  display: grid;
+  grid-template-columns: 16px repeat(7, 30px);
+  gap: 4px;
+  align-items: center;
+}
+.wk {
+  font: 7.5px ui-monospace, monospace;
+  color: #475569;
+}
+/* stepped intensity scale: light to saturated */
+.cell {
+  height: 26px;
+  padding: 0;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.l0 { background: #ecfdf5; }
+.l1 { background: #a7f3d0; }
+.l2 { background: #34d399; }
+.l3 { background: #059669; }
+.l4 { background: #047857; }
+.cell[aria-pressed="true"] {
+  border-color: #0f172a;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #0f172a;
+}
+.days {
+  display: grid;
+  grid-template-columns: 16px repeat(7, 30px);
+  gap: 4px;
+  font: 7.5px ui-monospace, monospace;
+  text-align: center;
+  color: #475569;
+}
+.days > span:first-child {
+  grid-column: 2;
+}
+.tip {
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: #f8fafc;
+  background: #0f172a;
+}
+.tipHead {
+  font: 700 7.5px ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  color: #7dd3fc;
+}
+.tipValue {
+  font-size: 13px;
+  font-weight: 700;
+}
+.tipUp {
+  color: #6ee7b7;
+}
+.tipDown {
+  color: #fca5a5;
+}
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 7.5px ui-monospace, monospace;
+  color: #475569;
+}
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.swatch {
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 2px;
+}
+
+.stage {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+  max-height: 46px;
+  padding: 4px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: #fff;
+  cursor: pointer;
+}
+.stage[aria-pressed="true"] {
+  border-color: #059669;
+  background: #ecfdf5;
+  box-shadow: inset 3px 0 0 #059669;
+}
+.stageHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+.stageHead > b {
+  font-family: ui-monospace, monospace;
+}
+.track {
+  position: relative;
+  height: 10px;
+  border-radius: 3px;
+  background: #f1f5f9;
+}
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #34d399, #059669);
+  transition: width 0.3s ease;
+}
+.drop {
+  position: absolute;
+  right: 3px;
+  top: 0;
+  font: 700 7.5px/10px ui-monospace, monospace;
+  color: #b91c1c;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+.muted {
+  color: #475569;
+}
+.red {
+  color: #b91c1c;
+}
+
+.segBtn:focus-visible,
+.cell:focus-visible,
+.stage:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}

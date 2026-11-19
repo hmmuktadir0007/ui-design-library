@@ -54,6 +54,7 @@ function extendHitAreas(root: HTMLElement, scale: number) {
     const [l, r] = split(b.width, Math.max(0, room.l), Math.max(0, room.r)).map((v) => v / scale); // artboard px
     const [t, btm] = split(b.height, Math.max(0, room.t), Math.max(0, room.b)).map((v) => v / scale);
     if (el instanceof HTMLInputElement) {
+      el.dataset.hit = ""; // processed (inputs render no ::after, so this only marks them as measured)
       // Chrome centres a range track in the border box, so the border must be equal on both sides.
       const half = Math.max(0, Math.min(room.t, room.b, MIN_TARGET - b.height)) / 2 / scale;
       if (half === 0) return;

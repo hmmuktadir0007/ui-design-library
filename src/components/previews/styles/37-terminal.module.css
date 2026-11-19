@@ -1,0 +1,125 @@
+/* Live demo CSS for style 37. Palette: #0A0A0A #22C55E #F59E0B #166534 #E5E7EB */
+.root {
+  --fg: #22c55e;
+  --glow: rgba(34, 197, 94, 0.45);
+  --dim: #166534;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--dim);
+  background: #0a0a0a;
+  color: #e5e7eb;
+  font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  line-height: 1.45;
+}
+.amber {
+  --fg: #f59e0b;
+  --glow: rgba(245, 158, 11, 0.45);
+  --dim: #92400e;
+}
+/* scanlines: a static overlay, so nothing moves */
+.root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+}
+.root p {
+  margin: 0;
+}
+
+.bar,
+.foot {
+  display: flex;
+  justify-content: space-between;
+  flex: none;
+  padding: 7px 12px;
+  font-weight: 700;
+}
+.bar {
+  border-bottom: 1px solid var(--dim);
+  color: var(--fg);
+  text-shadow: 0 0 4px var(--glow);
+}
+.warn {
+  color: #f59e0b;
+}
+.box {
+  flex: none;
+  margin: 8px 12px 4px;
+  padding: 5px 10px;
+  border: 1px solid var(--dim);
+  font-size: 8.5px;
+  white-space: pre;
+  color: var(--fg);
+}
+
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 12px;
+}
+.screen > p {
+  overflow-wrap: anywhere;
+}
+.prompt {
+  font-weight: 700;
+  color: #38bdf8;
+}
+.screen > .cmd {
+  margin-top: 4px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.out {
+  color: #e5e7eb;
+}
+.ok {
+  color: #f59e0b;
+}
+.err {
+  color: #fca5a5;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  margin: 6px 12px 6px;
+  cursor: text;
+}
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  padding: 0 6px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.04);
+  background-clip: padding-box; /* the hit-area extender adds a transparent border */
+  caret-color: var(--fg);
+  text-shadow: 0 0 4px var(--glow);
+}
+.input:focus-visible {
+  outline: 1px dashed var(--fg);
+  outline-offset: 1px;
+}
+.foot {
+  border-top: 1px solid var(--dim);
+  font-weight: 400;
+  color: #a3a3a3;
+}
+.fg {
+  color: var(--fg);
+}

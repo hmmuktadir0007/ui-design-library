@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2B batch 2 complete (Bold, Retro & Expressive) — 20 of 50 live previews; awaiting approval for batch 3.
+**Current phase:** Phase 2B batch 3 complete (Modern SaaS & Dashboards) — 29 of 50 live previews; awaiting approval for batch 4.
 
 | Scope | Status |
 |---|---|
@@ -8,7 +8,8 @@
 | Phase 2A — application foundation | complete |
 | Phase 2B batch 1 — 10 Morphism & Depth live previews | complete, verified 2026-11-19 |
 | Phase 2B batch 2 — 10 Bold, Retro & Expressive live previews | complete, verified 2026-11-19 |
-| Remaining 30 interactive previews (Modern SaaS & Dashboards 9, Art & Heritage Movements 8, Minimal & Typographic 7, Atmospheric & Futuristic 6) | not started |
+| Phase 2B batch 3 — 9 Modern SaaS & Dashboards live previews | complete, verified 2026-11-19 |
+| Remaining 21 interactive previews (Art & Heritage Movements 8, Minimal & Typographic 7, Atmospheric & Futuristic 6) | not started |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -174,7 +175,7 @@ Preview blobs use `#7c3aed` (source palette "Violet") and `#06b6d4` ("Cyan"); th
 
 ### Screenshots
 
-`docs/screenshots/phase-2b/`: `comparison-sheet.png` (Slide Visual vs Live CSS, all registered previews — 20 after batch 2), `live-NN.png` (one per preview), `gallery-desktop-1440.png`, `gallery-mobile-375.png` (all live cards switched on), `detail-06-*.png` and `detail-38-*.png` (desktop 1440 / mobile 375).
+`docs/screenshots/phase-2b/`: `comparison-sheet.jpg` (Slide Visual vs Live CSS, all registered previews — 29 after batch 3; JPEG since batch 3, 6.1 MB instead of 15.7 MB as PNG), `live-NN.png` (one per preview), `gallery-desktop-1440.png`, `gallery-mobile-375.png` (all live cards switched on), `detail-06-*.png`, `detail-38-*.png` and `detail-30-*.png` (one per batch; desktop 1440 / mobile 375).
 Regenerate: `npm run capture:previews` (builds, serves `dist/` on port 4174 itself, writes the files; script `scripts/capture-previews.mjs`).
 
 ## Phase 2B batch 2 — Bold, Retro & Expressive live previews
@@ -229,6 +230,58 @@ Stability: Playwright now runs with 4 workers and a 10 s expect timeout. With th
 - 42: headline fill is ink black with pink/white offsets (the slide uses pink/white fills, which fail contrast on yellow); edition chips added.
 - 49: bunny drawn with CSS shapes; Cozy mode is a toggle; routine button toggles.
 
+## Phase 2B batch 3 — Modern SaaS & Dashboards live previews
+
+Verified 2026-11-19. Same architecture and rules as batches 1–2 (CSS Module per preview, scaled artboard, hit-area extender, lazy chunk per preview, local React state only, deterministic data, no new dependencies; charts are inline SVG or CSS). Total live previews: **29**; image-only: **21**.
+
+| # | Style | Main interactions (all keyboard-operable) |
+|---|---|---|
+| 03 | Material Design | FAB adds sample tasks (real local action, stops at six rows with a status message), tasks toggle done/undone (`role=checkbox`), filter chips All / Active / Done, ring + linear progress and the daily-goal bars follow the done count |
+| 08 | Bento UI | four KPI tiles are selectable compartments that drive the 2×2 hero (value, delta, SVG area chart), 7D / 30D range, Share / Export add entries to the Recent Activity tile |
+| 14 | Cyberminimalism | inline command bar (`combobox` + `listbox`, `aria-activedescendant`): search filters 5 actions, ↑/↓ moves the active row (three-row window follows it), Enter runs it, Esc clears the query; ⌘K / Ctrl+K focuses the bar only while focus is inside the preview; actions change state (deploy / roll back version, secrets age, telemetry stream); cluster Pause / Resume; result in a `status` card |
+| 29 | Data-Dense Analytics | 1H / 24H / 7D range, four KPI cards (radios) with delta badges and sparklines, selected metric drives the detail chart (min / max / last), sortable table (`aria-sort` on the column header, toggles descending/ascending) whose req/s follow the range |
+| 30 | Command-First | spotlight palette (`role=dialog`, combobox + grouped listbox): opens from the trigger or ⌘K / Ctrl+K inside the preview, search, ↑/↓, Enter runs and closes, Esc closes; focus moves to the input on open and back to the trigger on close; commands change state (new issue number, workspace switch, light/dark theme) and the result shows behind the palette |
+| 32 | Flat 2.0 | Monthly / Annual billing, Starter / Pro / Team, seat stepper, order summary with discount and total recomputed live, Upgrade → local confirmation ("Demo only — no payment was taken.") → Change plan |
+| 37 | Terminal / CLI | command input with fixed whitelist interpreter (`help`, `about`, `status`, `whoami`, `theme [green|amber]`, `history`, `echo`, `clear`; anything else is "command not found"), ↑/↓ history, output in a `role=log`; nothing typed is evaluated or executed (unit-tested) |
+| 47 | Heatmap / Telemetry | 28 heatmap cells (buttons, `aria-pressed`, label with date, value and level) select a day → detail panel with value and % vs average; Last / Prior 28-day dataset; 4 funnel stages selectable → footer shows stage share and drop-off; bottleneck computed from the data; "DEMO DATA" badge; numeric legend for the five levels |
+| 48 | Modular Masonry | CSS multi-column wall of 7 gradient cards, category filters incl. Saved (n), caption buttons select a card (artwork click selects too), ♥ Save toggles per card, footer shows the selected card's details and save count |
+
+### Verification (2026-11-19)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | 0 errors |
+| `npm run build` | ok — JS 300.9 kB (95.6 kB gzip), CSS 29.3 kB (6.6 kB gzip); each preview its own chunk (largest 29 at 5.3 kB) |
+| `npm test` (Vitest) | 42/42 pass (4 files; new: the terminal interpreter; the CSS-scoping test now covers 29 stylesheets) |
+| `npm run validate:data` | 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | 226 pass, 2 skipped (76 tests × 3 viewports; the 375-only layout test is skipped at 768/1440) |
+
+Test changes: 9 new pointer + keyboard cases (state changes asserted on ARIA state and visible text; 30 also checks focus moves to the input and back to the trigger, and that Esc closes the palette but not the detail dialog; 14 checks the scoped Ctrl+K; 29 checks `aria-sort` and row order; 37 checks history recall and an unknown command); `LIVE_IDS` has 29 ids, so the a11y suite (hit-tested target size, no overlap, Tab reach + visible focus, axe WCAG 2.2 AA), the 375 px no-overflow test, the Live CSS toggle test, the CSS-leak probe and "the other 21 styles stay image-only" all cover the new previews. Vitest: `37-terminal-commands.test.ts` (fixed commands, theme switch, shell/JS-looking input is reported, never run).
+Stability: workers unchanged (4). The 375 px loop test (opens all 29 previews) is now `test.slow()`: 14 s alone, it passed the 30 s default under full parallel load once. `capture:previews` retries a preview once if its lazy chunk misses the 30 s window (happened intermittently on this machine).
+App change: `PreviewStage` now also marks inputs it measured with `data-hit` (inputs render no `::after`), so the a11y suite's settle check works for a preview whose only control is a text input (37).
+
+### Accessibility (automated, real hit testing)
+
+- 768 px: every control in all 9 new previews ≥ 44×44 effective.
+- 1440 px: all ≥ 44×44 except the 47 heatmap cells in weeks 2–4 (44×40: 4 px gaps between rows).
+- 375 px: all ≥ 24×24 (WCAG 2.5.8 AA). Under 44 at this width: 03 task rows 33–42 tall; 08 range buttons 37×45; 29 range buttons 29–44 wide × 35 tall, sort headers 44 tall but 41 wide; 47 heatmap cells 27×25 to 27×44 and dataset buttons 40 tall; 48 filter chips 36–37 tall, Save pills 44×29–33, captions 30–34 tall.
+- axe-core WCAG 2.2 AA: 0 violations on all 9 new detail views; no new exclusions. Fixed during the batch: palette close button name now contains its visible "Esc"; masonry artwork kept ≥ 34 px tall so each Save pill keeps 24 px spacing from its caption (axe `target-size`).
+- Command palettes: combobox with `aria-expanded`, `aria-controls`, `aria-activedescendant`; options are not Tab stops (one Tab stop per palette, arrow keys inside); hover selects only on real mouse movement, so a palette opening under a resting pointer keeps its keyboard selection. Esc is handled inside the preview and does not close the app's detail dialog. Shortcuts are bound on the preview root, so the gallery search and other app inputs are unaffected.
+- Heatmap: every cell is a Tab stop (28), each with a full text alternative; the a11y Tab loop reaches all 34 controls. Arrow-key grid navigation is not implemented (documented limitation).
+- Not done: screen reader pass, real touch devices, Firefox/Safari (see batch 1 list).
+
+### Visual deviations from the slides (see comparison sheet)
+
+- 03: flat, not the slide's tilted phone mock-up; two-column task dashboard; no bottom navigation bar.
+- 08: flat 4×3 grid instead of the slide's isometric scatter; map, integrations and second KPI card left out; activity rows are generic avatars.
+- 14: five actions behind a three-row window (the slide shows three); status card shows the last command result instead of the static "ELECTRIC INDIGO" text.
+- 29: KPIs in one row of four (slide: 2×2) to make room for the selectable detail chart and a fourth table row; load column shows bar + percent.
+- 30: palette starts open as on the slide; two command groups (slide: one); light theme is an added state.
+- 32: plan tabs, seat stepper and order summary replace the slide's static revenue / conversion / "pillars" cards; Docs / Log in buttons left out.
+- 37: banner box and session lines follow the slide; the JSON block is one output line; cursor is the native caret, not a blinking block.
+- 47: heatmap and funnel side by side (slide: stacked) so cells and stages keep 24 px targets at 375 px; bottleneck is computed (step 3 → 4 with this data, the slide says 2 → 3).
+- 48: light shell from the palette (#FAFAFA / #FFFFFF / #18181B) instead of the slide's dark frame; gradients stand in for photos; 7 cards.
+
 ## Known defects
 
 None blocking.
@@ -244,7 +297,7 @@ None blocking.
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
-- Approval for Phase 2B batch 3 (next category).
+- Approval for Phase 2B batch 4 (next category).
 - Whether to space slide compositions further to reach 44 px targets at 375 px (AAA).
 
 ## Git checkpoints
@@ -254,8 +307,9 @@ None blocking.
 - `497e9da` Phase 2A: application foundation
 - `1f3fbee` Phase 2B batch 1: Morphism & Depth live previews
 - `b9c5460` Phase 2B batch 1: accessibility stabilization
-- Phase 2B batch 2: Bold Retro Expressive live previews (hash in `git log`)
+- `d009f86` Phase 2B batch 2: Bold Retro Expressive live previews
+- Phase 2B batch 3: Modern SaaS Dashboard live previews (hash in `git log`)
 
 ## Next recommended action
 
-Review `docs/screenshots/phase-2b/comparison-sheet.png` (rows 07–49), then approve Phase 2B batch 3.
+Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 03–48 at the end), then approve Phase 2B batch 4.
