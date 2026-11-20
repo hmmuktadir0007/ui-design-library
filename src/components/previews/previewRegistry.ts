@@ -67,6 +67,15 @@ export const previewRegistry: Partial<Record<number, () => Promise<PreviewModule
   24: () => import("./styles/24-scrollytelling"),
   28: () => import("./styles/28-motion-first"),
   35: () => import("./styles/35-holographic"),
+  // Phase 2B batch 6: Art & Heritage Movements
+  13: () => import("./styles/13-bauhaus"),
+  19: () => import("./styles/19-art-deco"),
+  20: () => import("./styles/20-memphis"),
+  26: () => import("./styles/26-organic"),
+  27: () => import("./styles/27-paper-collage"),
+  40: () => import("./styles/40-neoclassical"),
+  44: () => import("./styles/44-low-poly"),
+  50: () => import("./styles/50-sketchbook"),
 };
 
 export const hasPreview = (id: number) => previewRegistry[id] !== undefined;

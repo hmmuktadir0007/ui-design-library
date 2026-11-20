@@ -1032,6 +1032,219 @@ const CASES: Case[] = [
       await expect(p.getByRole("button", { name: "Flip" })).toHaveAttribute("aria-pressed", "true");
     },
   },
+  // ── Batch 6: Art & Heritage Movements ──
+  {
+    id: 13,
+    identity: "STAATLICHES BAUHAUS",
+    mouse: async (p) => {
+      await p.getByRole("radio", { name: "Square" }).click();
+      await expect(p.getByText("SQR", { exact: true })).toBeVisible();
+      const sys = p.getByText(/SYSTEM 0\d \/\/ BLK/);
+      const before = await look(sys.locator(".."));
+      await p.getByRole("button", { name: "Rotate" }).click();
+      await expect(p.getByText("BLAU • GELB • ROT")).toBeVisible();
+      await expect(p.getByText(/SYSTEM 02 \/\/ BLK/)).toBeVisible();
+      await expect.poll(() => look(p.getByText(/SYSTEM 02/).locator(".."))).not.toBe(before); // block colour changed
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: "1:1:2" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("radio", { name: "1:1:2" })).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByText("1:2", { exact: true })).toBeVisible();
+      await p.getByRole("radio", { name: "Triangle" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("TRI", { exact: true })).toBeVisible();
+      await p.getByRole("button", { name: "Rotate" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("GELB • ROT • BLAU")).toBeVisible();
+    },
+  },
+  {
+    id: 19,
+    identity: "GRAND PALAIS",
+    mouse: async (p) => {
+      await p.getByRole("radio", { name: /Salon Noir & Gold/ }).click();
+      await expect(p.getByText("SALON NOIR & GOLD · ₣ 1,900 PER NIGHT")).toBeVisible();
+      await p.getByRole("button", { name: "More nights" }).click();
+      await p.getByRole("button", { name: "RESERVE SUITE" }).click();
+      await expect(p.getByRole("button", { name: "RESERVED ✓" })).toHaveAttribute("aria-pressed", "true");
+      await expect(p.getByText("CONFIRMED · SALON NOIR & GOLD · 3 × ₣ 1,900")).toBeVisible();
+      const frame = p.getByRole("heading", { name: "GRAND PALAIS" }).locator("..");
+      const before = await look(frame);
+      await p.getByRole("radio", { name: "Obsidian" }).click();
+      await expect.poll(() => look(frame)).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      // changing the booking clears the confirmation
+      await p.getByRole("button", { name: "Fewer nights" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByRole("button", { name: "RESERVE SUITE" })).toHaveAttribute("aria-pressed", "false");
+      await expect(p.getByText("2 NIGHTS")).toBeVisible();
+      await p.getByRole("radio", { name: /Suite Belle Époque/ }).focus();
+      await kb.press("Space");
+      await p.getByRole("button", { name: "RESERVE SUITE" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("CONFIRMED · SUITE BELLE ÉPOQUE · 2 × ₣ 1,250")).toBeVisible();
+    },
+  },
+  {
+    id: 20,
+    identity: "MEMPHIS_LABS",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: "EXPLORE UI →" }).click();
+      await expect(p.getByRole("heading", { name: "ZIG-ZAG LAYOUTS" })).toBeVisible();
+      const explore = p.getByRole("button", { name: "EXPLORE UI →" });
+      const before = await look(explore);
+      await p.getByRole("radio", { name: "Sky" }).click();
+      await expect(p.getByRole("radio", { name: "Sky" })).toHaveAttribute("aria-checked", "true");
+      await expect.poll(() => look(explore)).not.toBe(before); // accent fill
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("button", { name: "SHUFFLE" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("IDEA 2/3 · CONFETTI B")).toBeVisible();
+      await p.getByRole("radio", { name: "Lilac" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("radio", { name: "Lilac" })).toHaveAttribute("aria-checked", "true");
+      await p.getByRole("button", { name: "EXPLORE UI →" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByRole("heading", { name: "CLASHING COLOUR" })).toBeVisible();
+    },
+  },
+  {
+    id: 26,
+    identity: "AURA // BOTANICS",
+    mouse: async (p) => {
+      await p.getByRole("radio", { name: "Nature" }).click();
+      await expect(p.getByRole("heading", { name: "Rooted Forms" })).toBeVisible();
+      await p.getByRole("button", { name: "Reshape →" }).click();
+      await expect(p.getByText("CURVE PRESET 2/3")).toBeVisible();
+      await p.getByRole("switch", { name: "Clay accents" }).click();
+      await expect(p.getByText("MOSS ACCENTS")).toBeVisible();
+      await expect(p.getByText("EARTH PALETTE // SAGE • SAND • MOSS")).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: "Journal" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("heading", { name: "Slow Seasons" })).toBeVisible();
+      const flora = p.getByRole("switch", { name: "Our Flora" });
+      await flora.focus();
+      await kb.press("Enter");
+      await expect(flora).toHaveAttribute("aria-checked", "false");
+      await p.getByRole("button", { name: "Reshape →" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("CURVE PRESET 3/3")).toBeVisible();
+    },
+  },
+  {
+    id: 27,
+    identity: "ATELIER & PRESS // FOLIO",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: "COLLECT" }).first().click();
+      await expect(p.getByText("CATALOG • 1 COLLECTED")).toBeVisible();
+      await expect(p.getByRole("region", { name: "The Paper Edition" }).getByRole("button", { name: "COLLECTED" })).toHaveAttribute("aria-pressed", "true");
+      const card = p.getByRole("region", { name: "The Paper Edition" });
+      const before = await look(card);
+      await p.getByRole("switch", { name: "Straighten" }).click();
+      await expect.poll(() => look(card)).not.toBe(before); // tilt removed
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: "Edition on top" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("radio", { name: "Edition on top" })).toHaveAttribute("aria-checked", "true");
+      await p.getByRole("region", { name: "Coffee & Solitude" }).getByRole("button", { name: "COLLECT" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("CATALOG • 2 COLLECTED")).toBeVisible();
+    },
+  },
+  {
+    id: 40,
+    identity: "MAISON AURELIA",
+    mouse: async (p) => {
+      await p.getByRole("radio", { name: /II\. PRIVATE ATELIER/ }).click();
+      await expect(p.getByRole("button", { name: "ENTER ATELIER →" })).toBeVisible();
+      await p.getByRole("button", { name: "ENTER ATELIER →" }).click();
+      await expect(p.getByRole("button", { name: "← RETURN TO HALL" })).toHaveAttribute("aria-expanded", "true");
+      await p.getByRole("radio", { name: "II. Tourbillon Souverain" }).click();
+      await expect(p.getByText("Tourbillon Souverain")).toBeVisible();
+      await expect(p.getByText("ATELIER • PIECE II")).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: "III. Lune d'Ivoire" }).focus();
+      await kb.press("Space");
+      await expect(p.getByText("MMXII · Moon phase · ivory guilloché")).toBeVisible();
+      await p.getByRole("button", { name: "← RETURN TO HALL" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByRole("radio", { name: /I\. HERITAGE ARCHIVE/ })).toBeVisible();
+      await p.getByRole("radio", { name: /I\. HERITAGE ARCHIVE/ }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("button", { name: "ENTER SALON →" })).toBeVisible();
+    },
+  },
+  {
+    id: 44,
+    identity: "CRYSTALLINE UI",
+    mouse: async (p) => {
+      const facet = p.locator("svg path").first();
+      const before = await facet.getAttribute("fill");
+      await p.getByRole("radio", { name: "54" }).click();
+      await expect(p.getByText("54 PLANES")).toBeVisible();
+      await expect(p.locator("svg path")).toHaveCount(54);
+      await p.getByRole("radio", { name: "Cyan" }).click();
+      await expect.poll(() => p.locator("svg path").first().getAttribute("fill")).not.toBe(before);
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      const fills = () => p.locator("svg path").evaluateAll((els) => els.map((e) => e.getAttribute("fill")).join());
+      const before = await fills();
+      const light = p.getByRole("slider", { name: "Light angle" });
+      await light.focus();
+      await kb.press("End");
+      await expect(light).toHaveValue("355");
+      await expect(p.getByText("355°")).toBeVisible();
+      expect(await fills()).not.toBe(before); // facets re-shaded for the new light direction
+      await p.getByRole("radio", { name: "24" }).focus();
+      await kb.press("Space");
+      await expect(p.locator("svg path")).toHaveCount(24);
+    },
+  },
+  {
+    id: 50,
+    identity: "IDEA #50",
+    mouse: async (p) => {
+      const ship = p.getByRole("button", { name: "Ship draft" });
+      await expect(ship).toHaveAttribute("aria-disabled", "true");
+      await expect(p.getByText("2 notes to tick")).toBeVisible();
+      await p.getByRole("checkbox", { name: /Invites early user collaboration/ }).click();
+      await p.getByRole("checkbox", { name: /Reduces fear/ }).click();
+      await expect(p.getByText("Ready to ship")).toBeVisible();
+      await ship.click();
+      await expect(p.getByText("Draft shipped for review")).toBeVisible();
+      await p.getByRole("radio", { name: /Wireframing/ }).click();
+      await expect(p.getByText("Stage: Wireframing")).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      const first = p.getByRole("checkbox", { name: /Wobbly/ });
+      await first.focus();
+      await kb.press("Space");
+      await expect(first).toHaveAttribute("aria-checked", "false");
+      await expect(p.getByRole("button", { name: "Ship draft" })).toHaveAttribute("aria-disabled", "true");
+      await p.getByRole("radio", { name: "Ship It!" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("Stage: Ship It!")).toBeVisible();
+      const marker = p.getByRole("switch", { name: "Highlighter" });
+      await marker.focus();
+      await kb.press("Space");
+      await expect(marker).toHaveAttribute("aria-checked", "false");
+    },
+  },
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -1174,7 +1387,7 @@ test("style 38: window drags with the pointer and stays on the desktop", async (
 });
 
 test("registered styles get a working Slide Visual / Live CSS toggle in cards and detail", async ({ page }) => {
-  test.slow(); // 42 x (Live CSS: lazy chunk + mount, Slide Visual: image load): ~33s alone at 1 worker (measured), linear in preview count
+  test.slow(); // 50 x (Live CSS: lazy chunk + mount, Slide Visual: image load): ~33s alone at 1 worker (measured), linear in preview count
   await expect(page.getByRole("group", { name: /preview mode$/ })).toHaveCount(LIVE_IDS.length);
   for (const id of LIVE_IDS) {
     const c = card(page, id);
@@ -1194,34 +1407,31 @@ test("registered styles get a working Slide Visual / Live CSS toggle in cards an
   await expect(dialog.locator('[data-preview-id="1"]')).toBeVisible();
 });
 
-test("the other 8 styles stay image-only", async ({ page }) => {
+test("all 50 styles are live; every reference image still loads", async ({ page }) => {
+  expect(LIVE_IDS.slice().sort((x, y) => x - y)).toEqual(Array.from({ length: 50 }, (_, i) => i + 1));
+  await expect(page.getByRole("button", { name: "Live CSS" })).toHaveCount(50);
   for (let id = 1; id <= 50; id++) {
-    if (LIVE_IDS.includes(id)) continue;
-    const c = card(page, id);
-    await expect(c.getByRole("button", { name: "Live CSS" })).toHaveCount(0);
-    await expect(c.locator("img")).toHaveAttribute("src", `/images/style-${String(id).padStart(2, "0")}.png`);
+    const src = `/images/style-${String(id).padStart(2, "0")}.png`;
+    await expect(card(page, id).locator("img")).toHaveAttribute("src", src);
+    const res = await page.request.get(src);
+    expect(res.status(), src).toBe(200);
+    expect(res.headers()["content-type"], src).toContain("image/png");
   }
-  const sample = Array.from({ length: 50 }, (_, i) => i + 1).find((id) => !LIVE_IDS.includes(id))!;
-  await card(page, sample).getByRole("button", { name: "View details" }).click();
-  const dialog = page.locator("dialog");
-  await expect(dialog.getByText("Live interactive CSS preview: planned")).toBeVisible();
-  await expect(dialog.getByRole("button", { name: "Live CSS" })).toHaveCount(0);
 });
 
 test("preview CSS does not leak into the gallery", async ({ page }) => {
-  test.slow(); // 42 sequential Live CSS clicks, each scroll + lazy chunk + mount: ~23s alone (measured), linear in preview count
-  // An image-only card: its controls never change state when the live cards toggle (was hard-coded 9 until 9 went live).
-  const still = Array.from({ length: 50 }, (_, i) => i + 1).find((id) => !LIVE_IDS.includes(id))!;
+  test.slow(); // 50 sequential Live CSS clicks, each scroll + lazy chunk + mount: ~23s alone (measured), linear in preview count
+  // Shell parts of a card that the Live CSS toggles never change: the card heading and its View details button.
   const probe = () =>
-    page.evaluate((still) => {
+    page.evaluate(() => {
       const pick = (sel: string) => {
         const el = document.querySelector(sel)!;
         const c = getComputedStyle(el);
         return [c.fontFamily, c.fontSize, c.color, c.backgroundColor, c.borderRadius, c.boxShadow, c.padding].join("|");
       };
-      const c = `article[aria-labelledby="style-${still}-name"]`;
-      return ["body", "header", "input[type=search]", "article", "article h2", "nav button", `${c} button`, `${c} h2`].map(pick);
-    }, still);
+      const c = 'article[aria-labelledby="style-1-name"]';
+      return ["body", "header", "input[type=search]", "article", "article h2", "nav button", `${c} .mt-auto > button`, `${c} h2`].map(pick);
+    });
   const before = await probe();
   for (const id of LIVE_IDS) await card(page, id).getByRole("button", { name: "Live CSS" }).click();
   await expect(page.locator("article [data-preview-id]")).toHaveCount(LIVE_IDS.length);

@@ -1,0 +1,263 @@
+/* Live demo CSS for style 13. Palette: #D92B2B #1D4ED8 #EAB308 #F5F2EB #111111.
+   4px black structural rules are the grid gap over a black root; blocks are flat primaries; shapes are pure CSS. */
+.root {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1.35fr 1fr auto;
+  gap: 4px;
+  height: 100%;
+  border: 4px solid #111111;
+  background: #111111;
+  color: #111111;
+  font-family: "Futura", "Century Gothic", "Segoe UI", ui-sans-serif, sans-serif;
+  font-size: 10px;
+}
+.root :focus-visible {
+  outline: 3px solid #eab308;
+  outline-offset: 2px;
+}
+.wide {
+  grid-template-areas: "hero hero sys" "geo ord ord" "foot foot foot";
+}
+.flip {
+  grid-template-areas: "sys hero hero" "ord ord geo" "foot foot foot";
+}
+
+.root [data-color="BLAU"] {
+  --fill: #1d4ed8;
+  --ink: #ffffff;
+}
+.root [data-color="GELB"] {
+  --fill: #eab308;
+  --ink: #111111;
+}
+.root [data-color="ROT"] {
+  --fill: #d92b2b;
+  --ink: #ffffff;
+}
+
+.hero {
+  position: relative;
+  grid-area: hero;
+  padding: 14px 16px;
+  overflow: hidden;
+  background: #f5f2eb;
+}
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font: 700 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.05em;
+}
+.mark {
+  width: 9px;
+  height: 9px;
+  background: #d92b2b;
+}
+.title {
+  margin: 10px 0 0;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+.red {
+  color: #c42222;
+}
+.shape {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  width: 52px;
+  height: 52px;
+  background: var(--fill);
+  transition: border-radius 0.3s, clip-path 0.3s, background-color 0.3s;
+}
+.circle {
+  border-radius: 50%;
+}
+.triangle {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.square {
+  border-radius: 0;
+}
+
+.system {
+  position: relative;
+  grid-area: sys;
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 12px;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--fill);
+}
+.tri {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 54px;
+  height: 46px;
+  background: #eab308;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.root [data-color="GELB"] .tri {
+  background: #d92b2b;
+}
+.dot {
+  position: absolute;
+  top: 44px;
+  right: 58px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f5f2eb;
+}
+.sysText {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  font: 700 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+}
+.sysText small {
+  font-size: 7.5px;
+  font-weight: 400;
+}
+
+.geo {
+  position: relative;
+  grid-area: geo;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--fill);
+}
+.geoMark {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #111111;
+}
+.geoTri {
+  width: 26px;
+  height: 22px;
+  background: #f5f2eb;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.geoText {
+  position: absolute;
+  bottom: 6px;
+  font: 700 7.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+}
+
+.ordnung {
+  grid-area: ord;
+  padding: 10px 12px;
+  background: #ebe6db;
+}
+.h4 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+}
+.tiles {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.tile {
+  display: grid;
+  flex: 1;
+  gap: 1px;
+  padding: 4px 6px;
+  border: 2px solid #111111;
+  border-radius: 3px;
+  font: 700 7px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  background: #ffffff;
+}
+.tile b {
+  font: 800 13px "Futura", "Century Gothic", "Segoe UI", ui-sans-serif, sans-serif;
+}
+.redText {
+  color: #c42222;
+}
+.blueTile {
+  color: #ffffff;
+  background: #1d4ed8;
+}
+.redTile {
+  color: #ffffff;
+  background: #c42222;
+}
+.primText {
+  color: #ffffff;
+}
+
+.foot {
+  grid-area: foot;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  color: #f5f2eb;
+  background: #111111;
+}
+.group {
+  display: flex;
+  gap: 4px;
+}
+.prim,
+.btn {
+  height: 30px;
+  border: 2px solid #f5f2eb;
+  border-radius: 0;
+  font: 700 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #f5f2eb;
+  background: #111111;
+  cursor: pointer;
+}
+.prim {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  padding: 0;
+}
+.btn {
+  padding: 0 8px;
+  white-space: nowrap;
+}
+.prim[aria-checked="true"],
+.btn[aria-checked="true"] {
+  border-color: #eab308;
+  color: #111111;
+  background: #eab308;
+}
+.icon {
+  width: 14px;
+  height: 14px;
+}
+.iCircle {
+  border-radius: 50%;
+  background: #e04848;
+}
+.iTriangle {
+  background: #eab308;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.iSquare {
+  background: #3b6ff0;
+}
+.prim[aria-checked="true"] .icon {
+  background: #111111;
+}
+.codes {
+  margin-left: auto;
+  white-space: nowrap;
+  font: 700 8px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.04em;
+}

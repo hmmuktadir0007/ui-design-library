@@ -17,8 +17,8 @@ export const test = base.extend<{ consoleErrors: string[] }>({
 });
 export { expect };
 
-/** Styles with a registered live preview (batch 1: Morphism & Depth, 2: Bold, Retro & Expressive, 3: Modern SaaS & Dashboards, 4: Minimal & Typographic, 5: Atmospheric & Futuristic). */
-export const LIVE_IDS = [1, 4, 5, 6, 10, 18, 31, 34, 45, 46, 7, 12, 15, 21, 33, 36, 38, 39, 42, 49, 3, 8, 14, 29, 30, 32, 37, 47, 48, 2, 11, 17, 23, 25, 41, 43, 9, 16, 22, 24, 28, 35];
+/** Styles with a registered live preview (batch 1: Morphism & Depth, 2: Bold, Retro & Expressive, 3: Modern SaaS & Dashboards, 4: Minimal & Typographic, 5: Atmospheric & Futuristic, 6: Art & Heritage Movements). */
+export const LIVE_IDS = [1, 4, 5, 6, 10, 18, 31, 34, 45, 46, 7, 12, 15, 21, 33, 36, 38, 39, 42, 49, 3, 8, 14, 29, 30, 32, 37, 47, 48, 2, 11, 17, 23, 25, 41, 43, 9, 16, 22, 24, 28, 35, 13, 19, 20, 26, 27, 40, 44, 50];
 
 // By the card's own heading, not article.nth(id - 1): a live preview containing <article> (e.g. 48) shifts nth indexes.
 export const card = (page: Page, id: number) => page.locator(`article[aria-labelledby="style-${id}-name"]`);

@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2B batch 5 complete (Atmospheric & Futuristic) — 42 of 50 live previews, 8 image-only; awaiting approval for batch 6.
+**Current phase:** Phase 2B previews complete — batch 6 (Art & Heritage Movements) done: 50 of 50 live previews, 0 image-only, all six categories. The Style Playground is not built. Awaiting approval for the next phase.
 
 | Scope | Status |
 |---|---|
@@ -11,7 +11,8 @@
 | Phase 2B batch 3 — 9 Modern SaaS & Dashboards live previews | complete, verified 2026-11-19 |
 | Phase 2B batch 4 — 7 Minimal & Typographic live previews | complete, verified 2026-11-20 |
 | Phase 2B batch 5 — 6 Atmospheric & Futuristic live previews | complete, verified 2026-11-20 |
-| Remaining 8 interactive previews (Art & Heritage Movements) | not started |
+| Phase 2B batch 6 — 8 Art & Heritage Movements live previews | complete, verified 2026-11-20 |
+| All 50 previews | complete (50 live, 0 image-only) |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -407,6 +408,84 @@ Test changes: 6 new pointer + keyboard cases (state asserted on ARIA state, visi
 
 `docs/screenshots/phase-2b/`: `comparison-sheet.jpg` (all 42, Slide Visual | Live CSS, 2880×42034 JPEG), `live-NN.png` × 42, `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-{06,30,38,43,24}-{desktop-1440,mobile-375}.png`. All regenerated 2026-11-20 from the final code (`npm run capture:previews`, exit 0, 67 s).
 
+## Phase 2B batch 6 — Art & Heritage Movements live previews
+
+Verified 2026-11-20. Same architecture and rules as batches 1–5. Total live previews: **50 of 50**; image-only: **0**. All six categories complete. This completes the previews only; the Style Playground customization is still future work.
+
+| # | Style (exact name) | Main interactions (all keyboard-operable) |
+|---|---|---|
+| 13 | Bauhaus UI | Circle / Triangle / Square primitive radios reshape the hero form and the PRIMITIV / RATIO tiles; 2:1:1 / 1:1:2 grid radios mirror the composition (`grid-template-areas`) and change SCALE; Rotate cycles the three primaries across hero shape, system block and geometry block (ROT • BLAU • GELB readout) |
+| 19 | Art Deco UI | two suites (radios), − / + nights (1–7), Reserve Suite (`aria-pressed`) with a confirmation line; changing suite or nights clears the confirmation; Emerald / Obsidian finish radios |
+| 20 | Memphis Design UI | Explore UI cycles three headlines; Shuffle moves the confetti to another fixed layout (spring transition); Banana / Coral / Sky / Lilac accent radios recolour the card's hard shadow and the CTA |
+| 26 | Organic / Biophilic UI | Rituals / Nature / Journal radios change headline, copy and badge; Reshape morphs both blobs between three 8-value organic radii; Our Flora `switch` shows / hides the plant; Clay accents `switch` swaps terracotta for moss across badge, buttons, feature card and footer |
+| 27 | Paper / Craft Collage UI | Collect / Collected (`aria-pressed`) per card adds a stamp and updates the header count; "Edition / Coffee on top" radios bring a card forward; Straighten `switch` removes the tilt |
+| 40 | Neoclassical / Luxury Heritage | I. Heritage Archive / II. Private Atelier radios; Enter Salon / Atelier (`aria-expanded`) opens a salon view of three pieces chosen by Roman numerals I–III; Return to hall |
+| 44 | Low-Poly / Faceted Geometric UI | 24 / 36 / 54 planes radios rebuild the triangle mesh; Indigo / Cyan facet palette; Light angle slider (0–355°) re-shades every facet; readout of the plane count |
+| 50 | Hand-Drawn / Sketchbook UI | stage radios (Raw Ideation → Wireframing → Ship It!) with the stage in the footer; three sticky-note checkboxes; Ship draft stays `aria-disabled` until all three are ticked, then reports "Draft shipped for review"; Highlighter `switch` |
+
+### Architecture, CSS and typography
+
+- One `.tsx` + `.module.css` per style, lazy registry entry, local state, deterministic data, no new dependencies, no timers in this batch.
+- 13: the 4 px black structural rules are the grid gap over a black root (source: `border: 4px solid #111`, `2fr 1fr 1fr`); shapes are `border-radius` / `clip-path`.
+- 19: the source's border + inset `outline-offset: -8px` double hairline, stepped corner brackets, a conic-gradient sunburst, diamond rules.
+- 20: 3 px outlines and hard offset shadows (`box-shadow: 8px 8px 0 var(--accent)`); confetti dots, zig-zags (repeating gradient), chevrons and bars in CSS.
+- 26: the source's 8-value organic `border-radius`, transitioned between presets; leaves are rotated ellipses.
+- 27: cards tilted with `transform: rotate()`, masking tape, a dashed rubber stamp; the two cards overlap only in a strip without controls so the card underneath stays usable.
+- 40: centred serif on alabaster with a double antique-gold frame.
+- 44: SVG triangle mesh with stepped flat shading from a light angle, in `44-mesh.ts` (pure, unit-tested); the hero panel uses the source's skewed `clip-path` quad with a cyan edge, controls kept well inside it because `clip-path` also clips their enlarged hit areas.
+- 50: the source's wobbly `255px 15px 225px 15px / 15px 225px 15px 255px` radii, graph-paper gradients, highlighter strokes.
+- Fonts: nothing new bundled. Fallbacks on Windows: "Futura" → Century Gothic / Segoe UI (13); "Cinzel" (19) → Georgia; "Times New Roman" (40) as the source says; handwriting (50) "Segoe Print" → "Bradley Hand" → "Comic Sans MS" → cursive. Other systems will show their own fallbacks.
+- Contrast fixes against the slide palette (text ≥ 4.5:1): 13 PRIMITIV value white instead of yellow on red; 40 gold text uses a darker gold (#7A6230); 26 terracotta text #964A33.
+
+### Reduced motion
+
+No preview in this batch loops. Its transitions (Memphis confetti spring, blob morph, card lift, Deco finish) become instant under the global reduced-motion rule; every state change still happens.
+
+### Verification (2026-11-20, final code)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 303.9 kB (96.7 kB gzip); each preview its own chunk |
+| `npm test` (Vitest) | exit 0 — 68/68 pass (6 files) (new: "registers exactly the 50 source style ids" against `styles.json`; `44-mesh.test.ts`; CSS-scoping covers 50 stylesheets) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | exit 0 — 388 pass, 2 skipped (130 tests × 3 viewports; the 375-only layout test is skipped at 768/1440); passed on the first full run |
+
+Test changes: 8 new pointer + keyboard cases (state asserted on ARIA state, visible text and computed style); 44 Light angle slider from its enlarged area; "the other N styles stay image-only" replaced by "all 50 styles are live; every reference image still loads" (50 Live CSS toggles, every card image `src`, and an HTTP 200 `image/png` for each of the 50 reference images); the CSS-leak probe reads card 1's heading and View details button (no image-only card left). `LIVE_IDS` has 50 ids, so the a11y suite, 375 px no-overflow, Live CSS toggle and CSS-leak tests cover every style. Workers unchanged (4).
+
+### Accessibility (automated, real hit testing)
+
+- 768 px: every control in all 8 previews ≥ 44×44 effective.
+- 1440 px: all ≥ 44×44 except 27 Collect buttons (79×38–43), 44 Light angle slider (42 tall), 50 one checklist row (42 tall).
+- 375 px: all ≥ 24×24 (WCAG 2.5.8 AA), no overlap. Under 44 at this width: 13 primitive and grid buttons 27–43 wide; 20 accent swatches 27–33 wide; 26 Nature 39 wide; 27 Collect 41 tall; 44 plane buttons 27–31 wide, Light angle 26 tall; 50 stage 43 tall, checklist rows 25–40 tall.
+- axe-core WCAG 2.2 AA: 0 violations on all 8 detail views; no new exclusions (three contrast failures found and fixed, listed above).
+- 50: the disabled Ship button uses `aria-disabled` so it stays in the Tab order and announces why (status line).
+
+### Visual deviations from the slides (see comparison sheet)
+
+- 13: a control strip replaces the slide's "Primary form codes" footer row (the codes stay as a readout); the hero circle is the switchable primitive.
+- 19: nights stepper and finish radios added in the middle row; the footer palette line is left out.
+- 20: accent swatches and Shuffle added; "RETRO" tag left out; dark stage behind the card as on the slide.
+- 26: Reshape / Our Flora / Clay accents replace "Explore Rituals" / "Our Flora"; nav links are radios; feature cards kept.
+- 27: both cards are product cards with Collect (slide: one "Read dispatch" link, one Collect); stamp appears on collect instead of always.
+- 40: the salon view (pieces I–III) is added behind Enter Salon.
+- 44: the mesh is a regular 3-row grid with jitter (taller facets than the slide's free mesh); plane / palette / light controls replace "Explore facets" / "36 planes".
+- 50: checklist and Ship flow replace the static sticky note and "100% Organic" badge; arrows are text glyphs; handwriting font depends on the OS.
+
+### Screenshots
+
+`docs/screenshots/phase-2b/`: `comparison-sheet.jpg` (all 50, Slide Visual | Live CSS, 2880×50014 JPEG, 8.9 MB), `live-NN.png` × 50, `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-{06,30,38,43,24,19}-{desktop-1440,mobile-375}.png`. All regenerated 2026-11-20 from the final code (`npm run capture:previews`, exit 0, 80 s). The gallery with every card on Live CSS reads as one coherent grid.
+
+## Quality-review backlog (carried forward, not addressed in batch 6)
+
+- Style 35: touch-dragging over the holographic card tilts it and blocks natural page scrolling there on mobile (`touch-action: none`).
+- Style 47: heatmap needs 28 Tab presses; roving tabindex + arrow keys would fix it.
+- Some mobile (375 px) targets are below the preferred 44×44 but meet WCAG 2.5.8 AA (lists per batch above).
+- Not done: screen-reader verification, real touch devices, Firefox / Safari.
+- Global Claude stop hooks reference project-local scripts that do not exist here (see Known defects).
+- Performance and image optimization pending (full-size PNGs in cards; comparison sheet 8.9 MB).
+- Visual simplifications from the source slides, documented per batch.
+
 ## Known defects
 
 None blocking.
@@ -422,7 +501,7 @@ None blocking.
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
-- Approval for Phase 2B batch 6 (Art & Heritage Movements, the last category).
+- Approval for the next phase: full-library quality review, Playground customization, or performance / deployment preparation.
 - Whether to space slide compositions further to reach 44 px targets at 375 px (AAA).
 
 ## Git checkpoints
@@ -435,8 +514,9 @@ None blocking.
 - `d009f86` Phase 2B batch 2: Bold Retro Expressive live previews
 - `5bfa84c` Phase 2B batch 3: Modern SaaS Dashboard live previews
 - `bccf72d` Phase 2B batch 4: Minimal Typographic live previews
-- Phase 2B batch 5: Atmospheric Futuristic live previews (hash in `git log`)
+- `8c34adc` Phase 2B batch 5: Atmospheric Futuristic live previews
+- Phase 2B batch 6: Art Heritage live previews (hash in `git log`)
 
 ## Next recommended action
 
-Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 09–35 at the end), then approve Phase 2B batch 6.
+Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 13–50 at the end), then choose the next phase (see the quality-review backlog).

@@ -1,0 +1,219 @@
+/* Live demo CSS for style 50. Palette: #FDFBF7 #1F2937 #FEF08A #3B82F6 #E5E7EB.
+   Wobbly ink borders use the source's asymmetric 8-value border-radius; graph-paper grid is two repeating gradients.
+   Handwriting: "Segoe Print" (Windows) / "Bradley Hand" / "Comic Sans MS", then the system cursive. No font is bundled. */
+.root {
+  display: grid;
+  height: 100%;
+  padding: 10px 16px;
+  background: #0a0a0c;
+  color: #1f2937;
+  font-family: "Segoe UI", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  --hand: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+}
+.root :focus-visible {
+  outline: 2px dashed #1d4ed8;
+  outline-offset: 2px;
+}
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 2px solid #1f2937;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  background:
+    repeating-linear-gradient(0deg, #e5e7eb 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(90deg, #e5e7eb 0 1px, transparent 1px 14px),
+    #fdfbf7;
+}
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px dashed #1f2937;
+}
+.idea {
+  padding: 2px 10px;
+  font: 700 10px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  background: #fef08a;
+  transform: rotate(-1deg);
+}
+.hand {
+  font: 13px var(--hand);
+}
+.flow {
+  display: flex;
+  gap: 18px;
+}
+.flow > :last-child {
+  flex: 0.7;
+}
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  height: 50px;
+  padding: 4px 8px;
+  border: 2px solid #1f2937;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  font: inherit;
+  text-align: left;
+  color: #1f2937;
+  background: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.step:not(:last-child)::before {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  font: 700 13px var(--hand);
+  color: #2563eb;
+  transform: translateY(-50%);
+  pointer-events: none; /* the arrow sits in the gap; it must not extend this step's hit area */
+}
+.step[aria-checked="true"] {
+  box-shadow: 3px 3px 0 #1f2937;
+  transform: rotate(-1deg);
+}
+.stepTitle {
+  font: 10.5px var(--hand);
+  white-space: nowrap;
+}
+.stepNote {
+  font-size: 7.5px;
+  white-space: nowrap;
+  color: #4b5563;
+}
+.marker .step:nth-child(2) .stepNote {
+  background: linear-gradient(transparent 40%, #fef08a 40%);
+}
+.ship {
+  align-items: center;
+  color: #ffffff;
+  background: #2563eb;
+}
+.ship .stepTitle {
+  font-size: 13px;
+}
+.lower {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+.sticky {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1.7;
+  padding: 8px 10px;
+  border: 2px solid #1f2937;
+  border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+  background: #fef9c3;
+}
+.stickyHead {
+  font: 10px var(--hand);
+  color: #9a3412;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 4px;
+  border: 0;
+  font: 8.5px var(--hand);
+  white-space: nowrap;
+  text-align: left;
+  color: #1f2937;
+  background: transparent;
+  cursor: pointer;
+}
+.box {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid #1f2937;
+  border-radius: 3px 5px 2px 4px;
+  font-size: 10px;
+  line-height: 1;
+  color: #15803d;
+  background: #ffffff;
+}
+.item[aria-checked="true"] {
+  text-decoration: line-through;
+  text-decoration-color: #2563eb;
+}
+.marker .item[aria-checked="true"] {
+  background: linear-gradient(transparent 35%, #fef08a 35% 85%, transparent 85%);
+}
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  border: 2px solid #1f2937;
+  border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
+  background: #ffffff;
+}
+.ring {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 3px dotted #3b82f6;
+  border-radius: 50%;
+  font: 700 12px var(--hand);
+  color: #1f2937;
+}
+.ringDone {
+  color: #15803d;
+  font-size: 18px;
+}
+.shipBtn,
+.markerBtn {
+  height: 28px;
+  padding: 0 12px;
+  border: 2px solid #1f2937;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  font: 11px var(--hand);
+  color: #1f2937;
+  background: #fef08a;
+  cursor: pointer;
+}
+.shipBtn[aria-disabled="true"] {
+  border-style: dashed;
+  color: #4b5563;
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+.small {
+  font-size: 8px;
+  color: #4b5563;
+}
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  background: #f3f4f6;
+}
+.code {
+  font: 10px var(--hand);
+}
+.markerBtn[aria-checked="false"] {
+  background: #ffffff;
+}

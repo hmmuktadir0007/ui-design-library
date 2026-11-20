@@ -1,0 +1,249 @@
+/* Live demo CSS for style 20. Palette: #FFDE59 #FF5757 #38B6FF #C084FC #111111.
+   Thick black outlines, hard offset shadows in the accent colour, and CSS-only confetti (dots, zig-zags, chevrons, bars). */
+.root {
+  --accent: #ffde59;
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  overflow: hidden;
+  background: #0b0f19;
+  color: #111111;
+  font-family: "Segoe UI", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+.a1 {
+  --accent: #ff5757;
+}
+.a2 {
+  --accent: #38b6ff;
+}
+.a3 {
+  --accent: #c084fc;
+}
+.root :focus-visible {
+  outline: 3px solid #38b6ff;
+  outline-offset: 2px;
+}
+
+.confetti > span {
+  position: absolute;
+  transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.c0 {
+  --c: #ffde59;
+}
+.c1 {
+  --c: #ff5757;
+}
+.c2 {
+  --c: #38b6ff;
+}
+.c3 {
+  --c: #c084fc;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.zig {
+  width: 22px;
+  height: 8px;
+  background: linear-gradient(135deg, transparent 35%, var(--c) 35% 65%, transparent 65%) 0 0 / 11px 8px repeat-x;
+}
+.chev {
+  width: 9px;
+  height: 9px;
+  border: solid var(--c);
+  border-width: 3px 3px 0 0;
+  transform: rotate(45deg);
+}
+.bar {
+  width: 14px;
+  height: 3px;
+  background: var(--c);
+  transform: rotate(35deg);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 316px;
+  border: 3px solid #111111;
+  border-radius: 12px;
+  background: #fbf7ff;
+  box-shadow: 8px 8px 0 var(--accent);
+  transition: box-shadow 0.25s;
+}
+.top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 3px solid #111111;
+}
+.era {
+  padding: 2px 7px;
+  border: 2px solid #111111;
+  border-radius: 999px;
+  font-weight: 800;
+  color: #ffffff;
+  background: #d93636;
+}
+.lab {
+  font: 700 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+}
+.tag {
+  margin-left: auto;
+  padding: 3px 7px;
+  border: 2px solid #111111;
+  border-radius: 4px;
+  font: 700 8px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  background: #c084fc;
+}
+.body {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px 8px;
+}
+.copy {
+  flex: 1;
+  min-width: 0;
+}
+.studio {
+  display: inline-block;
+  padding: 3px 9px;
+  border: 2px solid #111111;
+  border-radius: 6px;
+  font-weight: 800;
+  color: #ffffff;
+  background: #d93636;
+  box-shadow: 3px 3px 0 #111111;
+}
+.h {
+  margin: 8px 0 0;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.05;
+}
+.h2 {
+  margin: 1px 0 0;
+  font-size: 14px;
+  font-weight: 900;
+  color: #7e3fc4;
+}
+.ctas {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.explore,
+.shuffle {
+  height: 30px;
+  border: 3px solid #111111;
+  font: 900 10px "Segoe UI", "Inter", ui-sans-serif, sans-serif;
+  color: #111111;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.explore {
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 4px 4px 0 #111111;
+}
+.shuffle {
+  padding: 0 8px;
+  border-width: 2px;
+  border-radius: 4px;
+  background: #ffffff;
+}
+.explore:active,
+.shuffle:active {
+  box-shadow: 0 0 0 #111111;
+  transform: translate(3px, 3px);
+}
+.shapes {
+  position: relative;
+  flex: none;
+  width: 84px;
+}
+.disc {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 3px solid #111111;
+  border-radius: 50%;
+  background: #ff5757;
+  box-shadow: 4px 4px 0 #ffde59;
+}
+.discTri {
+  width: 18px;
+  height: 16px;
+  background: #111111;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.bigTri {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  width: 52px;
+  height: 46px;
+  background: #111111;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.bigTri::after {
+  content: "";
+  position: absolute;
+  inset: 6px 7px 3px;
+  background: #ffde59;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.ball {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #111111;
+  border-radius: 50%;
+  background: #38b6ff;
+}
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-top: 2px dashed #111111;
+}
+.accents {
+  display: flex;
+  gap: 4px;
+}
+.swatch {
+  height: 28px;
+  padding: 0 6px;
+  border: 2px solid #111111;
+  border-radius: 6px;
+  font: 800 8px "Segoe UI", "Inter", ui-sans-serif, sans-serif;
+  color: #111111;
+  background: var(--c);
+  cursor: pointer;
+}
+.swatch[aria-checked="true"] {
+  box-shadow: 3px 3px 0 #111111;
+  transform: translate(-2px, -2px);
+}
+.meta {
+  margin-left: auto;
+  font: 7.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #4b5563;
+}

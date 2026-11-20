@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import styles from "../../data/styles.json";
 import { previewRegistry } from "./previewRegistry";
 
 // Read stylesheets as plain text from disk: Vitest's CSS Module transform does not hand back source strings.
@@ -21,6 +22,14 @@ describe("selector parser", () => {
   it("finds global selectors it must reject", () => {
     expect(selectors("/* .x{} */ body{a:b} .a:hover,.b{c:d} @keyframes k{from{a:b}to{a:c}} @media (x){:root{a:b}}"))
       .toEqual(["body", ".a:hover", ".b", ":root"]);
+  });
+});
+
+describe("preview registry", () => {
+  it("registers exactly the 50 source style ids", () => {
+    const ids = Object.keys(previewRegistry).map(Number).sort((a, b) => a - b);
+    expect(ids).toEqual(styles.map((s) => s.id).sort((a, b) => a - b));
+    expect(ids).toEqual(Array.from({ length: 50 }, (_, i) => i + 1));
   });
 });
 

@@ -1,0 +1,175 @@
+/* Live demo CSS for style 40. Palette: #F9F6F0 #1C1917 #B4975A #E7E0D3 #44403C.
+   Centred classical serif on alabaster, a double antique-gold rule frame, Roman numerals and generous margins.
+   Gold text uses a darker step of the muted gold (#7A6230) so small caps reach 4.5:1 on ivory. */
+.root {
+  display: grid;
+  height: 100%;
+  padding: 12px 18px;
+  background: #0d0c0b;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: 10px;
+}
+.root :focus-visible {
+  outline: 2px solid #1c1917;
+  outline-offset: 3px;
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 22px 8px;
+  border: 1px solid #b4975a;
+  outline: 1px solid #b4975a;
+  outline-offset: -6px;
+  color: #1c1917;
+  background: #f9f6f0;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+.gold {
+  font-weight: 700;
+  color: #7a6230;
+}
+.muted {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  color: #57534e;
+}
+.emblem {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid #b4975a;
+  background: radial-gradient(circle, #b4975a 0 2px, transparent 2.5px);
+  transform: rotate(45deg);
+}
+.est {
+  margin-top: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #7a6230;
+}
+.title {
+  margin: 0;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.tag {
+  font-size: 8.5px;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: #57534e;
+}
+.rule {
+  position: relative;
+  width: 120px;
+  height: 1px;
+  margin: 4px 0 6px;
+  background: #b4975a;
+}
+.rule i {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  background: #b4975a;
+  transform: rotate(45deg);
+}
+.wings {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+}
+.wing {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-height: 70px;
+  padding: 8px 10px;
+  border: 1px solid #e7e0d3;
+  font: inherit;
+  text-align: left;
+  color: #1c1917;
+  background: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.wing[aria-checked="true"] {
+  border-color: #b4975a;
+  box-shadow: inset 0 0 0 1px #b4975a;
+}
+.wingTitle {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #7a6230;
+}
+.wingText {
+  font-size: 9.5px;
+  line-height: 1.35;
+  color: #44403c;
+}
+.salon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  min-height: 86px;
+}
+.numeral {
+  font-size: 18px;
+  color: #7a6230;
+}
+.pieceName {
+  font-size: 13px;
+  font-style: italic;
+}
+.pieces {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.num {
+  width: 34px;
+  height: 28px;
+  border: 1px solid #b4975a;
+  font: inherit;
+  font-size: 10px;
+  color: #1c1917;
+  background: transparent;
+  cursor: pointer;
+}
+.num[aria-checked="true"] {
+  color: #f9f6f0;
+  background: #1c1917;
+}
+.enter {
+  height: 30px;
+  margin-top: 10px;
+  padding: 0 22px;
+  border: 1px solid #b4975a;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #f9f6f0;
+  background: #1c1917;
+  cursor: pointer;
+}
+.cities {
+  margin-top: auto;
+  font-size: 7.5px;
+  letter-spacing: 0.08em;
+  color: #6b625a;
+}
