@@ -1,0 +1,237 @@
+/* Live demo CSS for style 23. Palette: #FAF7F2 #141414 #B91C1C #6B7280 #E5E0D8. Serif headlines, sans body, hairline rules. */
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px 20px 0;
+  overflow: hidden;
+  background: #faf7f2;
+  color: #141414;
+  font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+.mast,
+.foot,
+.byline,
+.caption,
+.kicker,
+.count {
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.04em;
+}
+.mast {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #141414;
+  font-size: 9px;
+  color: #6b7280;
+}
+.red {
+  font-weight: 700;
+  color: #b91c1c;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.kicker {
+  margin-right: auto;
+  padding: 3px 7px;
+  border-radius: 3px;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #fff;
+  background: #b91c1c;
+}
+.group {
+  display: flex;
+}
+.tool {
+  min-width: 30px;
+  height: 28px;
+  padding: 0 7px;
+  border: 1px solid #e5e0d8;
+  font: inherit;
+  font-weight: 600;
+  color: #141414;
+  background: transparent;
+  cursor: pointer;
+}
+.group > .tool + .tool {
+  border-left: 0;
+}
+.tool[aria-checked="true"],
+.tool[aria-pressed="true"] {
+  border-color: #141414;
+  color: #faf7f2;
+  background: #141414;
+}
+.save[aria-pressed="true"] {
+  border-color: #b91c1c;
+  background: #b91c1c;
+}
+
+.title {
+  margin: 6px 0 0;
+  font-family: "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.deck {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 3px 0 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e5e0d8;
+  font-family: Georgia, serif;
+  font-size: 10.5px;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(#000 82%, transparent); /* long copy fades out like a page that continues */
+}
+.colA {
+  padding: 8px 14px 0 0;
+  border-right: 1px solid #e5e0d8;
+}
+.colB {
+  margin: 0;
+  padding: 8px 0 0 14px;
+}
+.focus {
+  grid-template-columns: 1fr;
+}
+/* Reading mode: one comfortable measure, centered */
+.focus > .colA {
+  width: 290px;
+  margin: 0 auto;
+  padding-right: 0;
+  border-right: 0;
+}
+.byline {
+  margin: 0 0 6px;
+  font-size: 8.5px;
+  line-height: 1.4;
+  color: #6b7280;
+}
+.text {
+  margin: 0 0 5px;
+  font-size: var(--body);
+  line-height: 1.45;
+  transition: font-size 0.2s ease;
+}
+.lead::first-letter {
+  float: left;
+  margin: 2px 5px 0 0;
+  font-family: Georgia, serif;
+  font-size: calc(var(--body) * 3.1);
+  font-weight: 700;
+  line-height: 0.8;
+  color: #b91c1c;
+}
+.quote {
+  margin: 6px 0 0;
+  padding: 6px 10px;
+  border-left: 3px solid #b91c1c;
+  font-family: Georgia, serif;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.35;
+  background: #f1ece4;
+}
+.fig {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  height: 66px;
+  padding: 7px 10px;
+  border-radius: 3px;
+  color: #faf7f2;
+  background: #141414;
+}
+.square {
+  width: 12px;
+  height: 12px;
+  margin-bottom: auto;
+  background: #b91c1c;
+}
+.figTitle {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+.figSub {
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d1d5db;
+}
+.caption {
+  margin: 5px 0;
+  font-size: 8px;
+  color: #6b7280;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  flex: none;
+  border-top: 1px solid #e5e0d8;
+  font-size: 9px;
+  color: #6b7280;
+}
+.issues {
+  display: flex;
+  gap: 2px;
+}
+.issue {
+  width: 30px;
+  height: 28px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  font: inherit;
+  font-weight: 700;
+  color: #4b5563;
+  background: none;
+  cursor: pointer;
+}
+.issue[aria-checked="true"] {
+  border-bottom-color: #b91c1c;
+  color: #141414;
+}
+.next {
+  height: 28px;
+  margin-left: auto;
+  padding: 0 4px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  color: #b91c1c;
+  background: none;
+  cursor: pointer;
+}
+
+.tool:focus-visible,
+.issue:focus-visible,
+.next:focus-visible {
+  outline: 2px solid #b91c1c;
+  outline-offset: 2px;
+}

@@ -1,0 +1,213 @@
+/* Live demo CSS for style 41. Palette: #F2EFE9 #2D2A26 #8C857B #7A8B7B #D6CFC2.
+   Small text uses darker steps of stone (#625C53) and matcha (#536453) so it reaches 4.5:1 on washi paper. */
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 24px;
+  overflow: hidden;
+  background: #f2efe9;
+  color: #2d2a26;
+  font-family: "Inter", "Yu Gothic", "Hiragino Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+.top,
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: #625c53;
+}
+.top {
+  height: 40px;
+  border-bottom: 1px solid #d6cfc2;
+}
+.brand {
+  font-family: "Inter", "Yu Gothic", ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #2d2a26;
+}
+.muted {
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 9px;
+  font-weight: 400;
+  color: #536453;
+}
+
+/* Asymmetry: a heavy left column against an open right field (about 1 : 1.618) */
+.body {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 18px;
+  flex: 1;
+  min-height: 0;
+  padding: 16px 0 10px;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+  border-left: 2px solid #7a8b7b;
+}
+.kicker {
+  margin: 0 0 6px;
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  color: #536453;
+}
+.title {
+  margin: 0 0 12px;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.stone {
+  color: #8c857b;
+}
+.sessions {
+  display: flex;
+  gap: 4px;
+}
+.session {
+  height: 30px;
+  padding: 0 6px;
+  white-space: nowrap;
+  border: 1px solid #d6cfc2;
+  border-radius: 14px 10px 14px 9px; /* hand-thrown, never perfectly round */
+  font: inherit;
+  font-size: 9.5px;
+  color: #2d2a26;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.6s ease, border-color 0.6s ease;
+}
+.session[aria-checked="true"] {
+  border-color: #7a8b7b;
+  background: #e4e3d9;
+}
+.mins {
+  color: #625c53;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+.primary {
+  height: 34px;
+  min-width: 118px;
+  padding: 0 14px;
+  border: 1.5px solid #7a8b7b;
+  border-radius: 8px 6px 9px 6px;
+  font: 600 10px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #2d2a26;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.6s ease;
+}
+.primary:hover {
+  background: #e4e3d9;
+}
+.quiet {
+  height: 34px;
+  padding: 0 4px;
+  border: 0;
+  border-bottom: 1px solid #8c857b;
+  font: inherit;
+  color: #625c53;
+  background: none;
+  cursor: pointer;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.bowl {
+  width: 128px;
+  height: 128px;
+}
+.bowl > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.plate {
+  fill: #e9e4da;
+  stroke: #d6cfc2;
+}
+.track {
+  fill: none;
+  stroke: #b9b2a5;
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.ring {
+  fill: none;
+  stroke: #7a8b7b;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray 1s linear;
+}
+.glaze {
+  fill: #8b9a8a;
+}
+.tea {
+  fill: #6f7c6c;
+}
+.moon {
+  fill: #d6cfc2;
+  opacity: 0.85;
+}
+.card {
+  align-self: stretch;
+  padding: 7px 10px;
+  border: 1px solid #d6cfc2;
+  border-radius: 7px 5px 8px 5px;
+  background: #f7f5f0;
+}
+.card > p {
+  margin: 0;
+}
+.cardHead {
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #536453;
+}
+.time {
+  margin: 2px 0;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.cardNote {
+  font-size: 9px;
+  color: #625c53;
+}
+
+.foot {
+  height: 34px;
+  border-top: 1px solid #d6cfc2;
+}
+
+.session:focus-visible,
+.primary:focus-visible,
+.quiet:focus-visible {
+  outline: 2px solid #536453;
+  outline-offset: 2px;
+}

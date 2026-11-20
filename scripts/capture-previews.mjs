@@ -13,6 +13,9 @@ const styles = JSON.parse(readFileSync("src/data/styles.json", "utf8"));
 const nameOf = (id) => (styles.styles ?? styles).find((s) => s.id === id).name;
 const nn = (id) => String(id).padStart(2, "0");
 const esc = (s) => s.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
+// By the card's own heading, not article.nth(id - 1): a live preview containing <article> (e.g. 48) shifts nth indexes.
+const card = (page, id) => page.locator(`article[aria-labelledby="style-${id}-name"]`);
+let step = "start"; // named in the failure message, so a timeout says which style and which phase stalled
 mkdirSync(OUT, { recursive: true });
 
 const server = await preview({ preview: { host: "127.0.0.1", port: PORT, strictPort: true } });
@@ -21,10 +24,15 @@ try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
   const openDetail = async (id) => {
-    await page.locator("article").nth(id - 1).getByRole("button", { name: "View details" }).click();
+    await card(page, id).getByRole("button", { name: "View details" }).click();
     const stage = page.locator(`dialog [data-preview-id="${id}"]`);
     await stage.waitFor();
-    await page.waitForTimeout(500); // lazy chunk + fonts
+    // ready = lazy chunk mounted (Suspense pulse placeholder gone, real content present) and web fonts settled
+    await page.waitForFunction(
+      (el) => el.querySelector("[style*='scale(']")?.children.length && !el.querySelector(".animate-pulse"),
+      await stage.elementHandle(),
+    );
+    await page.evaluate(() => document.fonts.ready);
     return stage;
   };
 
@@ -34,6 +42,7 @@ try {
     // one retry: on this machine a lazy chunk occasionally misses the first 30s window
     for (let attempt = 1; ; attempt++) {
       try {
+        step = `live ${nn(id)} (attempt ${attempt})`;
         await page.goto(BASE);
         live[id] = (await (await openDetail(id)).screenshot({ path: `${OUT}/live-${nn(id)}.png` })).toString("base64");
         break;
@@ -44,6 +53,7 @@ try {
     }
   }
 
+  step = "comparison sheet";
   // 2. Side-by-side sheet: Slide Visual (source PNG) | Live CSS.
   const rows = IDS.map(
     (id) =>
@@ -55,24 +65,33 @@ try {
 <table><tr><th>Style</th><th>Slide Visual (source)</th><th>Live CSS preview</th></tr>${rows}</table>`,
     { waitUntil: "load" },
   );
-  // JPEG: the 2x full-page sheet of 29 PNG pairs is ~11 MB as PNG, ~2-3 MB as JPEG and still readable.
+  // JPEG: the 2x full-page sheet of 36 PNG pairs is ~11 MB as PNG, ~2-3 MB as JPEG and still readable.
   await page.screenshot({ path: `${OUT}/comparison-sheet.jpg`, type: "jpeg", quality: 82, fullPage: true });
 
   // 3. Gallery with every live card switched to Live CSS, and one detail view per batch, per viewport.
   for (const [label, width, height] of [["desktop-1440", 1440, 900], ["mobile-375", 375, 812]]) {
+    step = `gallery ${label}`;
     await page.setViewportSize({ width, height });
     await page.goto(BASE);
-    for (const id of IDS) await page.locator("article").nth(id - 1).getByRole("button", { name: "Live CSS" }).click();
-    await page.waitForTimeout(500);
+    for (const id of IDS) await card(page, id).getByRole("button", { name: "Live CSS" }).click();
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction((n) => document.querySelectorAll("article [data-preview-id] [style*='scale(']").length === n && !document.querySelector("article [data-preview-id] .animate-pulse"), IDS.length);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `${OUT}/gallery-${label}.png` });
-    for (const id of [6, 38, 30]) {
+    for (const id of [6, 38, 30, 43]) {
+      step = `detail ${nn(id)} ${label}`;
       await page.goto(BASE);
       await openDetail(id);
       await page.screenshot({ path: `${OUT}/detail-${nn(id)}-${label}.png` });
     }
   }
   console.log(`captured ${IDS.length} previews to ${OUT}`);
+} catch (e) {
+  console.error(`capture failed during: ${step}`);
+  await browser.contexts()[0]?.pages()[0]?.screenshot({ path: ".tmp/capture-failure.png" }).catch(() => {});
+  console.error("page state saved to .tmp/capture-failure.png (gitignored)");
+  process.exitCode = 1;
+  throw e;
 } finally {
   await browser.close();
   await server.close();

@@ -1,0 +1,267 @@
+/* Live demo CSS for style 43. Palette: #0F0F11 #F4F4F5 #3B82F6 #F97316 #27272A.
+   Axis Sans Subset: renamed Latin subset of Encode Sans [wdth 75-125, wght 100-900], OFL (see fonts/OFL.txt), 25 kB WOFF.
+   Loaded only with this preview's lazy chunk. */
+@font-face {
+  font-family: "Axis Sans Subset";
+  src: url("./fonts/axis-sans-var.woff") format("woff");
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 18px;
+  overflow: hidden;
+  background: #0f0f11;
+  color: #f4f4f5;
+  font-family: "Axis Sans Subset", "Inter", "Segoe UI", ui-sans-serif, sans-serif;
+  font-size: 10px;
+}
+.top,
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+.top {
+  height: 34px;
+  margin: 0 -18px;
+  padding: 0 18px;
+  border-bottom: 1px solid #27272a;
+}
+.brand {
+  font-weight: 700;
+}
+.dim {
+  color: #a1a1aa;
+}
+
+.refs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  border-bottom: 1px solid #27272a;
+}
+.light,
+.medium {
+  font-size: 30px;
+  font-stretch: 100%;
+  line-height: 1;
+}
+.light {
+  font-weight: 300;
+  color: #a1a1aa;
+}
+.medium {
+  margin-left: auto;
+  font-weight: 500;
+  color: #d4d4d8;
+}
+.pill {
+  padding: 3px 9px;
+  border: 1px solid #3f3f46;
+  border-radius: 999px;
+  font: 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #a1a1aa;
+  background: #18181b;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 84px;
+  margin-top: 8px;
+  padding: 0 12px;
+  border: 1px solid #f97316;
+  border-radius: 6px;
+  background: #141416;
+}
+.hero {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  line-height: 1;
+  white-space: nowrap;
+  transition: font-variation-settings 0.3s ease, font-weight 0.3s ease;
+}
+.anim {
+  animation: breathe 2.4s ease-in-out infinite alternate;
+}
+@keyframes breathe {
+  from {
+    font-variation-settings: "wght" 300, "wdth" 100;
+  }
+  to {
+    font-variation-settings: "wght" 900, "wdth" 125;
+  }
+}
+.badge {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+  flex: none;
+}
+.hot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font: 700 10px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #0f0f11;
+  background: #f97316;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f4f4f5;
+}
+.wdth {
+  font: 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #f97316;
+}
+.rm {
+  display: none;
+  font: 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #a1a1aa;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim {
+    animation: none;
+  }
+  .anim + .badge > .rm {
+    display: block;
+  }
+}
+
+.controls {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.slider {
+  display: grid;
+  grid-template-columns: 46px 1fr 36px;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #27272a;
+  border-radius: 6px;
+  background: #18181b;
+}
+.name {
+  font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #a1a1aa;
+}
+.val {
+  font: 700 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  text-align: right;
+  color: #f97316;
+}
+/* The visible track lives on the track pseudo-elements: PreviewStage pads the input box with a transparent border. */
+.range {
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #3f3f46;
+}
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #3f3f46;
+}
+.range::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border: 2px solid #f97316;
+  border-radius: 50%;
+  background: #f4f4f5;
+  appearance: none;
+}
+.range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #f97316;
+  border-radius: 50%;
+  background: #f4f4f5;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.comps {
+  display: flex;
+  gap: 4px;
+}
+.comp,
+.toggle,
+.reset {
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #3f3f46;
+  border-radius: 999px;
+  font: 600 9.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #f4f4f5;
+  background: transparent;
+  cursor: pointer;
+  transition: font-variation-settings 0.3s ease, background-color 0.2s;
+}
+.comp[aria-checked="true"] {
+  border-color: #f4f4f5;
+  color: #0f0f11;
+  background: #f4f4f5;
+}
+.toggle {
+  margin-left: auto;
+}
+.toggle[aria-checked="true"] {
+  border-color: #3b82f6;
+  color: #0f0f11;
+  background: #3b82f6;
+}
+.reset {
+  border-color: transparent;
+  color: #a1a1aa;
+}
+
+.foot {
+  height: 30px;
+  margin: auto -18px 0;
+  padding: 0 18px;
+  border-top: 1px solid #27272a;
+  color: #a1a1aa;
+}
+.code {
+  font: inherit;
+  color: #60a5fa;
+}
+
+.range:focus-visible,
+.comp:focus-visible,
+.toggle:focus-visible,
+.reset:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}

@@ -1,0 +1,260 @@
+/* Live demo CSS for style 25. Palette: #000000 #171717 #737373 #E5E5E5 #FFFFFF. No hue anywhere; Invert swaps the tokens. */
+.root {
+  --bg: #000;
+  --panel: #0a0a0a;
+  --fg: #fff;
+  --dim: #a3a3a3;
+  --line: #333;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Inter", "Helvetica Neue", Arial, ui-sans-serif, sans-serif;
+  font-size: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.inv {
+  --bg: #fff;
+  --panel: #f5f5f5;
+  --fg: #000;
+  --dim: #525252;
+  --line: #a3a3a3;
+}
+.top,
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  padding: 0 18px;
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.04em;
+}
+.top {
+  height: 36px;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  font-weight: 700;
+}
+.dim {
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--dim);
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 172px 1fr;
+  flex: 1;
+  min-height: 0;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px 12px 18px;
+  border-right: 1px solid var(--line);
+}
+.title {
+  margin: 0;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+.edition {
+  margin: 2px 0 8px;
+  font: 700 12px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: var(--dim);
+}
+.desc {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--dim);
+}
+.info {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 8px;
+  margin: 0;
+  font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+}
+.info > dt {
+  color: var(--dim);
+}
+.info > dd {
+  margin: 0;
+}
+.primary,
+.ghost {
+  height: 32px;
+  border: 1px solid var(--fg);
+  border-radius: 0;
+  font: 700 10px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.primary {
+  margin-top: auto;
+  color: var(--bg);
+  background: var(--fg);
+}
+.ghost {
+  color: var(--fg);
+  background: transparent;
+}
+.left > .ghost {
+  margin-top: 8px;
+}
+/* Inverted hover state from the source CSS */
+.primary:hover {
+  color: var(--fg);
+  background: var(--bg);
+}
+.ghost:hover {
+  color: var(--bg);
+  background: var(--fg);
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 12px 16px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1.15fr 1fr;
+  gap: 8px;
+  flex: 1;
+}
+.frame {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  font: inherit;
+  color: #fff;
+  background-color: #171717;
+  cursor: pointer;
+}
+.thumb:first-child {
+  grid-column: 1 / -1;
+}
+.thumb[aria-pressed="true"] {
+  border: 2px solid var(--fg);
+}
+.big {
+  flex: 1;
+  cursor: default;
+}
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.pager > .ghost {
+  width: 44px;
+}
+.label {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 6px;
+  border: 1px solid #737373;
+  font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.04em;
+  background: #000;
+}
+.caption {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  padding: 2px 6px;
+  font: 10px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.04em;
+  background: #000;
+}
+
+/* CSS-generated grayscale photographs; invert mode flips them like a negative */
+.a1 {
+  background-image: repeating-linear-gradient(90deg, transparent 0 18px, rgba(0, 0, 0, 0.55) 18px 20px), linear-gradient(180deg, #e5e5e5 0 34%, #525252 34% 36%, #262626 36% 100%),
+    linear-gradient(135deg, transparent 49.6%, #737373 49.6% 50.4%, transparent 50.4%);
+}
+.a2 {
+  background-image: radial-gradient(circle at 50% 50%, #0a0a0a 0 16%, #404040 16% 18%, #171717 18% 30%, #737373 30% 31%, #262626 31% 48%, #0a0a0a 48%);
+}
+.a3 {
+  background-image: repeating-linear-gradient(180deg, #171717 0 10px, #737373 10px 11px), linear-gradient(90deg, #262626, #0a0a0a);
+  background-blend-mode: lighten;
+}
+.a4 {
+  background-image: radial-gradient(120% 60% at 30% 100%, #a3a3a3 0 40%, transparent 41%), radial-gradient(120% 70% at 90% 110%, #525252 0 50%, transparent 51%),
+    linear-gradient(180deg, #e5e5e5, #404040);
+}
+.a1,
+.a2,
+.a3,
+.a4 {
+  background-size: cover;
+  transition: filter 0.3s;
+}
+.inv .a1,
+.inv .a2,
+.inv .a3,
+.inv .a4 {
+  filter: invert(1);
+}
+
+.foot {
+  height: 36px;
+  border-top: 1px solid var(--line);
+}
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 4px;
+  border: 0;
+  font: 700 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.06em;
+  color: var(--fg);
+  background: none;
+  cursor: pointer;
+}
+.knob {
+  position: relative;
+  width: 28px;
+  height: 14px;
+  border: 1px solid var(--fg);
+}
+.knob::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  background: var(--fg);
+  transition: transform 0.2s;
+}
+.switch[aria-checked="true"] .knob::before {
+  transform: translateX(14px);
+}
+
+.primary:focus-visible,
+.ghost:focus-visible,
+.frame:focus-visible,
+.switch:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}

@@ -52,6 +52,14 @@ export const previewRegistry: Partial<Record<number, () => Promise<PreviewModule
   37: () => import("./styles/37-terminal"),
   47: () => import("./styles/47-heatmap"),
   48: () => import("./styles/48-masonry"),
+  // Phase 2B batch 4: Minimal & Typographic
+  2: () => import("./styles/02-flat"),
+  11: () => import("./styles/11-swiss"),
+  17: () => import("./styles/17-kinetic-type"),
+  23: () => import("./styles/23-editorial"),
+  25: () => import("./styles/25-noir"),
+  41: () => import("./styles/41-zen"),
+  43: () => import("./styles/43-variable-font"),
 };
 
 export const hasPreview = (id: number) => previewRegistry[id] !== undefined;

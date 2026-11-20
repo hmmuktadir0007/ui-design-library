@@ -1,0 +1,421 @@
+/* Live demo CSS for style 02. Palette: #0F172A #14B8A6 #F43F5E #F8FAFC #3B82F6. Flat: no shadows, no gradients. */
+.root {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #14b8a6;
+  color: #0f172a;
+  font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+
+/* 2D confetti: solid circles and triangles only */
+.shape {
+  position: absolute;
+}
+.c1,
+.c2,
+.c3 {
+  border-radius: 50%;
+}
+.c1 {
+  top: 54px;
+  left: 50px;
+  width: 22px;
+  height: 22px;
+  background: #f43f5e;
+}
+.c2 {
+  top: 40px;
+  right: 46px;
+  width: 30px;
+  height: 30px;
+  background: #f43f5e;
+}
+.c3 {
+  bottom: 52px;
+  left: 62px;
+  width: 20px;
+  height: 20px;
+  background: #f8fafc;
+}
+.t1,
+.t2,
+.t3 {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+}
+.t1 {
+  top: 140px;
+  left: 34px;
+  border-width: 14px 22px 14px 0;
+  border-right-color: #0d9488;
+}
+.t2 {
+  top: 160px;
+  right: 40px;
+  border-width: 14px 0 14px 22px;
+  border-left-color: #0d9488;
+}
+.t3 {
+  bottom: 40px;
+  right: 60px;
+  border-width: 18px 12px 0;
+  border-top-color: #0d9488;
+}
+
+.phone {
+  position: absolute;
+  top: 8px;
+  left: 104px;
+  display: flex;
+  flex-direction: column;
+  width: 212px;
+  height: 321px;
+  padding: 0 9px;
+  border: 7px solid #0f172a;
+  border-radius: 28px;
+  background: #f8fafc;
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  flex: none;
+}
+.burger {
+  width: 12px;
+  height: 8px;
+  position: relative;
+  border-block: 2px solid #0f172a;
+}
+.burger::before {
+  content: "";
+  position: absolute;
+  inset: 1px 0;
+  border-top: 2px solid #0f172a;
+}
+.app {
+  font-size: 11px;
+  font-weight: 700;
+}
+.bell {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px 5px 1px 1px;
+  background: #0f172a;
+}
+.hello {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.flag {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 7px 0;
+  border-color: transparent #f43f5e transparent transparent;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.h {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.activity {
+  padding: 8px;
+  border-radius: 6px;
+  background: #f43f5e;
+}
+.seg {
+  display: flex;
+  gap: 4px;
+}
+.segBtn,
+.chip {
+  min-width: 36px;
+  height: 26px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 700;
+  color: #0f172a;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.segBtn[aria-checked="true"],
+.chip[aria-checked="true"] {
+  color: #f8fafc;
+  background: #0f172a;
+}
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 52px;
+  margin-top: 8px;
+}
+.bars > span {
+  flex: 1;
+  background: #0f172a;
+}
+.bars > span:nth-child(odd) {
+  background: #f8fafc;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.tile {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  height: 76px;
+  padding: 8px;
+  border-radius: 6px;
+}
+.teal {
+  background: #14b8a6;
+}
+.blue {
+  background: #3b82f6;
+}
+.tileLabel {
+  font-size: 11px;
+  font-weight: 700;
+}
+.tick {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+  color: #14b8a6;
+  background: #0f172a;
+}
+.tileValue {
+  font-weight: 700;
+}
+.tileBig {
+  font-size: 18px;
+  font-weight: 800;
+}
+.meter,
+.progress {
+  display: block;
+  height: 8px;
+  background: #f8fafc;
+}
+.meter > span,
+.progress > span {
+  display: block;
+  height: 100%;
+  background: #0f172a;
+  transition: width 0.2s ease;
+}
+.progress {
+  margin: 0 0 8px;
+  background: #e2e8f0;
+}
+.progress > span {
+  background: #14b8a6;
+}
+
+.filters {
+  display: flex;
+  gap: 4px;
+}
+.chip {
+  background: #e2e8f0;
+}
+.add {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  color: #0f172a;
+  background: #f43f5e;
+  cursor: pointer;
+}
+.list,
+.msgs {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.task {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 28px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  color: #0f172a;
+  background: #e2e8f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.task[aria-checked="true"] {
+  background: #14b8a6;
+}
+.box {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #14b8a6;
+  background: #f8fafc;
+}
+.task[aria-checked="true"] .box {
+  background: #0f172a;
+}
+.empty {
+  padding: 8px 0;
+}
+.note {
+  margin: 4px 0 0;
+  font-size: 9px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.msg {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  background: #e2e8f0;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+.unread {
+  background: #f43f5e;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.primary {
+  width: 100%;
+  height: 30px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 700;
+  color: #f8fafc;
+  background: #0f172a;
+  cursor: pointer;
+}
+
+.nav {
+  display: flex;
+  flex: none;
+  margin: 0 -9px;
+  padding: 4px 6px 6px;
+  border-radius: 0 0 20px 20px;
+  background: #0f172a;
+}
+.navBtn {
+  display: grid;
+  flex: 1;
+  justify-items: center;
+  gap: 2px;
+  height: 38px;
+  padding: 3px 0 0;
+  border: 0;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 600;
+  color: #f8fafc;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.navBtn[aria-current="page"] {
+  color: #0f172a;
+  background: #14b8a6;
+}
+.icon {
+  width: 14px;
+  height: 12px;
+  background: #f43f5e;
+}
+.navBtn[aria-current="page"] .icon {
+  background: #0f172a;
+}
+.iActivity {
+  clip-path: polygon(0 100%, 0 60%, 30% 60%, 30% 30%, 60% 30%, 60% 0, 100% 0, 100% 100%);
+}
+.iTasks {
+  border-radius: 50%;
+  width: 12px;
+}
+.iInbox {
+  clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+}
+
+.segBtn:focus-visible,
+.chip:focus-visible,
+.add:focus-visible,
+.task:focus-visible,
+.primary:focus-visible {
+  outline: 2px solid #0f172a;
+  outline-offset: 2px;
+}
+.navBtn:focus-visible {
+  outline: 2px solid #f8fafc;
+  outline-offset: -3px;
+}

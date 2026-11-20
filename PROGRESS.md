@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2B batch 3 complete (Modern SaaS & Dashboards) — 29 of 50 live previews; awaiting approval for batch 4.
+**Current phase:** Phase 2B batch 4 complete (Minimal & Typographic) — 36 of 50 live previews, 14 image-only; awaiting approval for batch 5.
 
 | Scope | Status |
 |---|---|
@@ -9,7 +9,8 @@
 | Phase 2B batch 1 — 10 Morphism & Depth live previews | complete, verified 2026-11-19 |
 | Phase 2B batch 2 — 10 Bold, Retro & Expressive live previews | complete, verified 2026-11-19 |
 | Phase 2B batch 3 — 9 Modern SaaS & Dashboards live previews | complete, verified 2026-11-19 |
-| Remaining 21 interactive previews (Art & Heritage Movements 8, Minimal & Typographic 7, Atmospheric & Futuristic 6) | not started |
+| Phase 2B batch 4 — 7 Minimal & Typographic live previews | complete, verified 2026-11-20 |
+| Remaining 14 interactive previews (Atmospheric & Futuristic 6, Art & Heritage Movements 8) | not started |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -282,6 +283,68 @@ App change: `PreviewStage` now also marks inputs it measured with `data-hit` (in
 - 47: heatmap and funnel side by side (slide: stacked) so cells and stages keep 24 px targets at 375 px; bottleneck is computed (step 3 → 4 with this data, the slide says 2 → 3).
 - 48: light shell from the palette (#FAFAFA / #FFFFFF / #18181B) instead of the slide's dark frame; gradients stand in for photos; 7 cards.
 
+## Phase 2B batch 4 — Minimal & Typographic live previews
+
+Verified 2026-11-20. Same architecture and rules as batches 1–3. Total live previews: **36**; image-only: **14**.
+Built 2026-11-19; that session was interrupted during screenshot capture, before verification, docs and commit. Recovered and finished 2026-11-20 without re-implementing the previews.
+
+| # | Style | Main interactions (all keyboard-operable) |
+|---|---|---|
+| 02 | Flat Design | Week / Month radios redraw the activity bar chart (labelled `img`); bottom nav Activity / Tasks / Inbox; task checkboxes drive the Tasks count and the Progress bar (`progressbar`); Add task; All / Active / Done filter; Inbox "Mark n as read" → "All caught up" |
+| 11 | Minimalism (Swiss) | Next project cycles four projects; "+ Project info" expands (`aria-expanded`); Index / Read radios switch to a numbered project index whose entries open that project; nested `<article>` replaced by `<section>` (the gallery card is the only `article`) |
+| 17 | Bold / Kinetic Typography | compositions 04 / 07 / 11 (radios) swap the three-line headline; each word is a button that emphasizes it (red, tracked); Stack / Stagger arrangement; Enter exhibition → room list → back to cover |
+| 23 | Editorial / Magazine | A− / A+ text size (four steps), Columns / Focus reading mode, Save toggle (`aria-pressed`) with saved count, issue radios 01–03 and the "Next:" link change the article |
+| 25 | Monochrome / Noir | four frames (buttons) select the focused frame; View frame → focused `img` view with Next frame; Image info expands (`aria-expanded`); INVERT `switch` inverts the whole page |
+| 41 | Japanese Zen / Wabi-Sabi | Usucha 3′ / Koicha 5′ / Zazen 10′ radios; Begin ritual starts a real countdown; Pause / Resume; Reset; ring is a `progressbar` with `aria-valuetext`; state announced in a `status` region |
+| 43 | Kinetic / Variable Font | Weight (300–900) and Width (100–125 %) sliders drive real `font-variation-settings`; Heavy / Kinetic / Glyphs specimens; Animate `switch` (breathing wght/wdth loop; off under reduced motion, with a visible note); Reset; footer shows the live `font-variation-settings` value |
+
+### Fonts
+
+- 43 ships its own font: `src/components/previews/styles/fonts/axis-sans-var.woff` (25 kB), a Latin subset of Encode Sans [wdth 75–125, wght 100–900] v3.002 made with fontTools. Renamed "Axis Sans Subset" because "Encode Sans" is an OFL Reserved Font Name; the license sits next to it (`fonts/OFL.txt`). WOFF, not WOFF2 (no brotli module in the build environment). Loaded by `@font-face` only inside the 43 lazy chunk. The e2e test "weight and width axes are real" measures glyph width at different wght/wdth values, so a fallback font fails it.
+- All other batch 4 previews use system stacks; no web fonts are fetched. On Windows: "Helvetica Neue" (11, 17, 25) falls back to Arial, "Inter" to Segoe UI / Arial, "Playfair Display" (23 headline) to Georgia, "JetBrains Mono" to Consolas.
+
+### Verification (2026-11-20, final code)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 301.9 kB (95.9 kB gzip); each preview its own chunk (largest 02 at 6.2 kB) |
+| `npm test` (Vitest) | exit 0 — 49/49 pass (4 files; the CSS-scoping test covers 36 stylesheets) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | exit 0 — 280 pass, 2 skipped (94 tests × 3 viewports; the 375-only layout test is skipped at 768/1440) |
+
+Test changes: 7 new pointer + keyboard cases (state asserted on ARIA state and visible text), the style 43 axis test, 43 Weight / Width slider use from the enlarged area; `LIVE_IDS` has 36 ids, so the a11y suite, the 375 px no-overflow test, the Live CSS toggle test, the CSS-leak probe and "the other 14 styles stay image-only" cover the new previews.
+Stability (measured, not contention): the CSS-leak test and the Live CSS toggle test click every live card in turn and are linear in preview count; with 36 previews both exceed the 30 s default even alone at one worker (toggle test ~33–39 s), so both are `test.slow()`. `card(id)` in `tests/e2e/fixtures.ts` now finds the card by its `aria-labelledby` heading instead of `article.nth(id - 1)`, which a live preview containing `<article>` (48) silently shifts.
+
+### Capture script recovery (`scripts/capture-previews.mjs`)
+
+- 2026-11-19: two runs ended in `TimeoutError` (the first after all 36 live shots, before the comparison sheet; the second in the style 23 detail step, also on its retry). The sheet, gallery and detail shots were left at batch 3.
+- 2026-11-20 diagnosis: style 23 opens, mounts and screenshots in 0.2–0.5 s (three runs), and the unchanged script then completed (exit 0, 59 s). The 2026-11-19 failures did not reproduce and the transcript shows no concurrent job, so the exact stall is not established. One real defect of the same shape was found: the card locator `article.nth(id - 1)` (script and test fixture) points at the wrong card once a live card contains `<article>`; that is what made the timing probe stall at "article nth(22)" on 2026-11-19 before 11's nested `<article>` was removed.
+- Changes: cards located by `aria-labelledby`; the fixed 500 ms waits replaced by explicit readiness (preview artboard has mounted children, no Suspense placeholder, `document.fonts.ready`; in the gallery, all 36 card previews mounted); each phase is named, so a failure prints e.g. `capture failed during: live 23 (attempt 2)`, saves `.tmp/capture-failure.png` (git-ignored) and exits non-zero. The one retry per preview stays; the script still serves `dist/` itself on port 4174 (`strictPort`, closed in `finally`). Two runs in a row: exit 0 both (56 s, 59 s), all 47 files rewritten.
+
+### Accessibility (automated, real hit testing)
+
+- 768 px: every control in all 7 previews ≥ 44×44 effective.
+- 1440 px: all ≥ 44×44 except 23 issue radio "02" (42×44).
+- 375 px: all ≥ 24×24 (WCAG 2.5.8 AA), no overlap. Under 44 at this width: 17 composition chips 29×45; 23 A+ 28×44, Focus 36×44, issue radios 25–41×44; 25 INVERT switch 63×33; 43 Weight / Width sliders 120×31 / 120×28. 02, 11 and 41 are all ≥ 44.
+- axe-core WCAG 2.2 AA: 0 violations on all 7 detail views; no new exclusions. Fixed during the batch: 23 issue-radio contrast and the A− / A+ accessible names (now contain the visible text).
+- Reduced motion: the app's global `prefers-reduced-motion` rule cuts all transitions and animations; 43 also stops its Animate loop and says so. 41's timer is a countdown, not motion.
+- Not done: screen reader pass, real touch devices, Firefox/Safari (see batch 1 list).
+
+### Visual deviations from the slides (see comparison sheet)
+
+- 02: palette teal / rose / blue from the source data (slide: softer teal and coral); one bar chart with Week / Month instead of line + bar icons; Quick Actions card replaced by a bottom nav (Activity / Tasks / Inbox); fewer confetti shapes; no phone side buttons.
+- 11: Arial fallback for Helvetica Neue gives a heavier headline; accent rose `#E11D48` (palette) where the slide uses blue; Index / Read tabs added; "Read document" became Next project + Project info; body copy shortened.
+- 17: the slide is dark with cyan accents, the source palette is light (`#FAF8F5` / `#0A0A0A` / `#EF4444`); the preview follows the palette. Nav replaced by composition chips 04 / 07 / 11; Stack / Stagger added.
+- 23: tool row (text size, reading mode, Save) added under the masthead; the deck is one line with an ellipsis; both columns fade out at the bottom (copy continues, like a page), which cuts the pull quote; footer is issue tabs + saved count + next link; the dark figure card has no red square / rule.
+- 25: the slide's wireframe placeholders are CSS-drawn monochrome "photos"; four frames (slide: three); Specification PDF → Image info; INVERT switch in the footer.
+- 41: body copy replaced by tea chips; metrics card replaced by the timer status card; the ring shows progress; no orange stroke in the bowl.
+- 43: LIGHT and MEDIUM share one row (slide: stacked) to fit two real sliders (slide: one); preset chips, Animate and Reset added; footer shows the live `font-variation-settings`.
+
+### Screenshots
+
+`docs/screenshots/phase-2b/`: `comparison-sheet.jpg` (all 36, Slide Visual | Live CSS, 2880×36050 JPEG), `live-NN.png` × 36, `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-{06,30,38,43}-{desktop-1440,mobile-375}.png`. All regenerated 2026-11-20 from the final code.
+
 ## Known defects
 
 None blocking.
@@ -297,7 +360,7 @@ None blocking.
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
-- Approval for Phase 2B batch 4 (next category).
+- Approval for Phase 2B batch 5 (next category).
 - Whether to space slide compositions further to reach 44 px targets at 375 px (AAA).
 
 ## Git checkpoints
@@ -308,8 +371,9 @@ None blocking.
 - `1f3fbee` Phase 2B batch 1: Morphism & Depth live previews
 - `b9c5460` Phase 2B batch 1: accessibility stabilization
 - `d009f86` Phase 2B batch 2: Bold Retro Expressive live previews
-- Phase 2B batch 3: Modern SaaS Dashboard live previews (hash in `git log`)
+- `5bfa84c` Phase 2B batch 3: Modern SaaS Dashboard live previews
+- Phase 2B batch 4: Minimal Typographic live previews (hash in `git log`)
 
 ## Next recommended action
 
-Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 03–48 at the end), then approve Phase 2B batch 4.
+Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 02–43 at the end), then approve Phase 2B batch 5.
