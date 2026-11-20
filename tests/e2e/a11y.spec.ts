@@ -93,6 +93,10 @@ const SLIDERS: [number, string][] = [
   [15, "Track position"],
   [43, "Weight"],
   [43, "Width"],
+  [9, "Glow"],
+  [22, "Seek"],
+  [22, "Volume"],
+  [28, "Intensity"],
 ];
 for (const [id, name] of SLIDERS) {
   test(`style ${id}: ${name} slider works from its enlarged area, then by keyboard`, async ({ page }) => {
@@ -137,7 +141,7 @@ test("style 46: Power switch works from its enlarged area, then by keyboard", as
 
 test("375px detail view: preview fully on screen, no sideways scrolling", async ({ page }, info) => {
   test.skip(info.project.name !== "mobile-375", "mobile viewport only");
-  test.slow(); // opens all 36 previews in turn: ~14s alone, past the 30s default under full parallel load
+  test.slow(); // opens all 42 previews in turn: ~14s alone, past the 30s default under full parallel load
   for (const id of LIVE_IDS) {
     await page.goto("/");
     const stage = await openLive(page, id);

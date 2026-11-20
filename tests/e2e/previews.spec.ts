@@ -836,6 +836,202 @@ const CASES: Case[] = [
       await expect(p.getByRole("radio", { name: "Heavy" })).toHaveAttribute("aria-checked", "true");
     },
   },
+  // ── Batch 5: Atmospheric & Futuristic ──
+  {
+    id: 9,
+    identity: "AURORA ENGINE",
+    mouse: async (p) => {
+      const blob = p.locator('[data-blob="1"]');
+      const before = await blob.evaluate((el) => getComputedStyle(el).backgroundImage + getComputedStyle(el).transform);
+      await p.getByRole("radio", { name: "Dusk" }).click();
+      await expect(p.getByRole("radio", { name: "Dusk" })).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByText("MESH // DUSK · GLOW 70%")).toBeVisible();
+      // the colour bands really change: colour and position of the first band differ
+      await expect.poll(() => blob.evaluate((el) => getComputedStyle(el).backgroundImage + getComputedStyle(el).transform)).not.toBe(before);
+      await p.getByRole("radio", { name: "Analyze" }).click();
+      await expect(p.getByRole("heading", { name: "Signal Lens" })).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      const glow = p.getByRole("slider", { name: "Glow" });
+      await glow.focus();
+      await kb.press("End");
+      await expect(p.getByText("MESH // DUSK · GLOW 100%")).toBeVisible();
+      await p.getByRole("switch", { name: "Ambient" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("switch", { name: "Ambient" })).toHaveAttribute("aria-checked", "true");
+      await p.getByRole("button", { name: "Reset" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("MESH // BOREALIS · GLOW 70%")).toBeVisible();
+      await expect(p.getByRole("heading", { name: "Aurora Hero" })).toBeVisible();
+      await expect(p.getByRole("switch", { name: "Ambient" })).toHaveAttribute("aria-checked", "false");
+    },
+  },
+  {
+    id: 16,
+    identity: "SPECTRUM HARMONICS",
+    mouse: async (p) => {
+      const shield = p.getByRole("switch", { name: /SHIELD MATRIX/ });
+      await shield.click();
+      await expect(shield).toHaveAttribute("aria-checked", "false");
+      await expect(shield).toHaveText(/OFFLINE/);
+      await expect(p.getByText("SYS // DEGRADED 2/3")).toBeVisible();
+      await expect(p.getByText("PWR: 3.24 GW")).toBeVisible();
+      await p.getByRole("radio", { name: "CH-B" }).click();
+      await expect(p.getByText("FREQ: 311.20 MHz")).toBeVisible();
+      await p.getByRole("radio", { name: "20 KM" }).click();
+      await expect(p.getByRole("img", { name: "Radar 20 km range, 3 contacts" })).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      const over = p.getByRole("switch", { name: "OVERDRIVE" });
+      await over.focus();
+      await kb.press("Space");
+      await expect(over).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByText("SYS // OVERDRIVE")).toBeVisible();
+      await expect(p.getByRole("switch", { name: /THRUST VECTORING \/\/ 99\.1%/ })).toBeVisible();
+      const shield = p.getByRole("switch", { name: /SHIELD MATRIX/ });
+      await shield.focus();
+      await kb.press("Enter");
+      await expect(shield).toHaveText(/71\.5%/);
+      await p.getByRole("radio", { name: "5 KM" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("img", { name: "Radar 5 km range, 1 contacts" })).toBeVisible();
+    },
+  },
+  {
+    id: 22,
+    identity: "SYNTH FM // 1984 LIVE",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: "Play" }).click();
+      await expect(p.getByRole("button", { name: "Pause" })).toBeVisible();
+      await expect(p.getByText("STATUS: 128 BPM • ON AIR")).toBeVisible();
+      await expect(p.getByText("TRACK 1/3 // 2:17 / 3:45")).toHaveCount(0, { timeout: 4000 }); // the clock advances
+      await p.getByRole("button", { name: "Pause" }).click();
+      await p.getByRole("button", { name: "Next track" }).click();
+      await expect(p.getByText("NEON ARCADE")).toBeVisible();
+      await expect(p.getByText("TRACK 2/3 // 0:00 / 4:12")).toBeVisible();
+      const neon = p.getByRole("switch", { name: "Neon" });
+      const player = p.getByRole("region", { name: "Player" });
+      const before = await look(player);
+      await neon.click();
+      await expect(neon).toHaveAttribute("aria-checked", "false");
+      await expect.poll(() => look(player)).not.toBe(before); // neon box-shadow off
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      const seek = p.getByRole("slider", { name: "Seek" });
+      await seek.focus();
+      await kb.press("End");
+      await expect(p.getByText("TRACK 2/3 // 4:12 / 4:12")).toBeVisible();
+      await kb.press("Home");
+      await kb.press("ArrowRight");
+      await expect(seek).toHaveAttribute("aria-valuetext", "0:01 of 4:12");
+      await p.getByRole("radio", { name: "Grid" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("radio", { name: "Grid" })).toHaveAttribute("aria-checked", "true");
+      await p.getByRole("button", { name: "Previous track" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("MIDNIGHT OVERDRIVE")).toBeVisible();
+      await p.getByRole("button", { name: "Play" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("button", { name: "Pause" })).toBeFocused();
+    },
+  },
+  {
+    id: 24,
+    identity: "SCROLL // DISCOVERY TRACK",
+    mouse: async (p) => {
+      await p.getByRole("button", { name: "Chapter 03: Global Scaling" }).click();
+      await expect(p.getByText("FRAME 03 / 03")).toBeVisible();
+      await expect(p.getByText("+910%")).toBeVisible();
+      await expect(p.getByText("1.00 Y")).toBeVisible();
+      await expect(p.getByRole("button", { name: "Chapter 03: Global Scaling" })).toHaveAttribute("aria-current", "step");
+      await p.getByRole("button", { name: "Previous chapter" }).click();
+      await expect(p.getByText("FRAME 02 / 03")).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("button", { name: "Previous chapter" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("FRAME 01 / 03")).toBeVisible();
+      await expect(p.getByText("0.00 Y")).toBeVisible();
+      // the chapter column itself is a focusable scroll region: PageDown scrolls it to the next chapter
+      await p.getByRole("region", { name: /Story chapters/ }).focus();
+      await kb.press("PageDown");
+      await expect(p.getByText("FRAME 02 / 03")).toBeVisible();
+      await p.getByRole("button", { name: "Next chapter" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("FRAME 03 / 03")).toBeVisible();
+    },
+  },
+  {
+    id: 28,
+    identity: "SPRING TRAJECTORY",
+    mouse: async (p) => {
+      const insights = p.getByRole("radio", { name: /Insights/ });
+      const before = await look(insights);
+      await insights.click();
+      await expect(insights).toHaveAttribute("aria-checked", "true");
+      await expect(insights).toContainText("ACTIVE: -6PX (1.02x)");
+      await expect.poll(() => look(insights)).not.toBe(before); // lifted: transform + shadow
+      await p.getByRole("button", { name: "Trigger Motion" }).click();
+      await expect(p.getByText("60% · TRIGGERED ×1")).toBeVisible();
+      await expect.poll(() => p.getByRole("radio", { name: /Inbox/ }).evaluate((el) => getComputedStyle(el).animationName)).toMatch(/pop/);
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("radio", { name: "Snappy" }).focus();
+      await kb.press("Space");
+      await expect(p.getByText("TENSION: 400 // DAMP: 40")).toBeVisible();
+      const intensity = p.getByRole("slider", { name: "Intensity" });
+      await intensity.focus();
+      await kb.press("End");
+      await expect(p.getByRole("radio", { name: /Insights/ })).toContainText("ACTIVE: -10PX (1.04x)");
+      await p.getByRole("radio", { name: /Inbox/ }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("radio", { name: /Inbox/ })).toHaveAttribute("aria-checked", "true");
+      await p.getByRole("button", { name: "Reset" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByRole("radio", { name: /Deploy/ })).toHaveAttribute("aria-checked", "true");
+      await expect(p.getByText("60% · TRIGGERED ×0")).toBeVisible();
+    },
+  },
+  {
+    id: 35,
+    identity: "HOLO PASS // INTERACTIVE FOIL",
+    mouse: async (p) => {
+      const card = p.getByText("VIP MEMBERSHIP");
+      const box = (await card.boundingBox())!;
+      await p.page().mouse.move(box.x + box.width + 40, box.y - 20); // toward the top-right of the card
+      await expect(p.getByText("TILT X 0° · Y 0° // SHEEN 135°")).toHaveCount(0);
+      await p.getByRole("button", { name: "Flip" }).click();
+      await expect(p.getByText("SIDE: BACK")).toBeVisible();
+      await expect(p.getByText(/MEMBER SINCE 2026/)).toBeVisible();
+      await p.getByRole("radio", { name: "Creator" }).click();
+      await expect(p.getByText("MEMBER SINCE 2026 // CREATOR")).toBeVisible();
+    },
+    keyboard: async (p) => {
+      const kb = p.page().keyboard;
+      await p.getByRole("button", { name: "Reset" }).focus();
+      await kb.press("Enter");
+      await expect(p.getByText("TILT X 0° · Y 0° // SHEEN 135°")).toBeVisible();
+      await expect(p.getByText("SIDE: FRONT")).toBeVisible();
+      await expect(p.getByText("VIP MEMBERSHIP")).toBeVisible();
+      await p.getByRole("button", { name: "Tilt right" }).focus();
+      await kb.press("Enter");
+      await kb.press("Enter");
+      await expect(p.getByText("TILT X 0° · Y 12° // SHEEN 171°")).toBeVisible();
+      const foil = p.getByRole("switch", { name: "Foil" });
+      await foil.focus();
+      await kb.press("Space");
+      await expect(foil).toHaveAttribute("aria-checked", "false");
+      await expect(p.getByText("FOIL: OFF")).toBeVisible();
+      await p.getByRole("button", { name: "Flip" }).focus();
+      await kb.press("Space");
+      await expect(p.getByRole("button", { name: "Flip" })).toHaveAttribute("aria-pressed", "true");
+    },
+  },
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -889,6 +1085,67 @@ test("styles 43 + 17: reduced motion stops the type animation and transitions", 
   expect(dur).toBeLessThan(0.01);
 });
 
+test("style 24: scrolling the chapter column (wheel) advances the story; the dialog does not scroll", async ({ page }) => {
+  const stage = await openLive(page, 24);
+  const region = stage.getByRole("region", { name: /Story chapters/ });
+  const dialogScroll = () => page.locator("dialog").evaluate((d) => (d.querySelector<HTMLElement>(".overflow-y-auto") ?? d).scrollTop);
+  const before = await dialogScroll();
+  const box = (await region.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(stage.getByText("FRAME 01 / 03")).toBeVisible();
+  for (let i = 0; i < 12; i++) await page.mouse.wheel(0, 120);
+  await expect(stage.getByText("FRAME 03 / 03")).toBeVisible();
+  await expect(stage.getByRole("button", { name: "Chapter 03: Global Scaling" })).toHaveAttribute("aria-current", "step");
+  await expect(stage.getByText("1.00 Y")).toBeVisible();
+  expect(await dialogScroll(), "overscroll-behavior keeps the wheel inside the story").toBe(before);
+});
+
+test("style 35: dragging over the card tilts it; Reset returns it flat and to the front", async ({ page }) => {
+  const stage = await openLive(page, 35);
+  const card = stage.getByText("VIP MEMBERSHIP");
+  const box = (await card.boundingBox())!;
+  await page.mouse.move(box.x, box.y);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 120, box.y + 60, { steps: 5 });
+  await page.mouse.up();
+  await expect(stage.getByText("TILT X 0° · Y 0° // SHEEN 135°")).toHaveCount(0);
+  const transform = () => stage.locator("[class*='card']").first().evaluate((el) => getComputedStyle(el).transform);
+  expect(await transform()).not.toBe("none");
+  await stage.getByRole("button", { name: "Flip" }).click();
+  await stage.getByRole("button", { name: "Reset" }).click();
+  await expect(stage.getByText("TILT X 0° · Y 0° // SHEEN 135°")).toBeVisible();
+  await expect(stage.getByText("SIDE: FRONT")).toBeVisible();
+  await expect.poll(transform).toMatch(/^(none|matrix3d\(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1\)|matrix\(1, 0, 0, 1, 0, 0\))$/);
+});
+
+test("batch 5: reduced motion removes looping animation and keeps every state change", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const anim = (l: import("@playwright/test").Locator) => l.evaluate((el) => getComputedStyle(el).animationName);
+  const s9 = await openLive(page, 9);
+  await s9.getByRole("switch", { name: "Ambient" }).click();
+  await expect(s9.getByText("Reduced motion: ambient drift off")).toBeVisible();
+  expect(await anim(s9.locator('[data-blob="1"]'))).toBe("none");
+  await page.getByRole("button", { name: "Close details" }).click();
+
+  const s22 = await openLive(page, 22);
+  await s22.getByRole("button", { name: "Play" }).click();
+  await expect(s22.getByText("STATUS: 128 BPM • ON AIR")).toBeVisible();
+  expect(await anim(s22.locator("[class*='eqBar']").first())).toBe("none");
+  await page.getByRole("button", { name: "Close details" }).click();
+
+  const s16 = await openLive(page, 16);
+  expect(await anim(s16.locator("[class*='sweep']"))).toBe("none");
+  await page.getByRole("button", { name: "Close details" }).click();
+
+  const s28 = await openLive(page, 28);
+  await expect(s28.getByText("REDUCED MOTION: INSTANT STATE CHANGES")).toBeVisible();
+  const inbox = s28.getByRole("radio", { name: /Inbox/ });
+  expect(await inbox.evaluate((el) => parseFloat(getComputedStyle(el).transitionDuration))).toBeLessThan(0.01);
+  await inbox.click();
+  await expect(inbox).toContainText("ACTIVE: -6PX (1.02x)"); // state still applies, instantly
+  expect(await inbox.evaluate((el) => getComputedStyle(el).transform)).not.toBe("none");
+});
+
 test("rotary knob responds to vertical drag", async ({ page }) => {
   const stage = await openLive(page, 46);
   const knob = stage.getByRole("slider", { name: "Resonance" });
@@ -917,7 +1174,7 @@ test("style 38: window drags with the pointer and stays on the desktop", async (
 });
 
 test("registered styles get a working Slide Visual / Live CSS toggle in cards and detail", async ({ page }) => {
-  test.slow(); // 36 x (Live CSS: lazy chunk + mount, Slide Visual: image load): ~33s alone at 1 worker (measured), linear in preview count
+  test.slow(); // 42 x (Live CSS: lazy chunk + mount, Slide Visual: image load): ~33s alone at 1 worker (measured), linear in preview count
   await expect(page.getByRole("group", { name: /preview mode$/ })).toHaveCount(LIVE_IDS.length);
   for (const id of LIVE_IDS) {
     const c = card(page, id);
@@ -937,31 +1194,34 @@ test("registered styles get a working Slide Visual / Live CSS toggle in cards an
   await expect(dialog.locator('[data-preview-id="1"]')).toBeVisible();
 });
 
-test("the other 14 styles stay image-only", async ({ page }) => {
+test("the other 8 styles stay image-only", async ({ page }) => {
   for (let id = 1; id <= 50; id++) {
     if (LIVE_IDS.includes(id)) continue;
     const c = card(page, id);
     await expect(c.getByRole("button", { name: "Live CSS" })).toHaveCount(0);
     await expect(c.locator("img")).toHaveAttribute("src", `/images/style-${String(id).padStart(2, "0")}.png`);
   }
-  await card(page, 9).getByRole("button", { name: "View details" }).click();
+  const sample = Array.from({ length: 50 }, (_, i) => i + 1).find((id) => !LIVE_IDS.includes(id))!;
+  await card(page, sample).getByRole("button", { name: "View details" }).click();
   const dialog = page.locator("dialog");
   await expect(dialog.getByText("Live interactive CSS preview: planned")).toBeVisible();
   await expect(dialog.getByRole("button", { name: "Live CSS" })).toHaveCount(0);
 });
 
 test("preview CSS does not leak into the gallery", async ({ page }) => {
-  test.slow(); // 36 sequential Live CSS clicks, each scroll + lazy chunk + mount: ~23s alone (measured), linear in preview count
+  test.slow(); // 42 sequential Live CSS clicks, each scroll + lazy chunk + mount: ~23s alone (measured), linear in preview count
+  // An image-only card: its controls never change state when the live cards toggle (was hard-coded 9 until 9 went live).
+  const still = Array.from({ length: 50 }, (_, i) => i + 1).find((id) => !LIVE_IDS.includes(id))!;
   const probe = () =>
-    page.evaluate(() => {
+    page.evaluate((still) => {
       const pick = (sel: string) => {
         const el = document.querySelector(sel)!;
         const c = getComputedStyle(el);
         return [c.fontFamily, c.fontSize, c.color, c.backgroundColor, c.borderRadius, c.boxShadow, c.padding].join("|");
       };
-      // Card 9 is image-only, so its controls never change state when the live cards toggle.
-      return ["body", "header", "input[type=search]", "article", "article h2", "nav button", "article:nth-of-type(9) button", "article:nth-of-type(9) h2"].map(pick);
-    });
+      const c = `article[aria-labelledby="style-${still}-name"]`;
+      return ["body", "header", "input[type=search]", "article", "article h2", "nav button", `${c} button`, `${c} h2`].map(pick);
+    }, still);
   const before = await probe();
   for (const id of LIVE_IDS) await card(page, id).getByRole("button", { name: "Live CSS" }).click();
   await expect(page.locator("article [data-preview-id]")).toHaveCount(LIVE_IDS.length);

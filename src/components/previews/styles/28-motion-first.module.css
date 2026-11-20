@@ -1,0 +1,253 @@
+/* Live demo CSS for style 28. Palette: #0F172A #FFFFFF #8B5CF6 #10B981 #F43F5E.
+   Selection moves `transform` with a transition; Trigger replays a staggered pop on the separate `translate`
+   property, so the two never fight. Curve, duration, lift and scale are custom properties set from state. */
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse 60% 45% at 50% 52%, rgba(139, 92, 246, 0.22), transparent), #0b1020;
+  color: #ffffff;
+  font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+.root :focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 3px;
+}
+
+.top,
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  padding: 0 16px;
+  font: 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.04em;
+}
+.top {
+  height: 30px;
+}
+.dim {
+  color: #94a3b8;
+}
+.blue {
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.path {
+  position: absolute;
+  inset: 4px 12px auto;
+  width: calc(100% - 24px);
+  height: 110px;
+}
+.path path {
+  fill: none;
+  stroke: #8b5cf6;
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  opacity: 0.6;
+}
+.cards {
+  position: absolute;
+  inset: 26px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  flex: 1;
+  height: 88px;
+  padding: 10px 12px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  font: inherit;
+  text-align: left;
+  color: #ffffff;
+  background: #111827;
+  cursor: pointer;
+  transition:
+    transform var(--ms) var(--curve),
+    border-color 0.2s,
+    box-shadow var(--ms) var(--curve);
+}
+.card[aria-checked="true"] {
+  border-color: #8b5cf6;
+  box-shadow: 0 20px 35px -10px rgba(139, 92, 246, 0.45);
+  transform: translateY(var(--lift)) scale(var(--scale));
+}
+.pop {
+  animation: pop calc(var(--ms) * 2) var(--curve) calc(var(--i) * 120ms) both;
+}
+@keyframes pop {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  40% {
+    translate: 0 -16px;
+  }
+}
+.lines {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+}
+.lines span {
+  height: 5px;
+  border-radius: 3px;
+  background: #475569;
+}
+.lines span:last-child {
+  width: 60%;
+  background: #334155;
+}
+.card[aria-checked="true"] .lines span:first-child {
+  background: linear-gradient(90deg, #8b5cf6 70%, #10b981 70%);
+}
+.name {
+  font-size: 12px;
+  font-weight: 700;
+}
+.state {
+  font: 8px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #94a3b8;
+}
+.card[aria-checked="true"] .state {
+  color: #c4b5fd;
+}
+
+.controls {
+  display: grid;
+  gap: 8px;
+  padding: 0 16px 10px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modes {
+  display: flex;
+  gap: 4px;
+}
+.mode,
+.reset {
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #334155;
+  border-radius: 999px;
+  font: 600 9.5px "Inter", "Segoe UI", ui-sans-serif, sans-serif;
+  color: #e2e8f0;
+  background: #111827;
+  cursor: pointer;
+}
+.mode[aria-checked="true"] {
+  border-color: #8b5cf6;
+  background: #6d28d9;
+}
+.trigger {
+  height: 30px;
+  margin-left: auto;
+  padding: 0 16px;
+  border: 1px solid #c4b5fd;
+  border-radius: 999px;
+  font: 700 10px "Inter", "Segoe UI", ui-sans-serif, sans-serif;
+  color: #ffffff;
+  background: linear-gradient(90deg, #7c3aed, #0e7490);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.trigger:active {
+  transform: scale(0.95);
+}
+.reset {
+  border-color: transparent;
+  color: #94a3b8;
+  background: transparent;
+}
+
+.slider {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  background: #0f172a;
+}
+.label {
+  font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #94a3b8;
+}
+.val {
+  font: 700 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #34d399;
+}
+/* Visible track on the track pseudo-elements: PreviewStage pads the input box with a transparent border. */
+.range {
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #8b5cf6, #10b981);
+}
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #8b5cf6, #10b981);
+}
+.range::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border: 2px solid #8b5cf6;
+  border-radius: 50%;
+  background: #ffffff;
+  appearance: none;
+}
+.range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #8b5cf6;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.foot {
+  height: 26px;
+  border-top: 1px solid #1e293b;
+  color: #94a3b8;
+}
+.motionOff {
+  display: none;
+  color: #34d399;
+}
+/* Global rule already makes transitions/animations ~0 ms; here the footer says so. State changes stay visible. */
+@media (prefers-reduced-motion: reduce) {
+  .motionOk {
+    display: none;
+  }
+  .motionOff {
+    display: inline;
+  }
+}

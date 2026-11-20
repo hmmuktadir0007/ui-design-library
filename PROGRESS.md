@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2B batch 4 complete (Minimal & Typographic) — 36 of 50 live previews, 14 image-only; awaiting approval for batch 5.
+**Current phase:** Phase 2B batch 5 complete (Atmospheric & Futuristic) — 42 of 50 live previews, 8 image-only; awaiting approval for batch 6.
 
 | Scope | Status |
 |---|---|
@@ -10,7 +10,8 @@
 | Phase 2B batch 2 — 10 Bold, Retro & Expressive live previews | complete, verified 2026-11-19 |
 | Phase 2B batch 3 — 9 Modern SaaS & Dashboards live previews | complete, verified 2026-11-19 |
 | Phase 2B batch 4 — 7 Minimal & Typographic live previews | complete, verified 2026-11-20 |
-| Remaining 14 interactive previews (Atmospheric & Futuristic 6, Art & Heritage Movements 8) | not started |
+| Phase 2B batch 5 — 6 Atmospheric & Futuristic live previews | complete, verified 2026-11-20 |
+| Remaining 8 interactive previews (Art & Heritage Movements) | not started |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -345,6 +346,67 @@ Stability (measured, not contention): the CSS-leak test and the Live CSS toggle 
 
 `docs/screenshots/phase-2b/`: `comparison-sheet.jpg` (all 36, Slide Visual | Live CSS, 2880×36050 JPEG), `live-NN.png` × 36, `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-{06,30,38,43}-{desktop-1440,mobile-375}.png`. All regenerated 2026-11-20 from the final code.
 
+## Phase 2B batch 5 — Atmospheric & Futuristic live previews
+
+Verified 2026-11-20. Same architecture and rules as batches 1–4 (CSS Module per preview, scaled artboard, hit-area extender, lazy chunk, local state, deterministic data, no new dependencies). Total live previews: **42**; image-only: **8**.
+
+| # | Style | Main interactions (all keyboard-operable) |
+|---|---|---|
+| 09 | Aurora UI (Mesh Gradient) | Borealis / Dusk / Lagoon arrangements move and recolour four colour bands; Glow slider (20–100 %) sets their opacity; Generate / Analyze / Deploy radios switch the hero copy; Ambient `switch` starts a slow drift; Reset |
+| 16 | Cyberpunk / Sci-Fi HUD | three module rows are `switch`es (THRUST / SHIELD / WARP: bar and value go OFFLINE, header turns DEGRADED n/3, power and link status follow); 5 / 10 / 20 KM radar range shows the contacts inside it (radar is a labelled `img`); CH-A / B / C channels swap the spectrum, frequency and sampling rate; OVERDRIVE `switch` changes every value, the accent colour and sweep speed. All values are fixed tables, no randomness |
+| 22 | Vaporwave / Synthwave | Play / Pause (silent simulation, clock advances once a second, continues with the next track at the end), Previous / Next track, Seek slider (`aria-valuetext` "m:ss of m:ss"), visualizer Bars / Sun / Grid (each animates only while playing), Neon `switch` (all glow off), Volume slider scales the visualizer; status says ON AIR / PAUSED |
+| 24 | Scrollytelling / Narrative | the chapter column is its own scroll container (wheel, touch, or arrow / Page keys once focused; `role=region`, `tabindex=0`); scroll position → active chapter and overall progress (`24-story.ts`, unit-tested); the stage beside it stays pinned and follows: frame number, KPI, progress readout, chart line drawn to the progress, scrub line, highlighted chapter point; ↑ / 01 / 02 / 03 / ↓ buttons scroll to a chapter (`aria-current="step"`) |
+| 28 | Kinetic / Motion-First | three cards (radios) — the selected one lifts and scales with the current curve; Spring / Smooth / Snappy change curve and duration (header shows tension / damping); Intensity slider sets lift and scale; Trigger Motion replays a staggered pop (count shown); Reset |
+| 35 | Holographic / Iridescent | pointer move or drag over the card tilts it (rotateX / rotateY written to custom properties, no React re-render); ← ↑ ↓ → buttons tilt it by 6° from the keyboard; Flip (`aria-pressed`) shows the back; Foil `switch`; VIP / Creator variants; Reset returns it flat, front side, foil on; tilt and sheen angle shown in the footer |
+
+### CSS effects
+
+- 09: colour bands are radial gradients fading to transparent (no `filter: blur`); arrangements move them with `transform` (0.9 s ease), Ambient drifts them with the separate `translate` property, Glow is the opacity of the band layer.
+- 16: the source's 45° `clip-path` corner on panels; neon is `box-shadow`; radar sweep is a rotating SVG group.
+- 22: sun = gradient with stripe overlay; perspective floor = two repeating gradients on a plane tilted `rotateX(62deg)`; visualizers are `transform: scaleY`, `background-position` loops.
+- 24: `overflow-y: auto` + `overscroll-behavior: contain` + `scroll-behavior: smooth` + `scroll-snap-type: y proximity` on the chapter column; chart line uses `pathLength` + `stroke-dasharray`.
+- 28: the source spring curve `cubic-bezier(0.34, 1.56, 0.64, 1)`; selection animates `transform`, Trigger animates `translate`, so they never fight; curve, duration, lift and scale are custom properties.
+- 35: the source pastel gradient as a 1.5 px gradient border (`padding-box` / `border-box`) plus a soft band whose angle follows the tilt; `preserve-3d` + `backface-visibility` for the flip. A stylised effect, not a light simulation (said on the card's back).
+
+### Reduced motion
+
+The app's global rule shortens every transition and animation to ~0 ms. It does not stop infinite loops (they would flicker), so 09 (Ambient drift), 16 (radar sweep) and 22 (visualizers) remove their loops under `prefers-reduced-motion: reduce`; 09 says so on screen. 28 keeps every state change (selected card still lifted, Trigger still counted) but instantly, and its footer says "REDUCED MOTION: INSTANT STATE CHANGES". 24 scrolls to a chapter without smooth scrolling. 35's tilt still follows the pointer or keys, without easing. Tested in "batch 5: reduced motion removes looping animation and keeps every state change".
+
+### Verification (2026-11-20, final code)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 302.8 kB (96.3 kB gzip); each preview its own chunk |
+| `npm test` (Vitest) | exit 0 — 57/57 pass (5 files) (new: `24-story.test.ts`, scroll position → chapter / progress; the CSS-scoping test covers 42 stylesheets) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | exit 0 — 337 pass, 2 skipped (113 tests × 3 viewports; the 375-only layout test is skipped at 768/1440). First full run: 3 failures of the CSS-leak test — not a leak: its probe read the first button of card 9 by `article:nth-of-type(9)`, assumed image-only; now 9 is live, so the probe hit the Aurora feature button. Probe now picks the first image-only card by id. |
+
+Test changes: 6 new pointer + keyboard cases (state asserted on ARIA state, visible text and computed style: 09 band colour/position, 16 module offline / overdrive values / radar contacts, 22 clock advancing, track change, seek by keyboard, 24 chapter by button / Page Down / arrow, 28 lift and pop animation, 35 pointer tilt, flip, variant, keyboard tilt); "style 24: scrolling the chapter column (wheel) advances the story; the dialog does not scroll"; "style 35: dragging over the card tilts it; Reset returns it flat and to the front"; the reduced-motion test above; slider-from-enlarged-area tests for 09 Glow, 22 Seek, 22 Volume, 28 Intensity. `LIVE_IDS` has 42 ids, so the a11y suite, 375 px no-overflow, Live CSS toggle, CSS-leak probe and "the other 8 styles stay image-only" (now opens the first image-only style instead of a hard-coded 9) cover them. Workers unchanged (4).
+
+### Accessibility (automated, real hit testing)
+
+- 768 px: every control in all 6 previews ≥ 44×44 effective.
+- 1440 px: all ≥ 44×44 except 09 Glow and 28 Intensity sliders (40 tall), 22 Seek (43 tall), 24 chapter buttons 01–03 (43 wide).
+- 375 px: all ≥ 24×24 (WCAG 2.5.8 AA), no overlap. Under 44 at this width: 09 arrangement buttons 41–48×41–42, Glow slider 25 tall; 16 OVERDRIVE 57×37, range buttons 33–39 wide, module rows 29–32 tall, channel buttons 29–45×39; 22 Seek 26 tall, Volume 31 tall, transport and mode buttons 31–36 wide; 24 Previous 35 wide, chapter buttons 26 wide; 28 Intensity 25 tall; 35 tilt / Flip / Foil / VIP buttons 27–39 wide.
+- axe-core WCAG 2.2 AA: 0 violations on all 6 detail views; no new exclusions.
+- Fixed during the batch: 22 Seek too thin at 375 px (slider box and spacing enlarged); 16 OVERDRIVE's `clip-path` also clipped its enlarged hit area (removed from that button); 24 chapter buttons too narrow (column widened); 24's disabled ↑ / ↓ would have left the Tab order, so they use `aria-disabled` and clamp instead.
+- 24: the chapter column is a focusable `region` (axe `scrollable-region-focusable`); the chapter buttons sit outside the scroll container, so every control is always visible and hit-testable. 35: every pointer action has a button; the tilt readout is not a live region (it would announce every pointer move).
+- Not done: screen reader pass, real touch devices, Firefox/Safari (see batch 1 list).
+
+### Visual deviations from the slides (see comparison sheet)
+
+- 09: bands are softer and move with arrangement presets; the slide's two CTA buttons are the feature radios; controls bar added under the panel.
+- 16: corner brackets around the frame left out; OVERDRIVE switch added in the header; radar range and channel buttons added; the spectrum has 28 bars (slide ~38).
+- 22: player gains a second row (visualizer, Neon, volume); EQ bars over the horizon in Bars mode; "SILENT DEMO" label; mountains are flat silhouettes (no outline glow).
+- 24: three chapters scroll one at a time (slide shows all three stacked, one active); nav row added under the column; ACTIVE badge left out; at 375 px the artboard scales as a whole, so the side-by-side layout is kept (no stacking needed).
+- 28: cards sit in one row (slide: staggered on the trajectory); mode, intensity and Reset controls added; "Trigger Motion" lost its status dot.
+- 35: the background bands and circle behind the card are left out; tilt pad, Flip, Foil, variants and Reset replace the single "Interact Foil Card" button; a back face added.
+
+### Screenshots
+
+`docs/screenshots/phase-2b/`: `comparison-sheet.jpg` (all 42, Slide Visual | Live CSS, 2880×42034 JPEG), `live-NN.png` × 42, `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-{06,30,38,43,24}-{desktop-1440,mobile-375}.png`. All regenerated 2026-11-20 from the final code (`npm run capture:previews`, exit 0, 67 s).
+
 ## Known defects
 
 None blocking.
@@ -360,7 +422,7 @@ None blocking.
 ## Unresolved decisions
 
 - Style 5 fourth swatch: leave out (current) or accept a value you supply.
-- Approval for Phase 2B batch 5 (next category).
+- Approval for Phase 2B batch 6 (Art & Heritage Movements, the last category).
 - Whether to space slide compositions further to reach 44 px targets at 375 px (AAA).
 
 ## Git checkpoints
@@ -372,8 +434,9 @@ None blocking.
 - `b9c5460` Phase 2B batch 1: accessibility stabilization
 - `d009f86` Phase 2B batch 2: Bold Retro Expressive live previews
 - `5bfa84c` Phase 2B batch 3: Modern SaaS Dashboard live previews
-- Phase 2B batch 4: Minimal Typographic live previews (hash in `git log`)
+- `bccf72d` Phase 2B batch 4: Minimal Typographic live previews
+- Phase 2B batch 5: Atmospheric Futuristic live previews (hash in `git log`)
 
 ## Next recommended action
 
-Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 02–43 at the end), then approve Phase 2B batch 5.
+Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 09–35 at the end), then approve Phase 2B batch 6.

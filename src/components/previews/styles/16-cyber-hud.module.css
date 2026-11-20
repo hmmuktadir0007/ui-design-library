@@ -1,0 +1,274 @@
+/* Live demo CSS for style 16. Palette: #05070A #00F0FF #FF0055 #FACC15 #0E1726.
+   Angular panels use the source's 45° clip-path corner; neon is box-shadow, never blur filters. */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 10px 14px;
+  overflow: hidden;
+  background: #05070a;
+  color: #e2e8f0;
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  --accent: #00f0ff;
+}
+.over {
+  --accent: #ff4d88;
+}
+.root :focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 2px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #1e3a46;
+}
+.sys {
+  padding: 5px 10px;
+  border: 1px solid #ff3377;
+  border-radius: 3px;
+  font-weight: 700;
+  color: #ff6b9a;
+  background: #1a0610;
+  white-space: nowrap;
+}
+.loc {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 8px;
+  color: #67e8f9;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.overBtn {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid #00f0ff;
+  font: inherit;
+  font-weight: 700;
+  color: #00f0ff;
+  background: #0e1726;
+  cursor: pointer; /* no clip-path here: it would also clip the enlarged hit area */
+}
+.overBtn[aria-checked="true"] {
+  border-color: #ff0055;
+  color: #05070a;
+  background: #ff4d88;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 146px 1fr;
+  gap: 10px;
+}
+.radarPanel,
+.modules,
+.spectrum {
+  border: 1px solid #155e6b;
+  background: rgba(14, 23, 38, 0.85);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.12);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+.radarPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 6px;
+}
+.radar {
+  width: 86px;
+  height: 86px;
+}
+.ring,
+.ringDash {
+  fill: none;
+  stroke: #1f6f7d;
+  stroke-width: 1;
+}
+.ringDash {
+  stroke-dasharray: 3 3;
+}
+.sweep {
+  animation: spin 4s linear infinite;
+}
+.over .sweep {
+  animation-duration: 1.6s;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.wedge {
+  fill: var(--accent);
+  opacity: 0.16;
+}
+.beam {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.blip {
+  fill: #ff0055;
+}
+.blipFar {
+  fill: #facc15;
+}
+.ranges {
+  display: flex;
+  gap: 4px;
+}
+.rangeBtn,
+.chBtn {
+  height: 28px;
+  padding: 0 5px;
+  border: 1px solid #1f6f7d;
+  white-space: nowrap;
+  font: inherit;
+  font-size: 8.5px;
+  color: #a5f3fc;
+  background: #05070a;
+  cursor: pointer;
+}
+.rangeBtn[aria-checked="true"],
+.chBtn[aria-checked="true"] {
+  border-color: var(--accent);
+  color: #05070a;
+  background: var(--accent);
+}
+.caption {
+  font-size: 8px;
+  font-weight: 700;
+  color: #67e8f9;
+}
+
+.modules {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 10px;
+}
+.module {
+  display: grid;
+  gap: 4px;
+  height: 32px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  font: inherit;
+  text-align: left;
+  color: #cbd5e1;
+  background: transparent;
+  cursor: pointer;
+}
+.module:hover {
+  border-color: #1f6f7d;
+}
+.module[aria-checked="false"] .modLabel {
+  color: #94a3b8;
+}
+.track {
+  height: 6px;
+  background: #1e293b;
+}
+.fill {
+  display: block;
+  height: 100%;
+  transition: width 0.4s ease;
+}
+.cyan .fill {
+  background: linear-gradient(90deg, #00c4d4, #38bdf8);
+}
+.magenta .fill {
+  background: linear-gradient(90deg, #db0049, #ff4d6d);
+}
+.yellow .fill {
+  background: #facc15;
+}
+.readouts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 2px;
+}
+.box {
+  display: grid;
+  gap: 2px;
+  padding: 4px 6px;
+  border: 1px solid #1e3a46;
+  font-size: 8px;
+  color: #94a3b8;
+  background: #05070a;
+}
+.cyanText {
+  font-weight: 400;
+  color: #00f0ff;
+}
+.pink {
+  font-weight: 400;
+  color: #ff4d88;
+}
+
+.spectrum {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: 6px 12px;
+}
+.specHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.specTitle {
+  font-weight: 700;
+  color: #38bdf8;
+}
+.channels {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+.rate {
+  font-size: 8px;
+  color: #94a3b8;
+}
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  flex: 1;
+  min-height: 0;
+  margin-top: 6px;
+  border-bottom: 1px solid #1f6f7d;
+}
+.bar {
+  flex: 1;
+  background: #00c4d4;
+  transition: height 0.35s ease;
+}
+.bar[data-tone="m"] {
+  background: #ff0055;
+}
+.bar[data-tone="y"] {
+  background: #facc15;
+}
+.log {
+  margin-top: 4px;
+  font-size: 7.5px;
+  color: #94a3b8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep {
+    animation: none;
+  }
+}

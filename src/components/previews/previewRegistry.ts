@@ -60,6 +60,13 @@ export const previewRegistry: Partial<Record<number, () => Promise<PreviewModule
   25: () => import("./styles/25-noir"),
   41: () => import("./styles/41-zen"),
   43: () => import("./styles/43-variable-font"),
+  // Phase 2B batch 5: Atmospheric & Futuristic
+  9: () => import("./styles/09-aurora"),
+  16: () => import("./styles/16-cyber-hud"),
+  22: () => import("./styles/22-synthwave"),
+  24: () => import("./styles/24-scrollytelling"),
+  28: () => import("./styles/28-motion-first"),
+  35: () => import("./styles/35-holographic"),
 };
 
 export const hasPreview = (id: number) => previewRegistry[id] !== undefined;

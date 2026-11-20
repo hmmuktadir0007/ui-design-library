@@ -56,9 +56,9 @@ src/components/previews/        previewRegistry.ts, StylePreview.tsx (lazy, per-
 Shell tokens are CSS custom properties in `src/index.css` (`:root` / `.dark`), exposed to Tailwind via `@theme inline`.
 Gallery grid is `repeat(auto-fill, minmax(min(100%,320px),1fr))`: column count follows usable width (1 @375, 2 @768, 4 @1440).
 
-## Style preview architecture (Phase 2B batches 1–4 built: 36 of 50)
+## Style preview architecture (Phase 2B batches 1–5 built: 42 of 50)
 
-- `previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>>`. A style is registered only when its preview is finished. Registered now (36): 1, 4, 5, 6, 10, 18, 31, 34, 45, 46 (Morphism & Depth); 7, 12, 15, 21, 33, 36, 38, 39, 42, 49 (Bold, Retro & Expressive); 3, 8, 14, 29, 30, 32, 37, 47, 48 (Modern SaaS & Dashboards); 2, 11, 17, 23, 25, 41, 43 (Minimal & Typographic).
+- `previewRegistry: Partial<Record<number, () => Promise<PreviewModule>>>`. A style is registered only when its preview is finished. Registered now (42): 1, 4, 5, 6, 10, 18, 31, 34, 45, 46 (Morphism & Depth); 7, 12, 15, 21, 33, 36, 38, 39, 42, 49 (Bold, Retro & Expressive); 3, 8, 14, 29, 30, 32, 37, 47, 48 (Modern SaaS & Dashboards); 2, 11, 17, 23, 25, 41, 43 (Minimal & Typographic); 9, 16, 22, 24, 28, 35 (Atmospheric & Futuristic).
 - `hasPreview(id)` gates every Live CSS control: unregistered styles render the reference image plus a "planned" note, no toggle.
 - Each preview: `previews/styles/NN-name.tsx` + `NN-name.module.css`. CSS isolation:
   - CSS Modules hash every class name; `scoping.test.ts` fails the build's test run if a preview stylesheet has a selector not rooted in a class, `:global`, `@import`, `position: fixed` or `!important`, or if registry and stylesheets disagree.
@@ -103,15 +103,17 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | 2B batch 2 | 10 Bold, Retro & Expressive live previews, a11y suite from the start | functional + a11y suites pass at 375/768/1440 — **complete** |
 | 2B batch 3 | 9 Modern SaaS & Dashboards live previews (command palettes, sortable table, heatmap, masonry, terminal) | functional + a11y suites pass at 375/768/1440 — **complete** |
 | 2B batch 4 | 7 Minimal & Typographic live previews (real variable font for 43, timer, reading modes) | functional + a11y suites pass at 375/768/1440 — **complete** |
-| 2B remaining | 14 previews: Atmospheric & Futuristic 6, Art & Heritage Movements 8 | not started |
+| 2B batch 5 | 6 Atmospheric & Futuristic live previews (aurora mesh, HUD, synthwave player, scrollytelling, motion, holographic card) | functional + a11y + reduced-motion suites pass at 375/768/1440 — **complete** |
+| 2B remaining | 8 previews: Art & Heritage Movements | not started |
 | 2B playground | viewport frame, variable controls, generated CSS, reset | not started |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |
 
 ## Scope notes for Phase 2B
 
-- Previews are built in category batches with a review gate each (batches 1–4 done). Next batch needs approval.
+- Previews are built in category batches with a review gate each (batches 1–5 done). Next batch needs approval.
 - Playwright runs with 4 workers (more starves the local preview server); add new preview ids to `LIVE_IDS` in `tests/e2e/fixtures.ts` and a pointer + keyboard case in `previews.spec.ts`. Locate cards with `card(page, id)` (by `aria-labelledby`), never `article.nth()`: previews may contain `<article>`. Tests that loop over every live card are `test.slow()`.
 - Fonts: system stacks by default. A preview that needs a real font ships an OFL subset next to its CSS (`styles/fonts/`, license alongside, renamed if the family has a Reserved Font Name), loaded by `@font-face` in its own CSS Module so it stays in that preview's lazy chunk.
+- Motion: the global reduced-motion rule only shortens durations, so a preview with an infinite animation must remove it under `prefers-reduced-motion: reduce` in its own CSS Module. Pointer-driven effects write custom properties directly (no React state per pointer move). No `clip-path` on a control (it clips the enlarged hit area). A preview with its own scroll container keeps every control outside it, so controls stay visible and hit-testable; use `aria-disabled`, not `disabled`, for controls that must stay in the Tab order.
 - Keyboard shortcuts inside a preview are bound on the preview root (never `window`), and Esc handled by a preview must `preventDefault` + `stopPropagation` so the app's detail dialog stays open. Pure logic a preview needs (e.g. the 37 terminal interpreter) lives in a sibling `.ts` file with its own Vitest test.
 - Playground "generated CSS" will cover only the CSS variables a preview actually uses; no export is offered for controls without CSS output.

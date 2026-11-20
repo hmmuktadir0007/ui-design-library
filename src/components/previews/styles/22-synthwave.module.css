@@ -1,0 +1,302 @@
+/* Live demo CSS for style 22. Palette: #120428 #FF2A85 #00F0FF #FF9E00 #240B36.
+   Perspective grid = repeating gradients on a plane tilted with rotateX; visualizers animate only while playing. */
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #120428 0%, #240b36 100%);
+  color: #f8fafc;
+  font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+.root :focus-visible {
+  outline: 2px solid #ff9e00;
+  outline-offset: 2px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 18px 0;
+  font: 700 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.05em;
+}
+.cyan {
+  color: #00f0ff;
+}
+.gold {
+  color: #ff9e00;
+}
+
+.scene {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.sun {
+  position: absolute;
+  bottom: 42%;
+  left: 50%;
+  width: 92px;
+  height: 92px;
+  margin-left: -46px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 9px, #120428 9px 13px) 0 46px / 100% 46px no-repeat,
+    linear-gradient(180deg, #ff2a85, #ff9e00);
+}
+.glow .sun {
+  box-shadow: 0 0 calc(30px * var(--vol)) rgba(255, 42, 133, 0.55);
+}
+.mountains {
+  position: absolute;
+  right: 0;
+  bottom: 42%;
+  left: 0;
+  height: 34px;
+  background: #2a0f52;
+  clip-path: polygon(0 100%, 12% 30%, 26% 100%, 34% 100%, 46% 10%, 58% 100%, 64% 100%, 74% 20%, 86% 100%, 90% 100%, 95% 45%, 100% 100%);
+}
+.floor {
+  position: absolute;
+  right: -40%;
+  bottom: 0;
+  left: -40%;
+  height: 42%;
+  overflow: hidden;
+  border-top: 2px solid #ff2a85;
+  perspective: 160px;
+}
+.grid {
+  position: absolute;
+  inset: -100% 0 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 240, 255, 0.75) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(180deg, rgba(0, 240, 255, 0.75) 0 1px, transparent 1px 22px);
+  transform: rotateX(62deg);
+  transform-origin: 50% 100%;
+}
+.glow .floor {
+  box-shadow: 0 -6px 16px rgba(255, 42, 133, 0.45);
+}
+
+.eq {
+  position: absolute;
+  right: 22%;
+  bottom: 42%;
+  left: 22%;
+  display: none;
+  align-items: flex-end;
+  gap: 4px;
+  height: 46px;
+}
+.mBars .eq {
+  display: flex;
+}
+.eqBar {
+  flex: 1;
+  background: linear-gradient(180deg, #00f0ff, #ff2a85);
+  transform: scaleY(var(--vol));
+  transform-origin: bottom;
+}
+.glow .eqBar {
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+.playing.mBars .eqBar {
+  animation: eq 0.9s ease-in-out infinite alternate;
+}
+@keyframes eq {
+  from {
+    transform: scaleY(calc(var(--vol) * 0.25));
+  }
+  to {
+    transform: scaleY(var(--vol));
+  }
+}
+.playing.mSun .sun {
+  animation: stripes 1.6s linear infinite;
+}
+@keyframes stripes {
+  to {
+    background-position: 0 92px, 0 0;
+  }
+}
+.playing.mGrid .grid {
+  animation: roll 0.8s linear infinite;
+}
+@keyframes roll {
+  to {
+    background-position: 0 0, 0 22px;
+  }
+}
+
+.player {
+  position: relative;
+  margin: 0 16px 14px;
+  padding: 10px 12px;
+  border: 1px solid #ff2a85;
+  border-radius: 12px;
+  background: rgba(18, 4, 40, 0.92);
+}
+.glow .player {
+  box-shadow: 0 0 18px rgba(255, 42, 133, 0.45);
+}
+.rowA {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.art {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #00f0ff;
+  border-radius: 6px;
+}
+.disc {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #ff2a85;
+  border-radius: 50%;
+  background: radial-gradient(circle, #00f0ff 0 3px, transparent 4px);
+}
+.info {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+.title {
+  font-size: 12px;
+  font-weight: 700;
+}
+.glow .title {
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.55);
+}
+.sub {
+  font: 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #ff6fae;
+}
+.transport {
+  display: flex;
+  gap: 6px;
+}
+.btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid #3b1d6e;
+  border-radius: 8px;
+  color: #00f0ff;
+  background: #1a0638;
+  cursor: pointer;
+}
+.btn svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+.play {
+  width: 36px;
+  border-color: #00f0ff;
+}
+
+.rowB {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+}
+.modes {
+  display: flex;
+  gap: 4px;
+}
+.mode {
+  height: 28px;
+  padding: 0 9px;
+  border: 1px solid #3b1d6e;
+  border-radius: 999px;
+  font: 600 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #f8fafc;
+  background: transparent;
+  cursor: pointer;
+}
+.mode[aria-checked="true"] {
+  border-color: #00f0ff;
+  color: #120428;
+  background: #00f0ff;
+}
+.vol {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  margin-left: 6px;
+  font: 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #c4b5fd;
+}
+.volVal {
+  width: 18px;
+  text-align: right;
+  color: #ff9e00;
+}
+
+/* Visible track on the track pseudo-elements: PreviewStage pads the input box with a transparent border. */
+.range {
+  width: 100%;
+  min-width: 0;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #3b1d6e;
+}
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #3b1d6e;
+}
+.range::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border: 0;
+  border-radius: 50%;
+  background: #ff2a85;
+  appearance: none;
+}
+.range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: #ff2a85;
+}
+
+.note {
+  position: absolute;
+  top: 28px;
+  right: 18px;
+  font: 7.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #c4b5fd;
+}
+
+/* The app's global reduced-motion rule only shortens durations; infinite loops must be removed outright. */
+@media (prefers-reduced-motion: reduce) {
+  .playing.mBars .eqBar,
+  .playing.mSun .sun,
+  .playing.mGrid .grid {
+    animation: none;
+  }
+}

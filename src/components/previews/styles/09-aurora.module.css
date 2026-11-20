@@ -1,0 +1,273 @@
+/* Live demo CSS for style 09. Palette: #05010F #6366F1 #2DD4BF #EC4899 #8B5CF6.
+   Colour bands are radial gradients that fade to transparent (no filter: blur, so moving them stays cheap);
+   arrangements move them with transform, Ambient drifts them with the separate `translate` property. */
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 20px 12px;
+  overflow: hidden;
+  background: #05010f;
+  color: #f8fafc;
+  font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+}
+.root :focus-visible {
+  outline: 2px solid #f8fafc;
+  outline-offset: 2px;
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  opacity: var(--glow);
+  transition: opacity 0.3s;
+}
+.blob {
+  position: absolute;
+  width: 300px;
+  height: 240px;
+  border-radius: 50%;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.b1 {
+  top: -60px;
+  left: -50px;
+  background: radial-gradient(closest-side, var(--c1) 35%, transparent);
+  transform: translate(var(--p1));
+}
+.b2 {
+  top: -30px;
+  right: -70px;
+  background: radial-gradient(closest-side, var(--c2) 35%, transparent);
+  transform: translate(var(--p2));
+}
+.b3 {
+  bottom: -70px;
+  left: -40px;
+  background: radial-gradient(closest-side, var(--c3) 35%, transparent);
+  transform: translate(var(--p3));
+}
+.b4 {
+  right: -50px;
+  bottom: -80px;
+  background: radial-gradient(closest-side, var(--c4) 35%, transparent);
+  transform: translate(var(--p4));
+}
+.borealis {
+  --c1: #ec4899;
+  --c2: #2dd4bf;
+  --c3: #6366f1;
+  --c4: #8b5cf6;
+  --p1: 0px, 0px;
+  --p2: 0px, 0px;
+  --p3: 80px, 0px;
+  --p4: 0px, 0px;
+}
+.dusk {
+  --c1: #8b5cf6;
+  --c2: #ec4899;
+  --c3: #ec4899;
+  --c4: #6366f1;
+  --p1: 140px, 20px;
+  --p2: -40px, 90px;
+  --p3: 0px, -30px;
+  --p4: -120px, 0px;
+}
+.lagoon {
+  --c1: #2dd4bf;
+  --c2: #6366f1;
+  --c3: #2dd4bf;
+  --c4: #8b5cf6;
+  --p1: 40px, 60px;
+  --p2: -120px, -10px;
+  --p3: 180px, 20px;
+  --p4: -30px, -60px;
+}
+.ambient .blob {
+  animation: drift 9s ease-in-out infinite alternate;
+}
+.ambient .b2,
+.ambient .b4 {
+  animation-direction: alternate-reverse;
+}
+@keyframes drift {
+  from {
+    translate: -24px -12px;
+  }
+  to {
+    translate: 24px 14px;
+  }
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  margin: 4px 16px 0;
+  padding: 16px 20px 14px;
+  border: 1px solid rgba(248, 250, 252, 0.22);
+  border-radius: 14px;
+  background: rgba(8, 5, 24, 0.5);
+}
+.chip {
+  padding: 4px 10px;
+  border: 1px solid rgba(45, 212, 191, 0.6);
+  border-radius: 999px;
+  font: 600 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.08em;
+  color: #5eead4;
+}
+.title {
+  margin: 10px 0 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.text {
+  max-width: 290px;
+  margin: 6px 0 0;
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+.features {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+.feature {
+  height: 30px;
+  padding: 0 14px;
+  border: 1px solid rgba(248, 250, 252, 0.3);
+  border-radius: 999px;
+  font: 600 10px "Inter", "Segoe UI", ui-sans-serif, sans-serif;
+  color: #f8fafc;
+  background: rgba(248, 250, 252, 0.06);
+  cursor: pointer;
+}
+.feature[aria-checked="true"] {
+  border-color: transparent;
+  color: #05010f;
+  background: linear-gradient(90deg, #5eead4, #a5b4fc 55%, #f9a8d4);
+}
+
+.controls {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.meshes {
+  display: flex;
+  gap: 4px;
+}
+.mesh,
+.toggle,
+.reset {
+  height: 30px;
+  padding: 0 11px;
+  border: 1px solid rgba(248, 250, 252, 0.28);
+  border-radius: 8px;
+  font: 600 9.5px "Inter", "Segoe UI", ui-sans-serif, sans-serif;
+  color: #f8fafc;
+  background: rgba(5, 1, 15, 0.8);
+  cursor: pointer;
+}
+.mesh[aria-checked="true"] {
+  border-color: #f8fafc;
+  color: #05010f;
+  background: #f8fafc;
+}
+.toggle {
+  margin-left: auto;
+}
+.toggle[aria-checked="true"] {
+  border-color: #5eead4;
+  color: #05010f;
+  background: #5eead4;
+}
+.reset {
+  color: #cbd5e1;
+}
+
+.slider {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba(248, 250, 252, 0.18);
+  border-radius: 8px;
+  background: rgba(5, 1, 15, 0.8);
+}
+.name,
+.val {
+  font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #cbd5e1;
+}
+.val {
+  color: #f9a8d4;
+}
+/* Visible track on the track pseudo-elements: PreviewStage pads the input box with a transparent border. */
+.range {
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6366f1, #2dd4bf, #ec4899);
+}
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6366f1, #2dd4bf, #ec4899);
+}
+.range::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border: 2px solid #05010f;
+  border-radius: 50%;
+  background: #f8fafc;
+  appearance: none;
+}
+.range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #05010f;
+  border-radius: 50%;
+  background: #f8fafc;
+}
+
+.rm {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  display: none;
+  font: 8px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #cbd5e1;
+}
+/* The app's global reduced-motion rule only shortens durations; an infinite drift must be removed outright. */
+@media (prefers-reduced-motion: reduce) {
+  .ambient .blob {
+    animation: none;
+  }
+  .ambient .rm {
+    display: block;
+  }
+}

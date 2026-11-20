@@ -65,7 +65,7 @@ try {
 <table><tr><th>Style</th><th>Slide Visual (source)</th><th>Live CSS preview</th></tr>${rows}</table>`,
     { waitUntil: "load" },
   );
-  // JPEG: the 2x full-page sheet of 36 PNG pairs is ~11 MB as PNG, ~2-3 MB as JPEG and still readable.
+  // JPEG: the 2x full-page sheet of 42 PNG pairs is ~11 MB as PNG, ~2-3 MB as JPEG and still readable.
   await page.screenshot({ path: `${OUT}/comparison-sheet.jpg`, type: "jpeg", quality: 82, fullPage: true });
 
   // 3. Gallery with every live card switched to Live CSS, and one detail view per batch, per viewport.
@@ -78,7 +78,7 @@ try {
     await page.waitForFunction((n) => document.querySelectorAll("article [data-preview-id] [style*='scale(']").length === n && !document.querySelector("article [data-preview-id] .animate-pulse"), IDS.length);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `${OUT}/gallery-${label}.png` });
-    for (const id of [6, 38, 30, 43]) {
+    for (const id of [6, 38, 30, 43, 24]) {
       step = `detail ${nn(id)} ${label}`;
       await page.goto(BASE);
       await openDetail(id);
