@@ -81,7 +81,6 @@ export default function CommandFirst() {
     }
   };
 
-  let lastGroup = "";
   return (
     <div className={`${s.root} ${ctx.light ? s.light : ""}`} onKeyDown={onRootKey}>
       <header className={s.app}>
@@ -126,8 +125,8 @@ export default function CommandFirst() {
             </button>
           </div>
           <ul className={s.list} id={`${id}-list`} role="listbox" aria-label="Commands">
-            {matches.map((c) => {
-              const head = c.group !== lastGroup ? (lastGroup = c.group) : null;
+            {matches.map((c, i) => {
+              const head = i === 0 || matches[i - 1].group !== c.group ? c.group : null;
               const selected = c === matches[cur];
               return (
                 <li key={c.label} role="presentation">

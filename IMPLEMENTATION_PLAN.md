@@ -108,8 +108,8 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | 2C-1 | P1 interaction & a11y fixes: Style 35 mobile touch scrolling (`touch-action: pan-y`), Style 47 single-Tab-stop 7×4 heatmap grid navigation, roving tabindex + arrow keys across all 46 `radiogroup` controls (34 previews), dialog focus-trap/Escape regression tests | all 5 verification checks pass (109 Vitest, 398/402 Playwright, 0 axe violations) — **complete** |
 | 2C-2 | Cross-browser (Firefox + WebKit) & simulated mobile touch (`375px`, `hasTouch: true`) Playwright suite (`npm run test:e2e:compat`) + browser-specific CSS fixes | all 6 verification checks pass (19/21 compat, 398/402 Chromium, 109 Vitest) — **complete** |
 | 2C-3 | Targeted visual fidelity improvements for 9 styles (03, 08, 01, 06, 17, 32, 37, 44, 48) + regenerated screenshots | all 6 verification checks pass + 9 visual pairs verified — **complete** |
-| 2C-4 | performance/image optimization (thumbnails, comparison sheet, Lighthouse) | not started |
-| 2B playground | viewport frame, variable controls, generated CSS, reset | not started |
+| 2C-4 | Responsive WebP gallery thumbnails (`npm run generate:thumbs`, 89.9% smaller), ESLint (`npm run lint`, 0 errors), `public/robots.txt`, Lighthouse mobile & desktop baseline | Mobile 96/100/100/100, Desktop 100/100/100/100, all 7 checks pass — **complete**; Phase 2C done |
+| 2D playground | viewport frame, variable controls, generated CSS, reset | not started |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |
 

@@ -18,15 +18,13 @@ export default function Zen() {
   const total = SESSIONS[sel].mins * 60;
   const pct = Math.round(((total - left) / total) * 100);
   const done = left === 0;
+  const active = running && !done;
 
   useEffect(() => {
-    if (!running) return;
+    if (!active) return;
     const t = setInterval(() => setLeft((l) => Math.max(0, l - 1)), 1000);
     return () => clearInterval(t);
-  }, [running]);
-  useEffect(() => {
-    if (done) setRunning(false);
-  }, [done]);
+  }, [active]);
 
   const choose = (i: number) => {
     setSel(i);
@@ -62,8 +60,8 @@ export default function Zen() {
             ))}
           </div>
           <div className={s.actions}>
-            <button type="button" className={s.primary} onClick={() => (done ? reset() : setRunning(!running))}>
-              {running ? "PAUSE" : done ? "AGAIN" : left < total ? "RESUME" : "BEGIN RITUAL →"}
+            <button type="button" className={s.primary} onClick={() => (done ? reset() : setRunning(!active))}>
+              {active ? "PAUSE" : done ? "AGAIN" : left < total ? "RESUME" : "BEGIN RITUAL →"}
             </button>
             <button type="button" className={s.quiet} onClick={reset}>
               Reset
@@ -88,7 +86,7 @@ export default function Zen() {
             </p>
             <p className={s.time}>{done ? "Session complete" : `${clock(left)} remaining`}</p>
             <p className={s.cardNote} role="status">
-              {running ? "Breathe. The kettle is singing." : done ? "Bow, and rinse the bowl." : left < total ? "Paused" : "Ready when you are"}
+              {active ? "Breathe. The kettle is singing." : done ? "Bow, and rinse the bowl." : left < total ? "Paused" : "Ready when you are"}
             </p>
           </div>
         </section>

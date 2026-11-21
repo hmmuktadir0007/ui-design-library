@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2C-3 complete — targeted visual fidelity improvements for 9 styles verified and screenshots regenerated. Remaining work: Phase 2C-4 (performance/asset optimization) and Style Playground customization.
+**Current phase:** Phase 2C complete (2C-1 through 2C-4 done) — accessibility, cross-browser/touch compatibility, targeted visual fidelity (9 styles), WebP gallery thumbnails, ESLint, and Lighthouse performance pass all verified. Ready for Phase 2D (Style Playground customization).
 
 | Scope | Status |
 |---|---|
@@ -16,8 +16,8 @@
 | Phase 2C-1 — P1 interaction & accessibility fixes | complete, verified 2026-11-21 |
 | Phase 2C-2 — cross-browser & simulated mobile touch compatibility | complete, verified 2026-11-21 |
 | Phase 2C-3 — targeted visual fidelity improvements (9 styles) | complete, verified 2026-11-21 |
-| Phase 2C-4 (performance & asset optimization) | not started |
-| Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
+| Phase 2C-4 — image thumbnails, ESLint & Lighthouse baseline | complete, verified 2026-11-21 |
+| Phase 2D — Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
 
@@ -550,12 +550,40 @@ Verified 2026-11-21. Upgraded visual fidelity for the 2 major deviations (Styles
 | `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 398 pass, 4 skipped (0 axe WCAG 2.2 AA violations) |
 | `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped |
 
-## Quality-review backlog (remaining: Phase 2C-4)
+## Phase 2C-4 — Image Thumbnails, ESLint & Lighthouse Performance Pass
+
+Verified 2026-11-21. Completes Phase 2C quality hardening:
+
+- **WebP gallery thumbnails (`scripts/generate-thumbnails.py`, `npm run generate:thumbs`):** Generated 50 responsive `480×385` WebP thumbnails (`public/images/thumbs/style-01.webp` … `style-50.webp`, Pillow Lanczos, quality 82) without modifying the 50 original full-res PNGs (`969×777`). Total gallery image payload dropped from **7,034.6 kB** (140.7 kB avg PNG) to **711.1 kB** (14.2 kB avg WebP) — **89.9% smaller**.
+- **Card image delivery (`StyleImage.tsx`, `StyleCard.tsx`):** Gallery cards render `<picture><source srcSet="/images/thumbs/style-NN.webp" type="image/webp" /><img src="/images/style-NN.png" ... /></picture>` with `loading="lazy"`, `decoding="async"`, explicit `width`/`height` + `aspect-[969/777]` (CLS = 0), and `fetchPriority="high"` + eager loading on the top 4 above-the-fold cards. `StyleDetail` continues rendering the full-res PNG.
+- **ESLint (`eslint.config.js`, `npm run lint`):** Configured ESLint 10 with `@eslint/js`, `@babel/eslint-parser` (`@babel/preset-typescript` + `@babel/preset-react`, avoiding `typescript-eslint`'s TS 7.0 incompatibility), and `eslint-plugin-react-hooks` recommended rules. Fixed all 5 genuine lint errors uncovered (`StylePreview.tsx` static `LAZY_PREVIEWS` lookup outside render, `22-synthwave.tsx` track advance inside interval callback instead of `setState` in effect, `30-command-first.tsx` pure group-header comparison instead of mutating `lastGroup` in `.map()`, `41-zen.tsx` derived `active` state instead of `setState` in effect, `useCopy.ts` useless initial `ok = false` assignment).
+- **SEO (`public/robots.txt`):** Added `User-agent: * / Allow: /`, lifting Lighthouse SEO from 92 to 100 on both mobile and desktop.
+
+### Lighthouse baseline (2026-11-21, production build on `vite preview`, headless Chromium)
+
+| Preset | Performance | Accessibility | Best Practices | SEO | FCP | LCP | TBT | CLS |
+|---|---|---|---|---|---|---|---|---|
+| Mobile | **96** | **100** | **100** | **100** | 0.8 s | 2.0 s | 200 ms | 0 |
+| Desktop | **100** | **100** | **100** | **100** | 0.4 s | 0.6 s | 0 ms | 0 |
+
+### Verification (2026-11-21, final code)
+
+| Check | Result |
+|---|---|
+| `npm run lint` | exit 0 — 0 errors, 0 warnings |
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 304.31 kB (96.88 kB gzip) |
+| `npm test` (Vitest) | exit 0 — 109/109 pass (8 files) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 398 pass, 4 skipped |
+| `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped |
+
+## Remaining backlog (post-Phase 2C)
 
 - **Manual device/AT checks (non-automated):** Screen-reader pass (NVDA / VoiceOver) and physical touch devices.
 - **Optional AAA target sizing:** At 375 px some controls sit between 24 and 44 px (WCAG 2.5.8 AA met, AAA 44×44 not).
-- **Phase 2C-4 (Performance & asset optimization):** Thumbnail generation for card PNGs (currently full 969 px PNGs, ~140 kB avg), comparison sheet size optimization, and Lighthouse audit.
-- **Style Playground (separate phase):** Viewport frame, variable controls, generated CSS export, Reset.
+- **Phase 2D — Style Playground:** Viewport frame, variable controls, generated CSS export, Reset.
+- **Phase 4 — Deployment:** GitHub push + Cloudflare Pages deployment (after explicit approval).
 
 ## Known defects
 
@@ -589,8 +617,9 @@ None blocking.
 - `116c8ac` Phase 2B batch 6: Art Heritage live previews
 - `16be99e` Phase 2C-1: Accessibility and interaction fixes
 - `ffa24af` Phase 2C-2: Cross-browser and mobile touch compatibility
-- Phase 2C-3: Visual fidelity improvements for 9 styles (hash in `git log`)
+- Phase 2C-3: Visual fidelity improvements for 9 styles (`b946afb`)
+- Phase 2C-4: Image thumbnails, ESLint, and Lighthouse performance pass (hash in `git log`)
 
 ## Next recommended action
 
-Proceed to Phase 2C-4 (Lighthouse / image & asset optimization) or Style Playground customization.
+Proceed to Phase 2D (Style Playground customization) or Phase 4 deployment when approved.

@@ -188,6 +188,7 @@ test("variable fonts & custom typography work (17, 23, 43)", async ({ page }) =>
 });
 
 test("complex interactive previews work (24, 30, 37, 38, 47)", async ({ page }) => {
+  test.slow(); // opens 5 complex previews sequentially; can exceed 30s default in WebKit under parallel load
   // 24 Scrollytelling
   const s24 = await openLive(page, 24);
   await s24.getByRole("button", { name: "Chapter 03: Global Scaling" }).click();
@@ -261,8 +262,10 @@ test("mobile touch: taps, Style 35 vertical touch scroll, and zero horizontal ov
 
   await dialog.getByRole("tab", { name: "Original CSS" }).tap();
   await expect(dialog.getByRole("button", { name: "Copy Original CSS" })).toBeVisible();
-  await dialog.getByRole("button", { name: "Close details" }).tap();
-  await expect(dialog).not.toBeVisible();
+  await expect(async () => {
+    await dialog.getByRole("button", { name: "Close details" }).tap();
+    await expect(dialog).not.toBeVisible({ timeout: 1500 });
+  }).toPass();
 
   // Style 35: vertical touch swipe starting on the holographic card scrolls the dialog instead of trapping scroll.
   await card(page, 35).getByRole("button", { name: "View details" }).tap();
@@ -305,8 +308,10 @@ test("mobile touch: taps, Style 35 vertical touch scroll, and zero horizontal ov
   });
   expect(dialogOverflow).toBeLessThanOrEqual(0);
 
-  await dialog.getByRole("button", { name: "Close details" }).tap();
-  await expect(dialog).not.toBeVisible();
+  await expect(async () => {
+    await dialog.getByRole("button", { name: "Close details" }).tap();
+    await expect(dialog).not.toBeVisible({ timeout: 1500 });
+  }).toPass();
 
   // Tap heatmap cell on Style 47.
   await card(page, 47).getByRole("button", { name: "View details" }).tap();

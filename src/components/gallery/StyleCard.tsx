@@ -28,7 +28,7 @@ export function StyleCard({ style, eager, onOpen }: Props) {
         </div>
       ) : (
         <button type="button" onClick={open} aria-label={`Enlarge ${style.name}`} className="block overflow-hidden border-b border-line">
-          <StyleImage style={style} eager={eager} className="transition-transform duration-300 group-hover:scale-[1.015]" />
+          <StyleImage style={style} eager={eager} thumb className="transition-transform duration-300 group-hover:scale-[1.015]" />
         </button>
       )}
       {live && (

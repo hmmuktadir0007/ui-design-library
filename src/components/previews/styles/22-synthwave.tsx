@@ -22,15 +22,17 @@ export default function Synthwave() {
 
   useEffect(() => {
     if (!playing) return;
-    const id = setInterval(() => setPos((p) => p + 1), 1000);
+    const id = setInterval(() => {
+      setPos((p) => {
+        if (p + 1 > t.length) {
+          setTrack((tr) => (tr + 1) % TRACKS.length);
+          return 0;
+        }
+        return p + 1;
+      });
+    }, 1000);
     return () => clearInterval(id);
-  }, [playing]);
-  // End of track: continue with the next one.
-  useEffect(() => {
-    if (pos <= t.length) return;
-    setTrack((track + 1) % TRACKS.length);
-    setPos(0);
-  }, [pos, t.length, track]);
+  }, [playing, t.length]);
 
   const go = (d: number) => {
     setTrack((track + d + TRACKS.length) % TRACKS.length);
