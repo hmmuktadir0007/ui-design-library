@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2C complete (2C-1 through 2C-4 done) — accessibility, cross-browser/touch compatibility, targeted visual fidelity (9 styles), WebP gallery thumbnails, ESLint, and Lighthouse performance pass all verified. Ready for Phase 2D (Style Playground customization).
+**Current phase:** Phase 2D complete — interactive Style Playground (viewport presets, Compare mode, Preview Backdrop, live `--pg-*` CSS-variable customization across 28 styles, immutable Original CSS vs. Generated CSS export, and Reset) verified across all 7 checks. Ready for Phase 4 deployment when approved.
 
 | Scope | Status |
 |---|---|
@@ -17,7 +17,7 @@
 | Phase 2C-2 — cross-browser & simulated mobile touch compatibility | complete, verified 2026-11-21 |
 | Phase 2C-3 — targeted visual fidelity improvements (9 styles) | complete, verified 2026-11-21 |
 | Phase 2C-4 — image thumbnails, ESLint & Lighthouse baseline | complete, verified 2026-11-21 |
-| Phase 2D — Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
+| Phase 2D — Full Playground customization (viewport frame, variable controls, generated CSS) | complete, verified 2026-11-21 |
 
 ## Completed
 
@@ -578,22 +578,42 @@ Verified 2026-11-21. Completes Phase 2C quality hardening:
 | `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 398 pass, 4 skipped |
 | `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped |
 
-## Remaining backlog (post-Phase 2C)
+## Phase 2D — Interactive Style Playground
+
+Verified 2026-11-21. Upgraded `StyleDetail` into a full interactive Style Playground without breaking CSS isolation, accessibility, or Original CSS immutability:
+
+- **Viewport presets & Compare mode (`StyleDetail.tsx`, `PreviewToggle.tsx`):** Added Desktop / Tablet / Mobile viewport framing that resizes the live preview container in real time across all 50 styles, plus a **Compare** mode (side-by-side on wide screens, stacked on mobile) showing the original slide visual next to the customized live preview.
+- **Preview Backdrop (`PlaygroundControls.tsx`):** Auto / Light / Dark / Neutral stage surround for contrast testing across all 50 styles.
+- **Incremental CSS-variable customization (`playgroundConfig.ts`, `PreviewStage.tsx`, 28 CSS Modules):** Wired `--pg-*` custom properties across 28 representative styles covering all 6 categories (zero dead controls, enforced by `playgroundConfig.test.ts` against each style's `.module.css`):
+  - **Accent Color (`--pg-accent` → `--accent`):** 27 styles (seeded from `styles.json` with palette swatch quick-picks + native color picker; omitted on pure Monochrome/Noir 25).
+  - **Border Radius (`--pg-radius` → `--radius`):** 21 rounded-corner styles (explicitly omitted on sharp-corner styles 07, 11, 13, 21, 25, 38 and axonometric 34).
+  - **Surface Padding / Scale (`--pg-scale` → `--density`):** 24 styles.
+  - **Shadow / Depth Intensity (`--pg-shadow-strength` → `--shadow-strength`):** 20 depth-based styles (all 10 Morphism & Depth + Material 03, Neo-Brutalism 07, Bento 08, Memphis 20, Motion-First 28, Command-First 30, Flat 2.0 32, Gamified 39, Masonry 48, Kawaii 49).
+- **Separate Original CSS vs. Generated CSS (`SourceTabs.tsx`):** Original CSS tab stays 100% verbatim; new **Generated CSS** tab outputs live `:root { ... }` custom properties listing only supported variables for the current style, with **Copy Generated CSS** (`CopyButton` + `role="status"`). Single **Reset** button restores all controls, viewport preset, and backdrop to defaults.
+- **Contrast fix (`src/index.css`):** Darkened `--code-comment` (`#5d606b` light / `#9ea3b0` dark) so comment lines in `CssCode` pass WCAG 2.2 AA contrast.
+
+### Verification (2026-11-21, final code)
+
+| Check | Result |
+|---|---|
+| `npm run lint` | exit 0 — 0 errors, 0 warnings |
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 316.69 kB (99.86 kB gzip) |
+| `npm test` (Vitest) | exit 0 — 117/117 pass (9 files; new: `playgroundConfig.test.ts` [8 tests]) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 407 pass, 4 skipped (new: `tests/e2e/playground.spec.ts` [9 tests]) |
+| `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped |
+
+## Remaining backlog (post-Phase 2D)
 
 - **Manual device/AT checks (non-automated):** Screen-reader pass (NVDA / VoiceOver) and physical touch devices.
 - **Optional AAA target sizing:** At 375 px some controls sit between 24 and 44 px (WCAG 2.5.8 AA met, AAA 44×44 not).
-- **Phase 2D — Style Playground:** Viewport frame, variable controls, generated CSS export, Reset.
 - **Phase 4 — Deployment:** GitHub push + Cloudflare Pages deployment (after explicit approval).
 
 ## Known defects
 
 None blocking.
-- Clipboard on Windows turns `
-` in copied CSS into `
-
-` (OS behaviour); the dataset keeps `
-`.
-- Card images use the full 969 px PNGs (~140 kB avg); thumbnails are a Phase 3 performance item.
+- Clipboard on Windows turns `\n` in copied CSS into `\r\n` (OS behaviour); the dataset keeps `\n`.
 - At 375 px some preview controls are between 24 and 44 px (WCAG AA met, AAA not); see Phase 2B accessibility findings.
 - Stop hook: the global `~/.claude/settings.json` runs `bash .claude/hooks/stop-path-guard.sh` and `bash .claude/hooks/stop-session-snapshot.sh` on Stop in every project; this repo has no `.claude/hooks/`, so the hook errors here. The original scripts are in the TYMINO-Finances repo. Deliberately not copied and settings not changed; resolve separately.
 
@@ -618,8 +638,9 @@ None blocking.
 - `16be99e` Phase 2C-1: Accessibility and interaction fixes
 - `ffa24af` Phase 2C-2: Cross-browser and mobile touch compatibility
 - Phase 2C-3: Visual fidelity improvements for 9 styles (`b946afb`)
-- Phase 2C-4: Image thumbnails, ESLint, and Lighthouse performance pass (hash in `git log`)
+- `8cfa7f6` Phase 2C-4: Image thumbnails, ESLint, and Lighthouse performance pass
+- Phase 2D: Interactive Style Playground with viewport and CSS customization (hash in `git log`)
 
 ## Next recommended action
 
-Proceed to Phase 2D (Style Playground customization) or Phase 4 deployment when approved.
+Proceed to Phase 4 (GitHub repository creation and Cloudflare Pages deployment) when approved.

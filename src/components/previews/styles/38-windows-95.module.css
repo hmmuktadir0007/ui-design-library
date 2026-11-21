@@ -59,7 +59,7 @@
   align-items: center;
   gap: 4px;
   padding: 2px;
-  background: #000080;
+  background: var(--pg-accent, #000080);
 }
 .inactive .titleBar {
   background: #707070;

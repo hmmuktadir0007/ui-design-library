@@ -31,7 +31,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #2563eb;
+  background: var(--pg-accent, #2563eb);
 }
 .billing {
   display: flex;
@@ -72,19 +72,19 @@
   min-height: 0;
   display: grid;
   grid-template-columns: 1.25fr 1fr;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: calc(12px * var(--pg-scale, 1));
+  padding: calc(12px * var(--pg-scale, 1)) calc(14px * var(--pg-scale, 1));
 }
 /* the Flat 2.0 card: white, 1px border, ultra-soft micro-shadow */
 .card {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 12px 14px;
+  padding: calc(12px * var(--pg-scale, 1)) calc(14px * var(--pg-scale, 1));
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: var(--pg-radius, 12px);
   background: #fff;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 calc(1px * var(--pg-shadow-strength, 1)) calc(3px * var(--pg-shadow-strength, 1)) rgba(15, 23, 42, 0.06);
 }
 .plans {
   display: flex;
@@ -231,7 +231,7 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: #2563eb;
+  background: var(--pg-accent, #2563eb);
   transition: width 0.25s ease;
 }
 .lines .totalLabel {
@@ -250,13 +250,13 @@
   min-height: 38px;
   margin-top: auto;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--pg-radius, 8px);
   font: inherit;
   font-size: 12px;
   font-weight: 700;
   color: #fff;
-  background: #2563eb;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+  background: var(--pg-accent, #2563eb);
+  box-shadow: 0 calc(1px * var(--pg-shadow-strength, 1)) calc(3px * var(--pg-shadow-strength, 1)) rgba(15, 23, 42, 0.12);
   cursor: pointer;
 }
 .cta:hover {

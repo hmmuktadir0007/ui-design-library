@@ -56,7 +56,7 @@
   inset: 0;
   border: 1px solid rgba(238, 242, 255, 0.25);
 }
-.front { transform: translateZ(35px); background: #4f46e5; }
+.front { transform: translateZ(35px); background: var(--pg-accent, #4f46e5); }
 .back { transform: rotateY(180deg) translateZ(35px); background: #312e81; }
 .right { transform: rotateY(90deg) translateZ(35px); background: #4338ca; }
 .left { transform: rotateY(-90deg) translateZ(35px); background: #6366f1; }
@@ -81,11 +81,11 @@
   padding: 10px;
   display: grid;
   gap: 6px;
-  border-radius: 10px;
+  border-radius: var(--pg-radius, 10px);
   border: 1px solid rgba(165, 180, 252, 0.35);
   background: rgba(30, 27, 75, 0.85);
   /* source CSS card depth */
-  box-shadow: 0 25px 50px -12px rgba(30, 27, 75, 0.25), 0 0 0 1px rgba(6, 182, 212, 0.1);
+  box-shadow: 0 calc(25px * var(--pg-shadow-strength, 1)) calc(50px * var(--pg-shadow-strength, 1)) -12px rgba(30, 27, 75, 0.25), 0 0 0 1px rgba(6, 182, 212, 0.1);
 }
 .cardA {
   left: -190px;

@@ -6,8 +6,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 18px;
-  padding: 22px;
+  gap: calc(18px * var(--pg-scale, 1));
+  padding: calc(22px * var(--pg-scale, 1));
   background: #0f172a;
   color: #fff;
   font-family: ui-sans-serif, system-ui, sans-serif;
@@ -20,10 +20,10 @@
   filter: blur(36px);
   opacity: 0.9;
 }
-.violet { width: 230px; height: 200px; left: -40px; top: 30px; background: #7c3aed; }
+.violet { width: 230px; height: 200px; left: -40px; top: 30px; background: var(--pg-accent, #7c3aed); }
 /* cyan sits top-centre as on the slide; not behind the weather header, where white text would drop below 4.5:1 */
 .cyan { width: 190px; height: 170px; left: 110px; top: -70px; background: #06b6d4; }
-.violetLow { width: 170px; height: 150px; right: 60px; bottom: -50px; background: #7c3aed; }
+.violetLow { width: 170px; height: 150px; right: 60px; bottom: -50px; background: var(--pg-accent, #7c3aed); }
 
 /* source CSS, verbatim values */
 .glass {
@@ -31,8 +31,8 @@
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.35);
+  border-radius: var(--pg-radius, 20px);
+  box-shadow: 0 calc(12px * var(--pg-shadow-strength, 1)) calc(30px * var(--pg-shadow-strength, 1)) rgba(2, 6, 23, 0.35);
 }
 
 .cardScene {

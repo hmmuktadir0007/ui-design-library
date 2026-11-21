@@ -1,5 +1,5 @@
 import { ExternalLink, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Style } from "../../types/style";
 import { Palette } from "../gallery/Palette";
 import { SourceTabs } from "../gallery/SourceTabs";
@@ -8,6 +8,17 @@ import { hasPreview } from "../previews/previewRegistry";
 import { PreviewStage } from "../previews/PreviewStage";
 import { PreviewToggle, type PreviewMode } from "../previews/PreviewToggle";
 import { CopyButton } from "../ui/CopyButton";
+import { PlaygroundControls } from "./PlaygroundControls";
+import {
+  BACKDROP_OPTIONS,
+  buildPreviewVars,
+  formatGeneratedCss,
+  getDefaultPlaygroundState,
+  getPlaygroundConfig,
+  isPlaygroundDefault,
+  VIEWPORT_PRESETS,
+  type PlaygroundState,
+} from "./playgroundConfig";
 
 interface Props {
   style: Style | null;
@@ -15,7 +26,7 @@ interface Props {
 }
 
 /**
- * Style detail dialog: the foundation of the future Playground.
+ * Style detail dialog & interactive Style Playground.
  * Native <dialog>.showModal() provides the focus trap, Esc-to-close, inert background and focus return.
  */
 export function StyleDetail({ style, onClose }: Props) {
@@ -65,73 +76,149 @@ export function StyleDetail({ style, onClose }: Props) {
             </button>
           </header>
 
-          <div className="grid flex-1 gap-6 overflow-y-auto overscroll-contain p-4 sm:p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-            <DetailVisual key={style.id} style={style} />
-
-            <div className="min-w-0 space-y-6">
-              <section aria-labelledby="where-h">
-                <h3 id="where-h" className="text-xs font-semibold tracking-wide text-muted uppercase">Where to use</h3>
-                <p className="mt-1 leading-relaxed">{style.whereToUse}</p>
-              </section>
-              <section aria-labelledby="how-h">
-                <h3 id="how-h" className="text-xs font-semibold tracking-wide text-muted uppercase">How to use</h3>
-                <p className="mt-1 leading-relaxed">{style.howToUse}</p>
-              </section>
-              <section aria-labelledby="palette-h" className="space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 id="palette-h" className="text-xs font-semibold tracking-wide text-muted uppercase">
-                    Color palette · {style.palette.length}
-                  </h3>
-                  <CopyButton text={style.palette.join(", ")} label="Copy Palette" />
-                </div>
-                <Palette colors={style.palette} names={style.paletteNames} />
-                <p className="text-xs text-muted">Click a swatch to copy its exact value.</p>
-              </section>
-              <section aria-label="AI prompt and original CSS">
-                <SourceTabs style={style} />
-              </section>
-            </div>
-          </div>
+          <StyleDetailBody key={style.id} style={style} />
         </div>
       )}
     </dialog>
   );
 }
 
-/** Reference image, or (for registered styles) a Slide Visual / Live CSS switch. Keyed by style id so mode resets per style. */
-function DetailVisual({ style }: { style: Style }) {
+/** Keyed by style.id so mode and Playground customizations reset cleanly when switching styles. */
+function StyleDetailBody({ style }: { style: Style }) {
   const live = hasPreview(style.id);
   const [mode, setMode] = useState<PreviewMode>(live ? "live" : "slide");
+  const config = useMemo(() => getPlaygroundConfig(style), [style]);
+  const defaults = useMemo(() => getDefaultPlaygroundState(style), [style]);
+  const [pgState, setPgState] = useState<PlaygroundState>(defaults);
+
+  const previewVars = useMemo(() => buildPreviewVars(config, pgState), [config, pgState]);
+  const generatedCss = useMemo(() => formatGeneratedCss(style, config, pgState), [style, config, pgState]);
+  const isDefault = isPlaygroundDefault(pgState, defaults);
+
+  const viewportPreset = VIEWPORT_PRESETS.find((v) => v.id === pgState.viewport) ?? VIEWPORT_PRESETS[0];
+  const backdropOption = BACKDROP_OPTIONS.find((b) => b.id === pgState.backdrop) ?? BACKDROP_OPTIONS[0];
+  const isFramed = pgState.viewport !== "desktop" || pgState.backdrop !== "auto";
+
+  const updateState = (patch: Partial<PlaygroundState>) => setPgState((prev) => ({ ...prev, ...patch }));
+  const resetState = () => setPgState(defaults);
+
   return (
-    <section aria-label="Reference visual" className="space-y-3">
-      <div className="overflow-hidden rounded-xl border border-line">
-        {mode === "live" ? <PreviewStage id={style.id} name={style.name} /> : <StyleImage style={style} eager />}
-      </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-        {live ? (
-          <PreviewToggle mode={mode} onChange={setMode} name={style.name} />
+    <div className="grid flex-1 gap-6 overflow-y-auto overscroll-contain p-4 sm:p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      <section aria-label="Reference visual" className="min-w-0 space-y-3">
+        {mode === "compare" && live ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2" data-playground-compare="">
+            <figure className="space-y-1.5">
+              <figcaption className="text-xs font-medium text-muted">Original slide</figcaption>
+              <div className="overflow-hidden rounded-xl border border-line">
+                <StyleImage style={style} eager />
+              </div>
+            </figure>
+            <figure className="space-y-1.5">
+              <figcaption className="text-xs font-medium text-muted">Live CSS ({viewportPreset.label})</figcaption>
+              <div
+                data-playground-stage=""
+                data-backdrop={pgState.backdrop}
+                className={`flex justify-center overflow-hidden rounded-xl border border-line transition-colors ${backdropOption.className} ${
+                  isFramed ? "p-2.5" : ""
+                }`}
+              >
+                <div
+                  data-viewport-frame={pgState.viewport}
+                  style={{ width: viewportPreset.frameWidth }}
+                  className={`transition-[width] duration-200 ${
+                    pgState.viewport !== "desktop" ? "overflow-hidden rounded-lg border border-line-strong shadow-card" : ""
+                  }`}
+                >
+                  <PreviewStage id={style.id} name={style.name} vars={previewVars} />
+                </div>
+              </div>
+            </figure>
+          </div>
+        ) : mode === "live" && live ? (
+          <div
+            data-playground-stage=""
+            data-backdrop={pgState.backdrop}
+            className={`flex justify-center overflow-hidden rounded-xl border border-line transition-colors ${backdropOption.className} ${
+              isFramed ? "p-3" : ""
+            }`}
+          >
+            <div
+              data-viewport-frame={pgState.viewport}
+              style={{ width: viewportPreset.frameWidth }}
+              className={`transition-[width] duration-200 ${
+                pgState.viewport !== "desktop" ? "overflow-hidden rounded-lg border border-line-strong shadow-card" : ""
+              }`}
+            >
+              <PreviewStage id={style.id} name={style.name} vars={previewVars} />
+            </div>
+          </div>
         ) : (
-          <span className="text-muted">Original reference image</span>
+          <div className="overflow-hidden rounded-xl border border-line">
+            <StyleImage style={style} eager />
+          </div>
         )}
-        <a
-          href={style.imagePath}
-          target="_blank"
-          rel="noopener"
-          className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 font-medium text-accent hover:bg-accent-soft"
-        >
-          Open original image <ExternalLink className="size-4" aria-hidden />
-        </a>
+
+        <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+          {live ? (
+            <PreviewToggle mode={mode} onChange={setMode} name={style.name} allowCompare />
+          ) : (
+            <span className="text-muted">Original reference image</span>
+          )}
+          <a
+            href={style.imagePath}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 font-medium text-accent hover:bg-accent-soft"
+          >
+            Open original image <ExternalLink className="size-4" aria-hidden />
+          </a>
+        </div>
+
+        {live && mode !== "slide" && (
+          <PlaygroundControls
+            config={config}
+            state={pgState}
+            isDefault={isDefault}
+            onChange={updateState}
+            onReset={resetState}
+          />
+        )}
+
+        {live ? (
+          <p className="text-xs text-muted">
+            Live CSS is a hand-built interactive interpretation of the slide, not the original artwork. Its CSS is separate from the
+            original snippet below.
+          </p>
+        ) : (
+          <p className="rounded-xl border border-dashed border-line px-3 py-2 text-sm text-muted">
+            Live interactive CSS preview: planned, not yet available for this style.
+          </p>
+        )}
+      </section>
+
+      <div className="min-w-0 space-y-6">
+        <section aria-labelledby="where-h">
+          <h3 id="where-h" className="text-xs font-semibold tracking-wide text-muted uppercase">Where to use</h3>
+          <p className="mt-1 leading-relaxed">{style.whereToUse}</p>
+        </section>
+        <section aria-labelledby="how-h">
+          <h3 id="how-h" className="text-xs font-semibold tracking-wide text-muted uppercase">How to use</h3>
+          <p className="mt-1 leading-relaxed">{style.howToUse}</p>
+        </section>
+        <section aria-labelledby="palette-h" className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <h3 id="palette-h" className="text-xs font-semibold tracking-wide text-muted uppercase">
+              Color palette · {style.palette.length}
+            </h3>
+            <CopyButton text={style.palette.join(", ")} label="Copy Palette" />
+          </div>
+          <Palette colors={style.palette} names={style.paletteNames} />
+          <p className="text-xs text-muted">Click a swatch to copy its exact value.</p>
+        </section>
+        <section aria-label="AI prompt and CSS">
+          <SourceTabs style={style} generatedCss={generatedCss} />
+        </section>
       </div>
-      {live ? (
-        <p className="text-xs text-muted">
-          Live CSS is a hand-built interactive interpretation of the slide, not the original artwork. Its CSS is separate from the
-          original snippet below.
-        </p>
-      ) : (
-        <p className="rounded-xl border border-dashed border-line px-3 py-2 text-sm text-muted">
-          Live interactive CSS preview: planned, not yet available for this style.
-        </p>
-      )}
-    </section>
+    </div>
   );
 }

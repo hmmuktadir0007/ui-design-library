@@ -1,21 +1,25 @@
-export type PreviewMode = "slide" | "live";
+export type PreviewMode = "slide" | "live" | "compare";
 
 interface Props {
   mode: PreviewMode;
   onChange: (m: PreviewMode) => void;
   name: string;
+  allowCompare?: boolean;
 }
 
-const OPTIONS: { key: PreviewMode; label: string }[] = [
+const BASE_OPTIONS: { key: PreviewMode; label: string }[] = [
   { key: "slide", label: "Slide Visual" },
   { key: "live", label: "Live CSS" },
 ];
 
+const COMPARE_OPTION: { key: PreviewMode; label: string } = { key: "compare", label: "Compare" };
+
 /** Only rendered for styles registered in previewRegistry. */
-export function PreviewToggle({ mode, onChange, name }: Props) {
+export function PreviewToggle({ mode, onChange, name, allowCompare = false }: Props) {
+  const options = allowCompare ? [...BASE_OPTIONS, COMPARE_OPTION] : BASE_OPTIONS;
   return (
     <div role="group" aria-label={`${name} preview mode`} className="inline-flex rounded-lg border border-line bg-surface-2 p-0.5">
-      {OPTIONS.map((o) => (
+      {options.map((o) => (
         <button
           key={o.key}
           type="button"

@@ -3,10 +3,10 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 8px;
+  gap: calc(8px * var(--pg-scale, 1));
   height: 100%;
   overflow: hidden;
-  padding: 10px;
+  padding: calc(10px * var(--pg-scale, 1));
   background: #f5f5f7;
   color: #111827;
   font-family: "Inter", "SF Pro Display", ui-sans-serif, system-ui, sans-serif;
@@ -18,9 +18,11 @@
   min-height: 0;
   padding: 10px;
   border: 1px solid #e5e7eb;
-  border-radius: 18px;
+  border-radius: var(--pg-radius, 18px);
   background: #fff;
-  box-shadow: 0 4px 12px rgba(17, 24, 39, 0.06), 0 1px 2px rgba(17, 24, 39, 0.04);
+  box-shadow:
+    0 calc(4px * var(--pg-shadow-strength, 1)) calc(12px * var(--pg-shadow-strength, 1)) rgba(17, 24, 39, 0.06),
+    0 calc(1px * var(--pg-shadow-strength, 1)) calc(2px * var(--pg-shadow-strength, 1)) rgba(17, 24, 39, 0.04);
 }
 .kicker {
   margin: 0;
@@ -125,8 +127,8 @@
   transition: box-shadow 0.15s, border-color 0.15s;
 }
 .kpi[aria-pressed="true"] {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px #3b82f6;
+  border-color: var(--pg-accent, #3b82f6);
+  box-shadow: 0 0 0 2px var(--pg-accent, #3b82f6);
 }
 .kpiLabel {
   font-size: 9px;
@@ -152,7 +154,7 @@
   background: #bfdbfe;
 }
 .bars > span:last-child {
-  background: #3b82f6;
+  background: var(--pg-accent, #3b82f6);
 }
 .completion {
   color: #f9fafb;

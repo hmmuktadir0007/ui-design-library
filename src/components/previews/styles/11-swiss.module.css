@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 16px 30px 18px;
+  padding: calc(16px * var(--pg-scale, 1)) calc(30px * var(--pg-scale, 1)) calc(18px * var(--pg-scale, 1));
   overflow: hidden;
   background: #fff;
   color: #111;
@@ -44,7 +44,7 @@
   cursor: pointer;
 }
 .view[aria-checked="true"] {
-  border-bottom-color: #e11d48;
+  border-bottom-color: var(--pg-accent, #e11d48);
   color: #111;
 }
 
@@ -59,7 +59,7 @@
   font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
-  color: #e11d48;
+  color: var(--pg-accent, #e11d48);
 }
 .title {
   margin: 0;

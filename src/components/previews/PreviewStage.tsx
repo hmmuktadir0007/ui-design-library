@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { StylePreview } from "./StylePreview";
 
 /** Every preview is authored on a fixed artboard with the reference image's aspect ratio (969×777)... */
@@ -84,7 +84,17 @@ function extendHitAreas(root: HTMLElement, scale: number) {
  * and toggling Slide Visual <-> Live CSS causes no layout shift.
  * `interactive={false}` (gallery cards) renders the preview as a picture: inert, no tab stops, no touch targets.
  */
-export function PreviewStage({ id, name, interactive = true }: { id: number; name: string; interactive?: boolean }) {
+export function PreviewStage({
+  id,
+  name,
+  interactive = true,
+  vars,
+}: {
+  id: number;
+  name: string;
+  interactive?: boolean;
+  vars?: Record<`--${string}`, string>;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
 
@@ -117,6 +127,12 @@ export function PreviewStage({ id, name, interactive = true }: { id: number; nam
     };
   }, [interactive, scale]);
 
+  const stageStyle: CSSProperties = {
+    ...(vars as CSSProperties | undefined),
+    width: ARTBOARD_WIDTH,
+    transform: `scale(${scale})`,
+  };
+
   return (
     <div
       ref={ref}
@@ -129,9 +145,9 @@ export function PreviewStage({ id, name, interactive = true }: { id: number; nam
         <div
           inert={!interactive}
           className="absolute top-0 left-0 aspect-[969/777] origin-top-left"
-          style={{ width: ARTBOARD_WIDTH, transform: `scale(${scale})` }}
+          style={stageStyle}
         >
-          <StylePreview id={id} />
+          <StylePreview id={id} vars={vars} />
         </div>
       )}
     </div>

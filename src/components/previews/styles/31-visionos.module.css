@@ -5,8 +5,8 @@
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
+  gap: calc(12px * var(--pg-scale, 1));
+  padding: calc(14px * var(--pg-scale, 1)) calc(18px * var(--pg-scale, 1));
   background:
     radial-gradient(ellipse at 60% 30%, rgba(56, 189, 248, 0.25), transparent 55%),
     radial-gradient(ellipse at 20% 90%, rgba(129, 140, 248, 0.25), transparent 50%),
@@ -21,8 +21,8 @@
   -webkit-backdrop-filter: blur(40px);
   backdrop-filter: blur(40px);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 32px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border-radius: var(--pg-radius, 32px);
+  box-shadow: 0 calc(30px * var(--pg-shadow-strength, 1)) calc(60px * var(--pg-shadow-strength, 1)) rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .ornament {
@@ -47,7 +47,7 @@
 }
 .tabBtn[aria-pressed="true"] {
   background: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 0 0 2px #38bdf8, 0 0 14px rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 0 2px var(--pg-accent, #38bdf8), 0 0 14px rgba(56, 189, 248, 0.6);
 }
 
 .column {
@@ -60,7 +60,7 @@
   padding: 12px;
   display: grid;
   gap: 10px;
-  border-radius: 28px;
+  border-radius: var(--pg-radius, 28px);
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s;
 }
 .expanded {

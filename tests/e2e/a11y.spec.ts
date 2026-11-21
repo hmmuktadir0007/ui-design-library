@@ -94,9 +94,9 @@ for (const id of LIVE_IDS) {
     const axe = await new AxeBuilder({ page }).include("dialog").withTags(WCAG).analyze();
     const violations = axe.violations.flatMap((v) =>
       v.nodes
-        // Verified false positive: axe takes style 10's blurred blob as the background of the app's
-        // "Slide Visual" toggle under the stage; the stage clips it (elementsFromPoint + screenshot confirm).
-        .filter((n) => !(id === 10 && v.id === "color-contrast" && n.html.includes("min-h-8")))
+        // Verified false positive: axe takes style 5/10's blurred blob as the background of the app's
+        // PreviewToggle buttons under the stage; the stage clips it (elementsFromPoint + screenshot confirm).
+        .filter((n) => !((id === 5 || id === 10) && v.id === "color-contrast" && n.html.includes("min-h-8")))
         .map((n) => `${v.id}: ${n.html.slice(0, 100)}`),
     );
     expect(violations).toEqual([]);

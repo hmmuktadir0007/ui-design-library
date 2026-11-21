@@ -46,7 +46,9 @@ src/hooks/useTheme.ts           class-based dark mode, localStorage; index.html 
 src/hooks/useCopy.ts            clipboard write + idle/copied/failed state
 src/components/ui/              CopyButton (visible + role=status feedback), CssCode (display-only highlighter, text nodes only)
 src/components/gallery/         Header, CategoryTabs (aria-pressed filters), StyleCard, StyleImage, Palette, SourceTabs (ARIA tabs)
-src/components/playground/      StyleDetail: native <dialog>.showModal() (focus trap, Esc, inert page, focus return)
+src/components/playground/      StyleDetail: native <dialog>.showModal() (focus trap, Esc, inert page, focus return) +
+                                PlaygroundControls (viewport presets, backdrop, --pg-* variable controls, Reset) +
+                                playgroundConfig.ts (+ playgroundConfig.test.ts: zero-dead-control contract + CSS formatting)
 src/components/previews/        previewRegistry.ts, StylePreview.tsx (lazy, per-style code split),
                                 PreviewStage.tsx (artboard scaling + touch targets), PreviewToggle.tsx (Slide Visual / Live CSS),
                                 shared/Knob.tsx (headless ARIA rotary slider), shared/radioGroup.ts (roving tabindex + arrow keys),
@@ -70,11 +72,14 @@ Gallery grid is `repeat(auto-fill, minmax(min(100%,320px),1fr))`: column count f
 - Preview authoring rules that follow: range inputs draw their visible track on `::-webkit-slider-runnable-track` / `::-moz-range-track` and keep the input box transparent; leave ≥ 24 artboard px between a slider and the nearest control above/below it so it reaches 24 px at 375 px; text must pass axe contrast on the slide background.
 - `PreviewProps.vars` (`--radius`, `--accent`, …) is the hook for Playground customization via CSS custom properties (unused so far).
 
-## Style Playground architecture (not started)
+## Style Playground architecture (Phase 2D, built)
 
-`StyleDetail` is the Playground shell. Built so far: only the Slide Visual / Live CSS toggle. Still planned:
-a viewport frame that resizes a container (375/768/1280 px), controls built from each preview's declared variables,
-generated CSS = those variables with current values, Reset = defaults.
+`StyleDetail` is the Playground shell for all 50 styles:
+- **Preview modes (`PreviewToggle`):** Slide Visual, Live CSS, and Compare (side-by-side on wide screens, stacked on mobile).
+- **Viewport frame:** Desktop (`100%`), Tablet (`min(82%, 440px)`), Mobile (`min(68%, 310px)`) — resizes the preview container in real time.
+- **Preview backdrop:** Auto, Light, Dark, and Neutral stage surround for contrast testing across all 50 styles.
+- **CSS-variable customization (`playgroundConfig.ts` + `PlaygroundControls.tsx`):** 28 representative styles across all 6 categories wired with `--pg-accent` (27), `--pg-radius` (21, omitted on sharp-corner styles 07/11/13/21/25/38), `--pg-scale` (24), and `--pg-shadow-strength` (20 depth-based styles). `playgroundConfig.test.ts` verifies every declared variable is referenced in the style's CSS Module (zero dead controls).
+- **Generated CSS vs. Original CSS (`SourceTabs.tsx`):** Original CSS remains 100% verbatim; Generated CSS dynamically outputs `:root { ... }` with only the active style's supported custom properties + `Copy Generated CSS`. Reset restores all controls, viewport, and backdrop to defaults.
 
 ## Testing approach
 
@@ -109,7 +114,7 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | 2C-2 | Cross-browser (Firefox + WebKit) & simulated mobile touch (`375px`, `hasTouch: true`) Playwright suite (`npm run test:e2e:compat`) + browser-specific CSS fixes | all 6 verification checks pass (19/21 compat, 398/402 Chromium, 109 Vitest) — **complete** |
 | 2C-3 | Targeted visual fidelity improvements for 9 styles (03, 08, 01, 06, 17, 32, 37, 44, 48) + regenerated screenshots | all 6 verification checks pass + 9 visual pairs verified — **complete** |
 | 2C-4 | Responsive WebP gallery thumbnails (`npm run generate:thumbs`, 89.9% smaller), ESLint (`npm run lint`, 0 errors), `public/robots.txt`, Lighthouse mobile & desktop baseline | Mobile 96/100/100/100, Desktop 100/100/100/100, all 7 checks pass — **complete**; Phase 2C done |
-| 2D playground | viewport frame, variable controls, generated CSS, reset | not started |
+| 2D playground | viewport presets (Desktop/Tablet/Mobile), Compare mode, Preview Backdrop, `--pg-*` CSS-variable customization (28 styles across all 6 categories), Generated CSS tab + Copy, Reset | all 7 checks pass (117 Vitest, 407/411 Chromium E2E, 19/21 compat, 0 axe violations) — **complete** |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |
 

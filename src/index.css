@@ -17,7 +17,7 @@
   --code-bg: #f4f5f8;
   --code-prop: #6d28d9;
   --code-value: #0f766e;
-  --code-comment: #8a8d97;
+  --code-comment: #5d606b;
   --shadow: 0 1px 2px rgb(16 18 27 / 0.04), 0 4px 16px -6px rgb(16 18 27 / 0.08);
   --shadow-hover: 0 2px 4px rgb(16 18 27 / 0.05), 0 16px 32px -12px rgb(16 18 27 / 0.18);
   color-scheme: light;
@@ -37,7 +37,7 @@
   --code-bg: #101115;
   --code-prop: #c4b5fd;
   --code-value: #5eead4;
-  --code-comment: #7c808b;
+  --code-comment: #9ea3b0;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px -6px rgb(0 0 0 / 0.4);
   --shadow-hover: 0 2px 4px rgb(0 0 0 / 0.35), 0 16px 32px -12px rgb(0 0 0 / 0.6);
   color-scheme: dark;

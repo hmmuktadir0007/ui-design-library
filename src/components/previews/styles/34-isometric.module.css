@@ -28,7 +28,9 @@
   cursor: pointer;
   transform-style: preserve-3d;
   /* source CSS edge + drop shadow */
-  box-shadow: -8px 8px 0 #0284c7, -16px 16px 24px rgba(15, 23, 42, 0.15);
+  box-shadow:
+    calc(-8px * var(--pg-shadow-strength, 1)) calc(8px * var(--pg-shadow-strength, 1)) 0 var(--pg-accent, #0284c7),
+    calc(-16px * var(--pg-shadow-strength, 1)) calc(16px * var(--pg-shadow-strength, 1)) calc(24px * var(--pg-shadow-strength, 1)) rgba(15, 23, 42, 0.15);
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s, box-shadow 0.25s;
 }
 .top {

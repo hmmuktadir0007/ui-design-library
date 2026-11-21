@@ -1,7 +1,7 @@
 /* Live demo CSS for style 20. Palette: #FFDE59 #FF5757 #38B6FF #C084FC #111111.
    Thick black outlines, hard offset shadows in the accent colour, and CSS-only confetti (dots, zig-zags, chevrons, bars). */
 .root {
-  --accent: #ffde59;
+  --accent: var(--pg-accent, #ffde59);
   position: relative;
   display: grid;
   place-items: center;
@@ -73,9 +73,9 @@
   flex-direction: column;
   width: 316px;
   border: 3px solid #111111;
-  border-radius: 12px;
+  border-radius: var(--pg-radius, 12px);
   background: #fbf7ff;
-  box-shadow: 8px 8px 0 var(--accent);
+  box-shadow: calc(8px * var(--pg-shadow-strength, 1)) calc(8px * var(--pg-shadow-strength, 1)) 0 var(--accent);
   transition: box-shadow 0.25s;
 }
 .top {
