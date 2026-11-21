@@ -106,7 +106,8 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | 2B batch 5 | 6 Atmospheric & Futuristic live previews (aurora mesh, HUD, synthwave player, scrollytelling, motion, holographic card) | functional + a11y + reduced-motion suites pass at 375/768/1440 — **complete** |
 | 2B batch 6 | 8 Art & Heritage Movements live previews (Bauhaus, Art Deco, Memphis, Organic, Paper Collage, Neoclassical, Low-Poly, Sketchbook) | functional + a11y suites pass at 375/768/1440 — **complete**; all 50 previews done |
 | 2C-1 | P1 interaction & a11y fixes: Style 35 mobile touch scrolling (`touch-action: pan-y`), Style 47 single-Tab-stop 7×4 heatmap grid navigation, roving tabindex + arrow keys across all 46 `radiogroup` controls (34 previews), dialog focus-trap/Escape regression tests | all 5 verification checks pass (109 Vitest, 398/402 Playwright, 0 axe violations) — **complete** |
-| 2C-2 / 2C-3 / 2C-4 | cross-browser checks (Firefox/WebKit), visual redesigns, performance/image optimization | not started |
+| 2C-2 | Cross-browser (Firefox + WebKit) & simulated mobile touch (`375px`, `hasTouch: true`) Playwright suite (`npm run test:e2e:compat`) + browser-specific CSS fixes | all 6 verification checks pass (19/21 compat, 398/402 Chromium, 109 Vitest) — **complete** |
+| 2C-3 / 2C-4 | visual fidelity polish, performance/image optimization | not started |
 | 2B playground | viewport frame, variable controls, generated CSS, reset | not started |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |

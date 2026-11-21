@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2C-1 complete — P1 interaction and accessibility fixes verified across all 50 live previews. Remaining work: Phase 2C-2 (cross-browser verification), Phase 2C-3 (visual polish), Phase 2C-4 (performance/asset optimization), and Style Playground customization.
+**Current phase:** Phase 2C-2 complete — cross-browser (Firefox + WebKit) and simulated mobile touch compatibility verified. Remaining work: Phase 2C-3 (visual polish), Phase 2C-4 (performance/asset optimization), and Style Playground customization.
 
 | Scope | Status |
 |---|---|
@@ -14,7 +14,8 @@
 | Phase 2B batch 6 — 8 Art & Heritage Movements live previews | complete, verified 2026-11-20 |
 | All 50 previews | complete (50 live, 0 image-only) |
 | Phase 2C-1 — P1 interaction & accessibility fixes | complete, verified 2026-11-21 |
-| Phase 2C-2 / 2C-3 / 2C-4 (cross-browser, visual polish, perf) | not started |
+| Phase 2C-2 — cross-browser & simulated mobile touch compatibility | complete, verified 2026-11-21 |
+| Phase 2C-3 / 2C-4 (visual polish, perf) | not started |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -497,9 +498,33 @@ Verified 2026-11-21. Resolved all P1 interaction and accessibility findings from
 | `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
 | `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | exit 0 — 398 pass, 4 skipped (134 tests × 3 viewports; 2 mobile-375-only tests skipped at 768/1440); 0 axe WCAG 2.2 AA violations, no new exclusions |
 
-## Quality-review backlog (remaining: Phase 2C-2 / 2C-3 / 2C-4)
+## Phase 2C-2 — Cross-Browser & Simulated Mobile Touch Compatibility
 
-- **Phase 2C-2 (Cross-browser & device verification):** Firefox / WebKit Playwright runs, screen-reader pass (NVDA / VoiceOver), real touch devices.
+Verified 2026-11-21. Installed Playwright Firefox and WebKit browsers and added a focused cross-browser + touch compatibility suite (`tests/e2e/cross-browser.spec.ts`, `npm run test:e2e:compat`) covering `firefox`, `webkit`, and `mobile-touch` (`375×812`, `hasTouch: true`, `isMobile: true`).
+
+### Defects found & fixed
+- **LightningCSS stripped standard `backdrop-filter` in production CSS (Styles 05, 10, 31, 45):** All four glassmorphism stylesheets declared `backdrop-filter` *before* `-webkit-backdrop-filter`. Vite 8's LightningCSS minifier treated the prefixed property as overriding the unprefixed one and dropped standard `backdrop-filter` from the production bundle, breaking frosted-glass blur in Firefox and Chromium while passing in WebKit. Reordered `-webkit-backdrop-filter` before `backdrop-filter` in `05-glassmorphism.module.css`, `10-liquid-glass.module.css`, `31-visionos.module.css`, and `45-obsidian-glass.module.css`; verified both declarations are emitted in `dist/assets/*.css` and computed `backdropFilter` resolves to `blur(...)` across Firefox, WebKit, and Chromium.
+- **Playwright clipboard permissions scoping (`playwright.config.ts`):** Moved `permissions: ["clipboard-read", "clipboard-write"]` from global `use` to the three Chromium projects so Firefox and WebKit contexts initialize cleanly without unsupported-permission errors.
+
+### Verified clean across Firefox, WebKit, and mobile-touch
+- Custom range sliders (`::-moz-range-track` / `::-moz-range-thumb` and `::-webkit-slider-*`) on Styles 04, 10, 18, 31, 46 render with `appearance: none` and respond to keyboard/pointer updates.
+- 3D transforms & perspective (Styles 18, 34, 35), variable font `wght`/`wdth` axes (Style 43) and typography (Styles 17, 23), and complex interactive controls (Styles 24, 30, 37, 38, 47) work with 0 console/page errors.
+- Simulated mobile touch (`375px`, `hasTouch: true`): tap interactions on `StyleDetail` and previews (Styles 04, 47), vertical touch swipe over Style 35 card scrolls the dialog without trapping scroll, and zero horizontal overflow.
+
+### Verification (2026-11-21, final code)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 304.03 kB (96.76 kB gzip); all 4 glassmorphism CSS bundles emit both `-webkit-backdrop-filter` and `backdrop-filter` |
+| `npm test` (Vitest) | exit 0 — 109/109 pass (8 files) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 398 pass, 4 skipped |
+| `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped (mobile-touch-only test skipped on Firefox/WebKit) |
+
+## Quality-review backlog (remaining: Phase 2C-3 / 2C-4)
+
+- **Manual device/AT checks (non-automated):** Screen-reader pass (NVDA / VoiceOver) and physical touch devices.
 - **Phase 2C-3 (Visual polish & target sizing):** Visual refinements from the source slides (documented per batch above) and optional 44×44 AAA target sizing at 375 px (all controls already meet WCAG 2.5.8 AA ≥ 24×24).
 - **Phase 2C-4 (Performance & asset optimization):** Thumbnail generation for card PNGs (currently full 969 px PNGs, ~140 kB avg) and comparison sheet size optimization.
 - **Style Playground (separate phase):** Viewport frame, variable controls, generated CSS export, Reset.
@@ -534,8 +559,9 @@ None blocking.
 - `bccf72d` Phase 2B batch 4: Minimal Typographic live previews
 - `8c34adc` Phase 2B batch 5: Atmospheric Futuristic live previews
 - `116c8ac` Phase 2B batch 6: Art Heritage live previews
-- Phase 2C-1: Accessibility and interaction fixes (hash in `git log`)
+- `16be99e` Phase 2C-1: Accessibility and interaction fixes
+- Phase 2C-2: Cross-browser and mobile touch compatibility (hash in `git log`)
 
 ## Next recommended action
 
-Proceed to Phase 2C-2 (cross-browser verification) or review remaining Phase 2C-3 / 2C-4 / Style Playground scope.
+Proceed to Phase 2C-3 (visual polish), Phase 2C-4 (performance/asset optimization), or Style Playground customization.

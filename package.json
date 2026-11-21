@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "validate:data": "python scripts/validate_styles.py && python -m unittest scripts/test_validate_styles.py",
-    "test:e2e": "npm run build && playwright test",
+    "test:e2e": "npm run build && playwright test --project=mobile-375 --project=tablet-768 --project=desktop-1440",
+    "test:e2e:compat": "npm run build && playwright test --project=firefox --project=webkit --project=mobile-touch",
     "capture:previews": "npm run build && node scripts/capture-previews.mjs"
   },
   "dependencies": {
