@@ -186,3 +186,26 @@
   outline: 2px solid #06b6d4;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    gap: calc(14px * var(--pg-scale, 1));
+    padding: calc(16px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .root {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: calc(18px * var(--pg-scale, 1));
+    padding: calc(18px * var(--pg-scale, 1)) calc(14px * var(--pg-scale, 1));
+  }
+  .cardScene {
+    transform: rotate(-2deg);
+  }
+}

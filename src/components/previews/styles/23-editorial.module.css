@@ -235,3 +235,50 @@
   outline: 2px solid #b91c1c;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 12px 14px 0;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .tools,
+  .foot {
+    flex-wrap: wrap;
+    height: auto;
+    padding-block: 6px;
+  }
+  .body {
+    overflow: visible;
+    mask-image: none;
+  }
+  .focus > .colA {
+    width: 100%;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .title {
+    font-size: 22px;
+  }
+  .deck {
+    white-space: normal;
+  }
+  .body {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+  .colA {
+    padding: 8px 0 0;
+    border-right: 0;
+  }
+  .colB {
+    padding: 0;
+  }
+  .next {
+    margin-left: 0;
+  }
+}

@@ -195,3 +195,37 @@
   outline: 2px solid #06b6d4;
   outline-offset: 3px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .stage {
+    min-height: 220px;
+    overflow: hidden;
+  }
+  .controls {
+    padding: 10px 12px 14px;
+    gap: 10px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .stage {
+    min-height: 260px;
+  }
+  .scene {
+    transform: scale(0.75) rotateX(var(--rx)) rotateY(var(--ry));
+  }
+  .controls {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .explore {
+    justify-self: center;
+    width: 100%;
+  }
+}

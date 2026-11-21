@@ -265,3 +265,39 @@
 .icon:focus-visible {
   outline-color: #fff;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px 46px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .icons {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .win {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+  }
+  .tabs,
+  .buttons {
+    flex-wrap: wrap;
+  }
+  .task {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+  }
+}

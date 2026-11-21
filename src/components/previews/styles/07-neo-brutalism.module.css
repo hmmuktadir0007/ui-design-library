@@ -193,3 +193,39 @@
   outline-offset: 3px;
   box-shadow: 0 0 0 6px #e2ff00;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(12px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .board {
+    height: auto;
+    grid-template-columns: 82px 1fr;
+  }
+  .head {
+    flex-wrap: wrap;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+  .side {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-right: 0;
+    border-bottom: 3px solid #000;
+  }
+  .stats {
+    grid-template-columns: 1fr;
+  }
+  .chart {
+    min-height: 90px;
+  }
+}

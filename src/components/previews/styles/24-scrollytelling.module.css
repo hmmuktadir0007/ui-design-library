@@ -249,3 +249,42 @@
   line-height: 1.35;
   color: #94a3b8;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .body {
+    grid-template-columns: 158px 1fr;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .top {
+    height: auto;
+    min-height: 32px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .body {
+    grid-template-columns: 1fr;
+  }
+  .story {
+    border-right: 0;
+    border-bottom: 1px solid #334155;
+    padding: 10px 12px;
+  }
+  .scroller {
+    height: 150px;
+  }
+  .stage {
+    margin: 10px 12px;
+  }
+  .chart {
+    min-height: 104px;
+  }
+}

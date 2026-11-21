@@ -173,3 +173,34 @@
   letter-spacing: 0.08em;
   color: #6b625a;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 10px;
+    overflow-x: clip;
+  }
+  .page {
+    padding: 12px 14px 10px;
+  }
+  .top {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .title {
+    font-size: 20px;
+    text-align: center;
+  }
+  .wings {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cities {
+    text-align: center;
+    padding-top: 8px;
+  }
+}

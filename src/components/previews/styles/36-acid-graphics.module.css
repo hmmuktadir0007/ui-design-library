@@ -189,3 +189,50 @@
   outline: 3px solid #ff00ff;
   outline-offset: 3px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    grid-template-rows: auto;
+    padding: 0 12px 12px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .head,
+  .foot {
+    margin: 0 -12px;
+    padding-inline: 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .nav,
+  .chips {
+    flex-wrap: wrap;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .type {
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  .l1,
+  .l2 {
+    font-size: 30px;
+  }
+  .l3 {
+    font-size: 18px;
+  }
+  .orb {
+    width: 72px;
+    height: 72px;
+    top: 56px;
+    right: 12px;
+    opacity: 0.4;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

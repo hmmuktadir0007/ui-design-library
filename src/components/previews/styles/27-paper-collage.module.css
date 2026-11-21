@@ -191,3 +191,51 @@
   border-color: #b45309;
   background: #fde7c4;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .top,
+  .foot {
+    height: auto;
+    min-height: 36px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .desk {
+    min-height: 230px;
+  }
+  .card {
+    width: 176px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .desk {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 0;
+    padding: 16px 12px;
+  }
+  .card {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    transform: none;
+  }
+  .c0.front,
+  .c1.front {
+    transform: translateY(-2px);
+  }
+  .group {
+    flex-wrap: wrap;
+  }
+}

@@ -98,6 +98,12 @@ function StyleDetailBody({ style }: { style: Style }) {
   const viewportPreset = VIEWPORT_PRESETS.find((v) => v.id === pgState.viewport) ?? VIEWPORT_PRESETS[0];
   const backdropOption = BACKDROP_OPTIONS.find((b) => b.id === pgState.backdrop) ?? BACKDROP_OPTIONS[0];
   const isFramed = pgState.viewport !== "desktop" || pgState.backdrop !== "auto";
+  const viewportFrameClass =
+    pgState.viewport === "mobile"
+      ? "aspect-[9/16] overflow-hidden rounded-[26px] border-[6px] border-zinc-800 bg-zinc-900 shadow-lg dark:border-zinc-700"
+      : pgState.viewport === "tablet"
+        ? "aspect-[4/3] overflow-hidden rounded-2xl border-4 border-zinc-800/85 bg-zinc-900 shadow-card dark:border-zinc-700"
+        : "";
 
   const updateState = (patch: Partial<PlaygroundState>) => setPgState((prev) => ({ ...prev, ...patch }));
   const resetState = () => setPgState(defaults);
@@ -125,11 +131,9 @@ function StyleDetailBody({ style }: { style: Style }) {
                 <div
                   data-viewport-frame={pgState.viewport}
                   style={{ width: viewportPreset.frameWidth }}
-                  className={`transition-[width] duration-200 ${
-                    pgState.viewport !== "desktop" ? "overflow-hidden rounded-lg border border-line-strong shadow-card" : ""
-                  }`}
+                  className={`transition-[width] duration-200 ${viewportFrameClass}`}
                 >
-                  <PreviewStage id={style.id} name={style.name} vars={previewVars} />
+                  <PreviewStage id={style.id} name={style.name} vars={previewVars} viewport={pgState.viewport} />
                 </div>
               </div>
             </figure>
@@ -145,11 +149,9 @@ function StyleDetailBody({ style }: { style: Style }) {
             <div
               data-viewport-frame={pgState.viewport}
               style={{ width: viewportPreset.frameWidth }}
-              className={`transition-[width] duration-200 ${
-                pgState.viewport !== "desktop" ? "overflow-hidden rounded-lg border border-line-strong shadow-card" : ""
-              }`}
+              className={`transition-[width] duration-200 ${viewportFrameClass}`}
             >
-              <PreviewStage id={style.id} name={style.name} vars={previewVars} />
+              <PreviewStage id={style.id} name={style.name} vars={previewVars} viewport={pgState.viewport} />
             </div>
           </div>
         ) : (

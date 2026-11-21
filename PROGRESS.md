@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2D complete — interactive Style Playground (viewport presets, Compare mode, Preview Backdrop, live `--pg-*` CSS-variable customization across 28 styles, immutable Original CSS vs. Generated CSS export, and Reset) verified across all 7 checks. Ready for Phase 4 deployment when approved.
+**Current phase:** Phase 5A complete — true responsive viewport adaptation (Desktop widescreen, Tablet 4:3, Mobile 9:16 portrait device frames with CSS Container Queries across all 50 style previews) verified across all 6 checks. Ready for Phase 5B (theming) when approved.
 
 | Scope | Status |
 |---|---|
@@ -18,6 +18,8 @@
 | Phase 2C-3 — targeted visual fidelity improvements (9 styles) | complete, verified 2026-11-21 |
 | Phase 2C-4 — image thumbnails, ESLint & Lighthouse baseline | complete, verified 2026-11-21 |
 | Phase 2D — Full Playground customization (viewport frame, variable controls, generated CSS) | complete, verified 2026-11-21 |
+| Phase 4 — README, GitHub repository & Cloudflare Pages deployment | complete, verified 2026-11-21 |
+| Phase 5A — True responsive container layouts and 9:16 mobile preview frame | complete, verified 2026-11-21 |
 
 ## Completed
 
@@ -604,7 +606,30 @@ Verified 2026-11-21. Upgraded `StyleDetail` into a full interactive Style Playgr
 | `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 407 pass, 4 skipped (new: `tests/e2e/playground.spec.ts` [9 tests]) |
 | `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped |
 
-## Remaining backlog (post-Phase 2D)
+## Phase 5A — True Responsive Viewport Adaptation (Desktop / Tablet 4:3 / Mobile 9:16)
+
+Verified 2026-11-21. Upgraded the Interactive Style Playground stage and all 50 preview CSS modules so Desktop, Tablet, and Mobile presets render realistic device proportions and genuinely reflow internal layouts via CSS Container Queries:
+
+- **Device frames & container queries (`PreviewStage.tsx`, `StyleDetail.tsx`, `playgroundConfig.ts`):**
+  - **Desktop:** Full-width (`100%`) `969:777` scaled artboard (`420px` logical inline width), keeping gallery cards and default desktop detail view unchanged.
+  - **Tablet:** Centered `4:3` landscape tablet frame (`min(86%, 390px)`, rounded dark bezel, internal vertical scroll) rendered unscaled (`scale = 1`).
+  - **Mobile:** Centered `9:16` portrait phone frame (`min(76%, 336px)`, `~336×597px` on desktop/tablet, `~242×430px` on 375px screens, rounded dark bezel, smooth internal vertical scroll) rendered unscaled (`scale = 1`).
+  - Inner preview frame declares `container-type: inline-size; container-name: preview-stage;` and sets `data-viewport="desktop" | "tablet" | "mobile"`.
+- **All 50 preview CSS modules (`src/components/previews/styles/01-*.module.css` – `50-*.module.css`):** Added `@container preview-stage (max-width: 400px)` (Tablet/Mobile) and `@container preview-stage (max-width: 350px)` (Mobile) rules so multi-column grids, bento dashboards, split panes, sidebars, masonry walls, and toolbars stack/wrap cleanly with `overflow-x: clip`, zero horizontal overflow, and zero structural TSX changes required. `Original CSS` remains immutable.
+- **E2E coverage (`tests/e2e/playground.spec.ts`):** Added assertions for 9:16 portrait and 4:3 tablet aspect ratios, computed-style layout reflow on multi-column styles (Bento 08: 4 → 1 col, Material 03: 2 → 1 col, Masonry 48: 3 → 1 col), and an automated 50-style loop verifying zero horizontal overflow in both Tablet and Mobile presets across `375 / 768 / 1440` viewports.
+
+### Verification (2026-11-21, final code)
+
+| Check | Result |
+|---|---|
+| `npm run lint` | exit 0 — 0 errors, 0 warnings |
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 317.17 kB (100.04 kB gzip), CSS 33.28 kB (7.22 kB gzip) |
+| `npm test` (Vitest) | exit 0 — 117/117 pass (9 files, incl. CSS isolation across all 50 `@container` modules) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 413 pass, 4 skipped (0 console/page errors, 0 horizontal overflow across all 50 styles in Tablet + Mobile) |
+
+## Remaining backlog (post-Phase 5A)
 
 - **Manual device/AT checks (non-automated):** Screen-reader pass (NVDA / VoiceOver) and physical touch devices.
 - **Optional AAA target sizing:** At 375 px some controls sit between 24 and 44 px (WCAG 2.5.8 AA met, AAA 44×44 not).
@@ -640,8 +665,9 @@ None blocking.
 - Phase 2C-3: Visual fidelity improvements for 9 styles (`b946afb`)
 - `8cfa7f6` Phase 2C-4: Image thumbnails, ESLint, and Lighthouse performance pass
 - `858d57b` Phase 2D: Interactive Style Playground with viewport and CSS customization
-- Phase 4: README, GitHub repository (`ui-design-library`), and Cloudflare Pages deployment
+- `0206f9e` Phase 4: Add README and pre-deployment polish (published to GitHub + Cloudflare Pages)
+- Phase 5A: True responsive container layouts and 9:16 mobile preview frame (local commit on `main`)
 
 ## Next recommended action
 
-Monitor live deployment and address optional post-launch items (manual screen-reader/physical-touch pass or AAA 44 px targets at 375 px) as needed.
+Proceed to Phase 5B (theming adaptation) when approved, then push and redeploy to Cloudflare Pages.

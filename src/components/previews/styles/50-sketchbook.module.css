@@ -217,3 +217,51 @@
 .markerBtn[aria-checked="false"] {
   background: #ffffff;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 10px;
+    overflow-x: clip;
+  }
+  .top,
+  .foot {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .item {
+    white-space: normal;
+    height: auto;
+    min-height: 28px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .flow {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .flow > :last-child {
+    flex: 1;
+  }
+  .step {
+    height: auto;
+    min-height: 44px;
+    padding: 6px 10px;
+  }
+  .step:not(:last-child)::before {
+    content: "↓";
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: -15px;
+    transform: translateX(-50%);
+  }
+  .lower {
+    flex-direction: column;
+  }
+  .score {
+    padding: 10px;
+  }
+}

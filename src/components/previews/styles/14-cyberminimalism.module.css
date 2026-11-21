@@ -214,3 +214,25 @@
   outline: 2px solid #818cf8;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 12px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .list {
+    height: auto;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .cardRow {
+    flex-wrap: wrap;
+  }
+}

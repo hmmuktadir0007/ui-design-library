@@ -312,3 +312,31 @@
   outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .bar {
+    height: auto;
+    min-height: 44px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+  .seats {
+    margin-top: 12px;
+  }
+  .cta {
+    margin-top: 12px;
+  }
+}

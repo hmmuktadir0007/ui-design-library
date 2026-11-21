@@ -230,3 +230,31 @@
   outline: 2px solid #38bdf8;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(12px * var(--pg-scale, 1));
+    overflow-x: clip;
+  }
+  .winFoot {
+    flex-wrap: wrap;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .root {
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+  .ornament {
+    grid-auto-flow: column;
+    justify-self: center;
+    padding: 6px 10px;
+  }
+  .pill {
+    gap: 8px;
+    padding: 5px 10px;
+  }
+}

@@ -247,3 +247,36 @@
   font: 7.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
   color: #4b5563;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 14px 12px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .card {
+    width: 100%;
+    max-width: 316px;
+  }
+  .top,
+  .ctas,
+  .foot,
+  .accents {
+    flex-wrap: wrap;
+  }
+  .meta {
+    margin-left: 0;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .body {
+    flex-direction: column;
+  }
+  .shapes {
+    width: 100%;
+    height: 60px;
+  }
+}

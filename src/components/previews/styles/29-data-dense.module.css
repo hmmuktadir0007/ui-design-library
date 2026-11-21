@@ -240,3 +240,36 @@
 .sortBtn:focus-visible {
   outline-offset: -2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 10px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .head {
+    flex-wrap: wrap;
+  }
+  .kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .load {
+    display: none;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .kpis {
+    grid-template-columns: 1fr;
+  }
+  .table td {
+    padding: 0 4px;
+    font-size: 8px;
+  }
+  .sortBtn {
+    padding: 0 4px;
+    font-size: 7.5px;
+  }
+}

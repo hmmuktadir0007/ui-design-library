@@ -177,3 +177,28 @@
 .caption:focus-visible {
   outline-offset: -2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .filters,
+  .foot {
+    flex-wrap: wrap;
+  }
+  .wall {
+    column-count: 2;
+  }
+  .meta {
+    margin-left: 0;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .wall {
+    column-count: 1;
+  }
+}

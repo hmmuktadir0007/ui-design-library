@@ -237,3 +237,36 @@
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(12px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .palette {
+    inset: 10px;
+    overflow-y: auto;
+  }
+  .foot {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .app {
+    flex-wrap: wrap;
+  }
+  .app > .muted {
+    margin-left: 0;
+  }
+  .palette {
+    position: relative;
+    inset: auto;
+    margin-top: 12px;
+    box-shadow: 0 calc(14px * var(--pg-shadow-strength, 1)) calc(28px * var(--pg-shadow-strength, 1)) rgba(0, 0, 0, 0.5);
+  }
+}

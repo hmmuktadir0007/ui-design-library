@@ -272,3 +272,38 @@
     animation: none;
   }
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 10px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .top {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .specHead {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .channels {
+    margin-left: 0;
+  }
+  .bars {
+    min-height: 52px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+  .ranges {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

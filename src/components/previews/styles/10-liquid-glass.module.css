@@ -184,3 +184,32 @@
   outline: 2px solid #fff;
   outline-offset: 3px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(14px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .deck {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+    padding: 14px;
+  }
+  .play {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-top: 8px;
+  }
+  .dock {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 24px;
+  }
+}

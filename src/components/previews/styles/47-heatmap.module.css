@@ -231,3 +231,28 @@
   outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .head,
+  .legend,
+  .foot {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .seg {
+    margin-left: 0;
+  }
+  .cols {
+    grid-template-columns: 1fr;
+  }
+  .week,
+  .days {
+    grid-template-columns: 16px repeat(7, minmax(0, 1fr));
+  }
+}

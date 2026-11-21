@@ -243,3 +243,47 @@
 .feature .clayText {
   color: var(--clayInk);
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .top,
+  .foot {
+    height: auto;
+    min-height: 36px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .hero {
+    padding: 12px;
+  }
+  .ctas {
+    flex-wrap: wrap;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .art {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    height: 118px;
+    margin-bottom: 6px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .text {
+    max-width: none;
+  }
+  .features {
+    flex-direction: column;
+    margin-top: 12px;
+  }
+}

@@ -272,3 +272,32 @@
   transform-origin: 50% 100%;
   transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 14px 10px;
+    overflow-x: clip;
+  }
+  .plate {
+    width: 100%;
+    max-width: 360px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .plate {
+    padding: calc(14px * var(--pg-scale, 1)) calc(12px * var(--pg-scale, 1));
+    gap: calc(12px * var(--pg-scale, 1));
+  }
+  .row {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .vu {
+    width: 100%;
+    max-width: 180px;
+  }
+}

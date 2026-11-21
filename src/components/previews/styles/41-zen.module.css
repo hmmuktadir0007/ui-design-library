@@ -211,3 +211,35 @@
   outline: 2px solid #536453;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 0 14px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .top,
+  .foot {
+    height: auto;
+    min-height: 34px;
+    padding-block: 6px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sessions,
+  .actions {
+    flex-wrap: wrap;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .body {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .left {
+    gap: 10px;
+  }
+}

@@ -271,3 +271,31 @@
     display: block;
   }
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(14px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .panel {
+    margin: 0;
+    padding: 14px;
+  }
+  .features,
+  .row,
+  .meshes {
+    flex-wrap: wrap;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .toggle {
+    margin-left: 0;
+  }
+  .title {
+    font-size: 20px;
+  }
+}

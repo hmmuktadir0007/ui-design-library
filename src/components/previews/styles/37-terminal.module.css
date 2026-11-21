@@ -136,3 +136,30 @@
 .fg {
   color: var(--fg);
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .bar,
+  .foot {
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 6px 10px;
+  }
+  .box {
+    margin: 8px 10px 4px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .screen {
+    overflow: visible;
+    padding: 4px 10px 0;
+  }
+  .inputRow {
+    margin: 8px 10px;
+  }
+}

@@ -207,3 +207,57 @@
   outline: 2px solid #ef4444;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .top,
+  .foot {
+    height: auto;
+    min-height: 36px;
+    padding: 6px 14px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .stage {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .line {
+    font-size: 54px;
+    height: auto;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .stage {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .headline,
+  .side,
+  .show {
+    width: 100%;
+    margin-left: 0;
+  }
+  .line {
+    font-size: 46px;
+  }
+  .stagger > .line:nth-child(2) {
+    margin-left: 14px;
+  }
+  .stagger > .line:nth-child(3) {
+    margin-left: 28px;
+  }
+  .open {
+    font-size: 48px;
+  }
+  .enter {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+}

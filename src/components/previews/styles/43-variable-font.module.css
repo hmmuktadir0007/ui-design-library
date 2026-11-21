@@ -265,3 +265,53 @@
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 0 12px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .top,
+  .foot {
+    height: auto;
+    min-height: 30px;
+    margin-inline: -12px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .refs {
+    height: auto;
+    padding-block: 6px;
+    flex-wrap: wrap;
+  }
+  .medium {
+    margin-left: 0;
+  }
+  .row,
+  .comps {
+    flex-wrap: wrap;
+  }
+  .toggle {
+    margin-left: 0;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 10px;
+  }
+  .badge {
+    justify-items: start;
+  }
+  .light,
+  .medium {
+    font-size: 22px;
+  }
+}

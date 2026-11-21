@@ -172,3 +172,30 @@
   outline: 3px solid #1e293b;
   outline-offset: 3px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 14px 10px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .app {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .habits {
+    grid-template-columns: 1fr;
+  }
+  .habit {
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    align-items: center;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+}

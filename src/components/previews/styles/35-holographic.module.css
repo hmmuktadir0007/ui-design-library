@@ -226,3 +226,46 @@
     transition: none;
   }
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .scene {
+    min-height: 204px;
+    padding: 12px;
+  }
+  .card {
+    width: 100%;
+    max-width: 288px;
+  }
+  .controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 6px 12px 10px;
+  }
+  .reset {
+    margin-left: 0;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .top,
+  .foot {
+    height: auto;
+    min-height: 26px;
+    padding: 4px 12px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .card {
+    max-width: 268px;
+    height: 160px;
+  }
+  .face {
+    padding: 12px 14px;
+  }
+}

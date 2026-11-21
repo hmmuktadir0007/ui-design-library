@@ -194,3 +194,42 @@
   outline: 3px solid #be185d;
   outline-offset: 3px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(10px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .card {
+    height: auto;
+    grid-template-rows: auto;
+    padding: 12px;
+  }
+  .chips,
+  .actions {
+    flex-wrap: wrap;
+  }
+  .lvl {
+    margin-left: 0;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .pet {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .info {
+    width: 100%;
+  }
+  .stat {
+    text-align: left;
+  }
+  .actions {
+    justify-content: center;
+  }
+}

@@ -254,3 +254,30 @@
   outline: 2px solid #ff4f00;
   outline-offset: 3px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(10px * var(--pg-scale, 1));
+    overflow-x: clip;
+  }
+  .head {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+  .knob {
+    width: 48px;
+    height: 48px;
+  }
+  .pointer::after {
+    height: 16px;
+    top: 5px;
+  }
+}

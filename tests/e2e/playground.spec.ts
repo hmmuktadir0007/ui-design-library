@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, openLive, test } from "./fixtures";
+import { expect, LIVE_IDS, openLive, test } from "./fixtures";
 
 const WCAG = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
@@ -128,4 +128,80 @@ test("sharp-corner style omits Border Radius control and Playground passes axe W
   // Zero axe WCAG 2.2 AA violations on the open Playground dialog.
   const axe = await new AxeBuilder({ page }).include("dialog").withTags(WCAG).analyze();
   expect(axe.violations.flatMap((v) => v.nodes.map((n) => `${v.id}: ${n.html.slice(0, 120)}`))).toEqual([]);
+});
+
+test("Mobile 9:16 and Tablet 4:3 device frames render true aspect ratios and reflow multi-column layouts", async ({ page }) => {
+  const stage = await openLive(page, 8); // Bento UI (4-col desktop -> 2-col tablet -> 1-col mobile)
+  const dialog = page.locator("dialog");
+  const frame = dialog.locator("[data-viewport-frame]");
+
+  // Desktop: 4-column bento grid
+  const desktopCols = await stage.locator('[class*="root"]').first().evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length);
+  expect(desktopCols).toBe(4);
+
+  // Tablet: 4:3 landscape proportion
+  await dialog.getByRole("button", { name: "Tablet" }).click();
+  await expect(frame).toHaveAttribute("data-viewport-frame", "tablet");
+  await expect(stage).toHaveAttribute("data-viewport", "tablet");
+  await expect.poll(async () => {
+    const b = (await frame.boundingBox())!;
+    return b.width / b.height;
+  }).toBeCloseTo(4 / 3, 1);
+
+  // Mobile: 9:16 portrait proportion (height > width) and 1-column reflow
+  await dialog.getByRole("button", { name: "Mobile" }).click();
+  await expect(frame).toHaveAttribute("data-viewport-frame", "mobile");
+  await expect(stage).toHaveAttribute("data-viewport", "mobile");
+  await expect.poll(async () => {
+    const b = (await frame.boundingBox())!;
+    return b.width / b.height;
+  }).toBeCloseTo(9 / 16, 1);
+  const mobileBox = (await frame.boundingBox())!;
+  expect(mobileBox.height).toBeGreaterThan(mobileBox.width);
+
+  // Wait for width transition (200ms) to finish and trigger @container preview-stage (max-width: 350px).
+  await expect.poll(async () =>
+    stage.locator('[class*="root"]').first().evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length),
+  ).toBe(1);
+
+  // Close and verify Style 03 (Material 2-col -> 1-col) and Style 48 (Masonry 3-col -> 1-col)
+  await dialog.getByRole("button", { name: "Close details" }).click();
+  const stage3 = await openLive(page, 3);
+  const matDesktopCols = await stage3.locator('[class*="body"]').first().evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length);
+  expect(matDesktopCols).toBe(2);
+  await dialog.getByRole("button", { name: "Mobile" }).click();
+  await expect.poll(async () =>
+    stage3.locator('[class*="body"]').first().evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length),
+  ).toBe(1);
+
+  await dialog.getByRole("button", { name: "Close details" }).click();
+  const stage48 = await openLive(page, 48);
+  const wallDesktopCols = await stage48.locator('[class*="wall"]').first().evaluate((el) => getComputedStyle(el).columnCount);
+  expect(wallDesktopCols).toBe("3");
+  await dialog.getByRole("button", { name: "Mobile" }).click();
+  await expect.poll(async () =>
+    stage48.locator('[class*="wall"]').first().evaluate((el) => getComputedStyle(el).columnCount),
+  ).toBe("1");
+});
+
+test("all 50 styles have zero horizontal overflow in Tablet and Mobile viewport presets", async ({ page }) => {
+  test.slow();
+  const dialog = page.locator("dialog");
+
+  for (const id of LIVE_IDS) {
+    const stage = await openLive(page, id);
+    for (const preset of ["Tablet", "Mobile"] as const) {
+      await dialog.getByRole("button", { name: preset, exact: true }).click();
+      await expect(stage).toHaveAttribute("data-viewport", preset.toLowerCase());
+      // Allow layout settle for container query reflow
+      const overflow = await stage.evaluate((el) => ({
+        stageOverflow: el.scrollWidth - el.clientWidth,
+        pageOverflow: document.documentElement.scrollWidth - window.innerWidth,
+      }));
+      expect(overflow.stageOverflow, `style ${id} (${preset}) stage horizontal overflow`).toBeLessThanOrEqual(1);
+      expect(overflow.pageOverflow, `style ${id} (${preset}) page horizontal overflow`).toBeLessThanOrEqual(0);
+    }
+    await dialog.getByRole("button", { name: "Close details" }).click();
+    await expect(dialog).toBeHidden();
+  }
 });

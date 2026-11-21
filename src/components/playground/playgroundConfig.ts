@@ -13,8 +13,8 @@ export interface ViewportPreset {
 
 export const VIEWPORT_PRESETS: readonly ViewportPreset[] = [
   { id: "desktop", label: "Desktop", caption: "1280px", frameWidth: "100%" },
-  { id: "tablet", label: "Tablet", caption: "768px", frameWidth: "min(82%, 440px)" },
-  { id: "mobile", label: "Mobile", caption: "375px", frameWidth: "min(68%, 310px)" },
+  { id: "tablet", label: "Tablet", caption: "768px · 4:3", frameWidth: "min(86%, 390px)" },
+  { id: "mobile", label: "Mobile", caption: "375px · 9:16", frameWidth: "min(76%, 336px)" },
 ] as const;
 
 export interface BackdropOption {

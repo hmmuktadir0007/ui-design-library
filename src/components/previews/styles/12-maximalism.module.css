@@ -225,3 +225,29 @@
   outline: 3px solid #fff;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    grid-template-rows: auto;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .title {
+    white-space: normal;
+  }
+  .actions {
+    flex-wrap: wrap;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .root {
+    grid-template-columns: 1fr;
+    padding: 0 12px 14px;
+  }
+  .ticker {
+    margin: 0 -12px;
+  }
+}

@@ -195,3 +195,27 @@
   outline: 2px solid #3b82f6;
   outline-offset: 3px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    gap: calc(14px * var(--pg-scale, 1));
+    padding: calc(16px * var(--pg-scale, 1));
+    overflow-x: clip;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .root {
+    grid-template-columns: 1fr;
+    gap: calc(16px * var(--pg-scale, 1));
+    padding: calc(16px * var(--pg-scale, 1)) calc(14px * var(--pg-scale, 1));
+  }
+  .panel {
+    gap: 12px;
+  }
+  .adjust {
+    gap: 36px;
+  }
+}

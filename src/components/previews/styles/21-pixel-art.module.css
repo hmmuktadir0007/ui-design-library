@@ -179,3 +179,44 @@
   outline: 3px solid #ef7d57;
   outline-offset: 4px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(12px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .panel {
+    height: auto;
+    grid-template-rows: auto;
+    gap: 8px;
+    padding-bottom: 12px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .hero {
+    grid-template-columns: auto 1fr;
+  }
+  .lvl {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .items {
+    justify-content: space-between;
+  }
+  .slot {
+    flex: 1;
+    width: auto;
+  }
+  .foot {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}

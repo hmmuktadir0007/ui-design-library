@@ -181,3 +181,45 @@
   outline: 2px solid #e11d48;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: calc(14px * var(--pg-scale, 1)) calc(18px * var(--pg-scale, 1));
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .foot {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .top {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .title {
+    font-size: 26px;
+  }
+  .cols {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .row {
+    grid-template-columns: 28px 1fr auto;
+    height: auto;
+    min-height: 38px;
+    padding: 6px 0;
+    gap: 6px;
+  }
+  .rowTitle {
+    font-size: 15px;
+  }
+  .ref {
+    margin-left: 0;
+    width: 100%;
+  }
+}

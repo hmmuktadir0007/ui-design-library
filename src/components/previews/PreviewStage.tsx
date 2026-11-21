@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import type { ViewportPresetId } from "../playground/playgroundConfig";
 import { StylePreview } from "./StylePreview";
 
 /** Every preview is authored on a fixed artboard with the reference image's aspect ratio (969×777)... */
@@ -89,22 +90,26 @@ export function PreviewStage({
   name,
   interactive = true,
   vars,
+  viewport = "desktop",
 }: {
   id: number;
   name: string;
   interactive?: boolean;
   vars?: Record<`--${string}`, string>;
+  viewport?: ViewportPresetId;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0);
+  const [measuredScale, setMeasuredScale] = useState(0);
+  const isScaled = viewport === "desktop";
+  const scale = isScaled ? measuredScale : 1;
 
   useLayoutEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / ARTBOARD_WIDTH));
+    if (!el || !isScaled) return;
+    const ro = new ResizeObserver(([entry]) => setMeasuredScale(entry.contentRect.width / ARTBOARD_WIDTH));
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [isScaled]);
 
   // Recompute after the lazy preview mounts and after anything that can move controls (state changes, transitions).
   useLayoutEffect(() => {
@@ -125,13 +130,21 @@ export function PreviewStage({
       mo.disconnect();
       events.forEach((e) => el.removeEventListener(e, schedule));
     };
-  }, [interactive, scale]);
+  }, [interactive, scale, viewport]);
 
-  const stageStyle: CSSProperties = {
-    ...(vars as CSSProperties | undefined),
-    width: ARTBOARD_WIDTH,
-    transform: `scale(${scale})`,
-  };
+  const stageStyle: CSSProperties = isScaled
+    ? {
+        ...(vars as CSSProperties | undefined),
+        width: ARTBOARD_WIDTH,
+        transform: `scale(${scale})`,
+        containerType: "inline-size",
+        containerName: "preview-stage",
+      }
+    : {
+        ...(vars as CSSProperties | undefined),
+        containerType: "inline-size",
+        containerName: "preview-stage",
+      };
 
   return (
     <div
@@ -139,12 +152,18 @@ export function PreviewStage({
       role="group"
       aria-label={`${interactive ? "Live CSS preview" : "Live CSS preview, display only"}: ${name}`}
       data-preview-id={id}
-      className="relative aspect-[969/777] w-full overflow-hidden bg-surface-2"
+      data-viewport={viewport}
+      className={
+        isScaled
+          ? "relative aspect-[969/777] w-full overflow-hidden bg-surface-2"
+          : "relative h-full w-full overflow-y-auto overflow-x-hidden overscroll-contain bg-surface-2"
+      }
     >
       {scale > 0 && (
         <div
           inert={!interactive}
-          className="absolute top-0 left-0 aspect-[969/777] origin-top-left"
+          data-viewport={viewport}
+          className={isScaled ? "absolute top-0 left-0 aspect-[969/777] origin-top-left" : "min-h-full w-full"}
           style={stageStyle}
         >
           <StylePreview id={id} vars={vars} />

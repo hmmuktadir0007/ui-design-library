@@ -127,3 +127,30 @@
   outline: 2px solid #f0f9ff;
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    min-height: 340px;
+    overflow-x: clip;
+  }
+  .stack {
+    transform: scale(0.9);
+  }
+  .foot {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .root {
+    min-height: 400px;
+  }
+  .stack {
+    top: 46%;
+    transform: scale(0.82);
+  }
+  .tag0 { left: 10px; top: 44px; }
+  .tag1 { right: 10px; top: 150px; }
+  .tag2 { left: 10px; top: 248px; }
+}

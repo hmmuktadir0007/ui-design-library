@@ -300,3 +300,49 @@
     animation: none;
   }
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .scene {
+    min-height: 148px;
+    overflow: hidden;
+  }
+  .player {
+    margin: 0 10px 12px;
+  }
+  .rowB {
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .vol {
+    margin-left: 0;
+    min-width: 120px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .top {
+    padding: 10px 12px 0;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .note {
+    position: static;
+    padding: 4px 12px 0;
+  }
+  .rowA {
+    flex-wrap: wrap;
+  }
+  .transport {
+    width: 100%;
+    justify-content: center;
+  }
+  .modes {
+    flex-wrap: wrap;
+  }
+}

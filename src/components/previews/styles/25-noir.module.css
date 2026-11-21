@@ -258,3 +258,46 @@
   outline: 2px solid var(--fg);
   outline-offset: 2px;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .top,
+  .foot {
+    padding: 0 12px;
+  }
+  .body {
+    grid-template-columns: 152px 1fr;
+  }
+  .title {
+    font-size: 36px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+  .left {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    gap: 8px;
+  }
+  .primary {
+    margin-top: 6px;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+  .frame {
+    min-height: 76px;
+  }
+  .big {
+    min-height: 160px;
+  }
+}

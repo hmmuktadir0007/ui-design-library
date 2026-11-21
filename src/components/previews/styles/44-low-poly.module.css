@@ -154,3 +154,31 @@
   font: 8px ui-monospace, "JetBrains Mono", Consolas, monospace;
   color: #a5b4fc;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    padding: 14px 10px;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .panel {
+    width: 100%;
+    max-width: 330px;
+    padding: 24px 16px 20px;
+  }
+  .head,
+  .row,
+  .group,
+  .foot {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .title {
+    font-size: 19px;
+  }
+}

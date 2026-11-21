@@ -246,3 +246,38 @@
 .segBtn:focus-visible {
   outline-color: #93c5fd;
 }
+
+@container preview-stage (max-width: 400px) {
+  .root {
+    height: auto;
+    min-height: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .hero {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-height: 156px;
+  }
+  .activity,
+  .actions {
+    grid-column: 1 / -1;
+  }
+  .kpi {
+    min-height: 90px;
+  }
+}
+
+@container preview-stage (max-width: 350px) {
+  .root {
+    grid-template-columns: 1fr;
+  }
+  .actionRow {
+    flex-wrap: wrap;
+  }
+  .action {
+    min-height: 34px;
+  }
+}
