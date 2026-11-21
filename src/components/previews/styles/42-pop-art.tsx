@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./42-pop-art.module.css";
 
 const SFX = ["BOOM!", "POW!", "ZAP!", "WHAM!"];
@@ -32,9 +33,9 @@ export default function PopArt() {
           <span className={s.burstText}>{SFX[sfx]}</span>
         </button>
 
-        <div className={s.editions} role="radiogroup" aria-label="Edition">
+        <div className={s.editions} role="radiogroup" aria-label="Edition" onKeyDown={onRadioGroupKeyDown}>
           {EDITIONS.map((x, i) => (
-            <button key={x.key} type="button" role="radio" aria-checked={i === ed} className={s.edBtn} onClick={() => setEd(i)}>
+            <button key={x.key} type="button" role="radio" aria-checked={i === ed} tabIndex={i === ed ? 0 : -1} className={s.edBtn} onClick={() => setEd(i)}>
               {x.label} ${x.price}
             </button>
           ))}

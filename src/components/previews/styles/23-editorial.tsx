@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./23-editorial.module.css";
 
 const ARTICLES = [
@@ -72,9 +73,9 @@ export default function Editorial() {
             A+
           </button>
         </div>
-        <div className={s.group} role="radiogroup" aria-label="Reading mode">
+        <div className={s.group} role="radiogroup" aria-label="Reading mode" onKeyDown={onRadioGroupKeyDown}>
           {(["Columns", "Focus"] as const).map((m) => (
-            <button key={m} type="button" role="radio" aria-checked={focus === (m === "Focus")} className={s.tool} onClick={() => setFocus(m === "Focus")}>
+            <button key={m} type="button" role="radio" aria-checked={focus === (m === "Focus")} tabIndex={focus === (m === "Focus") ? 0 : -1} className={s.tool} onClick={() => setFocus(m === "Focus")}>
               {m}
             </button>
           ))}
@@ -112,9 +113,9 @@ export default function Editorial() {
       </div>
 
       <footer className={s.foot}>
-        <div className={s.issues} role="radiogroup" aria-label="Article">
+        <div className={s.issues} role="radiogroup" aria-label="Article" onKeyDown={onRadioGroupKeyDown}>
           {ARTICLES.map((x, i) => (
-            <button key={x.title} type="button" role="radio" aria-checked={cur === i} aria-label={`${String(i + 1).padStart(2, "0")} ${x.title}`} className={s.issue} onClick={() => setCur(i)}>
+            <button key={x.title} type="button" role="radio" aria-checked={cur === i} tabIndex={cur === i ? 0 : -1} aria-label={`${String(i + 1).padStart(2, "0")} ${x.title}`} className={s.issue} onClick={() => setCur(i)}>
               {String(i + 1).padStart(2, "0")}
             </button>
           ))}

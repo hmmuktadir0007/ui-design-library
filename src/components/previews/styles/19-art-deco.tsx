@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./19-art-deco.module.css";
 
 const SUITES = [
@@ -33,9 +34,9 @@ export default function ArtDeco() {
         <span className={s.rule} aria-hidden>
           <i />
         </span>
-        <div className={s.suites} role="radiogroup" aria-label="Suite">
+        <div className={s.suites} role="radiogroup" aria-label="Suite" onKeyDown={onRadioGroupKeyDown}>
           {SUITES.map((y, i) => (
-            <button key={y.name} type="button" role="radio" aria-checked={suite === i} className={s.suite} onClick={change(() => setSuite(i))}>
+            <button key={y.name} type="button" role="radio" aria-checked={suite === i} tabIndex={suite === i ? 0 : -1} className={s.suite} onClick={change(() => setSuite(i))}>
               <span className={s.gem} aria-hidden />
               <span className={s.suiteName}>{y.name}</span>
               <span className={s.detail}>{y.detail}</span>
@@ -57,9 +58,9 @@ export default function ArtDeco() {
           <button type="button" aria-pressed={reserved} className={s.reserve} onClick={() => setReserved(!reserved)}>
             {reserved ? "RESERVED ✓" : "RESERVE SUITE"}
           </button>
-          <div className={s.finishes} role="radiogroup" aria-label="Finish">
+          <div className={s.finishes} role="radiogroup" aria-label="Finish" onKeyDown={onRadioGroupKeyDown}>
             {FINISHES.map((f, i) => (
-              <button key={f} type="button" role="radio" aria-checked={finish === i} className={s.finish} onClick={() => setFinish(i)}>
+              <button key={f} type="button" role="radio" aria-checked={finish === i} tabIndex={finish === i ? 0 : -1} className={s.finish} onClick={() => setFinish(i)}>
                 {f}
               </button>
             ))}

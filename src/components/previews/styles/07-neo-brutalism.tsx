@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./07-neo-brutalism.module.css";
 
 const NAV = ["Home", "Analytics", "Wallet", "Projects", "Settings"];
@@ -39,13 +40,14 @@ export default function NeoBrutalism() {
             </div>
           </header>
 
-          <div className={s.stats} role="radiogroup" aria-label="Metric">
+          <div className={s.stats} role="radiogroup" aria-label="Metric" onKeyDown={onRadioGroupKeyDown}>
             {STATS.map((m, i) => (
               <button
                 key={m.key}
                 type="button"
                 role="radio"
                 aria-checked={i === stat}
+                tabIndex={i === stat ? 0 : -1}
                 className={`${s.stat} ${m.tone}`}
                 onClick={() => setStat(i)}
               >

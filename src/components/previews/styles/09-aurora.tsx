@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./09-aurora.module.css";
 
 const MESHES = ["Borealis", "Dusk", "Lagoon"] as const;
@@ -34,9 +35,9 @@ export default function Aurora() {
         <span className={s.chip}>✦ {f.chip}</span>
         <h3 className={s.title}>{f.title}</h3>
         <p className={s.text}>{f.text}</p>
-        <div className={s.features} role="radiogroup" aria-label="Product feature">
+        <div className={s.features} role="radiogroup" aria-label="Product feature" onKeyDown={onRadioGroupKeyDown}>
           {FEATURES.map((x, i) => (
-            <button key={x.label} type="button" role="radio" aria-checked={feature === i} className={s.feature} onClick={() => setFeature(i)}>
+            <button key={x.label} type="button" role="radio" aria-checked={feature === i} tabIndex={feature === i ? 0 : -1} className={s.feature} onClick={() => setFeature(i)}>
               {x.label}
             </button>
           ))}
@@ -45,9 +46,9 @@ export default function Aurora() {
 
       <div className={s.controls}>
         <div className={s.row}>
-          <div className={s.meshes} role="radiogroup" aria-label="Aurora arrangement">
+          <div className={s.meshes} role="radiogroup" aria-label="Aurora arrangement" onKeyDown={onRadioGroupKeyDown}>
             {MESHES.map((m, i) => (
-              <button key={m} type="button" role="radio" aria-checked={mesh === i} className={s.mesh} onClick={() => setMesh(i)}>
+              <button key={m} type="button" role="radio" aria-checked={mesh === i} tabIndex={mesh === i ? 0 : -1} className={s.mesh} onClick={() => setMesh(i)}>
                 {m}
               </button>
             ))}

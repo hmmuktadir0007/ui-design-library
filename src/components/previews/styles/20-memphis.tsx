@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./20-memphis.module.css";
 
 const HEADLINES = [
@@ -56,9 +57,9 @@ export default function Memphis() {
           </div>
         </div>
         <footer className={s.foot}>
-          <div className={s.accents} role="radiogroup" aria-label="Accent">
+          <div className={s.accents} role="radiogroup" aria-label="Accent" onKeyDown={onRadioGroupKeyDown}>
             {ACCENTS.map((a, i) => (
-              <button key={a} type="button" role="radio" aria-checked={accent === i} className={`${s.swatch} ${s[`c${i}`]}`} onClick={() => setAccent(i)}>
+              <button key={a} type="button" role="radio" aria-checked={accent === i} tabIndex={accent === i ? 0 : -1} className={`${s.swatch} ${s[`c${i}`]}`} onClick={() => setAccent(i)}>
                 {a}
               </button>
             ))}

@@ -36,7 +36,7 @@
   flex: 1;
   min-height: 0;
   perspective: 700px;
-  touch-action: none; /* a drag over the card tilts it instead of scrolling */
+  touch-action: pan-y; /* allow natural vertical scrolling on touch devices */
 }
 .card {
   --rx: 0deg;

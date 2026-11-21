@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./34-isometric.module.css";
 
 const LAYERS = [
@@ -22,9 +23,9 @@ export default function Isometric() {
         ))}
       </div>
 
-      <div className={s.tags} role="radiogroup" aria-label="Architecture layer">
+      <div className={s.tags} role="radiogroup" aria-label="Architecture layer" onKeyDown={onRadioGroupKeyDown}>
         {LAYERS.map((l, i) => (
-          <button key={l.key} type="button" role="radio" aria-checked={i === sel} className={`${s.tag} ${s[`tag${i}`]}`} onClick={() => setSel(i)}>
+          <button key={l.key} type="button" role="radio" aria-checked={i === sel} tabIndex={i === sel ? 0 : -1} className={`${s.tag} ${s[`tag${i}`]}`} onClick={() => setSel(i)}>
             {l.tag}
           </button>
         ))}

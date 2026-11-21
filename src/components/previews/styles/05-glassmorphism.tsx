@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./05-glassmorphism.module.css";
 
 const DAYS = [
@@ -60,9 +61,9 @@ export default function Glassmorphism() {
           {cur.d} · {cur.sky}
           {alerts ? " · Alerts on" : ""}
         </p>
-        <div className={s.days} role="radiogroup" aria-label="Forecast day">
+        <div className={s.days} role="radiogroup" aria-label="Forecast day" onKeyDown={onRadioGroupKeyDown}>
           {DAYS.map((x, i) => (
-            <button key={x.d} type="button" role="radio" aria-checked={i === day} className={s.day} onClick={() => setDay(i)}>
+            <button key={x.d} type="button" role="radio" aria-checked={i === day} tabIndex={i === day ? 0 : -1} className={s.day} onClick={() => setDay(i)}>
               <span>{x.d}</span>
               <span aria-hidden>{x.icon}</span>
               <span>{x.t}°</span>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./26-organic.module.css";
 
 const SECTIONS = [
@@ -22,9 +23,9 @@ export default function Organic() {
         <span className={s.brand}>
           <span className={s.logo} aria-hidden /> AURA // BOTANICS
         </span>
-        <div className={s.nav} role="radiogroup" aria-label="Section">
+        <div className={s.nav} role="radiogroup" aria-label="Section" onKeyDown={onRadioGroupKeyDown}>
           {SECTIONS.map((y, i) => (
-            <button key={y.label} type="button" role="radio" aria-checked={section === i} className={s.navBtn} onClick={() => setSection(i)}>
+            <button key={y.label} type="button" role="radio" aria-checked={section === i} tabIndex={section === i ? 0 : -1} className={s.navBtn} onClick={() => setSection(i)}>
               {y.label}
             </button>
           ))}

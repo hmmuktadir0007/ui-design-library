@@ -1,4 +1,5 @@
 import { useId, useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./45-obsidian-glass.module.css";
 
 const RANGES = {
@@ -46,9 +47,9 @@ export default function ObsidianGlass() {
           </button>
         </div>
 
-        <div className={s.ranges} role="radiogroup" aria-label="Chart range">
+        <div className={s.ranges} role="radiogroup" aria-label="Chart range" onKeyDown={onRadioGroupKeyDown}>
           {(Object.keys(RANGES) as Range[]).map((r) => (
-            <button key={r} type="button" role="radio" aria-checked={r === range} className={s.range} onClick={() => setRange(r)}>
+            <button key={r} type="button" role="radio" aria-checked={r === range} tabIndex={r === range ? 0 : -1} className={s.range} onClick={() => setRange(r)}>
               {r}
             </button>
           ))}

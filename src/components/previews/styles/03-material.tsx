@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./03-material.module.css";
 
 interface Task {
@@ -85,9 +86,9 @@ export default function Material() {
         </aside>
 
         <section className={s.main} aria-label="Tasks">
-          <div className={s.chips} role="radiogroup" aria-label="Filter tasks">
+          <div className={s.chips} role="radiogroup" aria-label="Filter tasks" onKeyDown={onRadioGroupKeyDown}>
             {FILTERS.map((f) => (
-              <button key={f} type="button" role="radio" aria-checked={filter === f} className={s.chip} onClick={() => setFilter(f)}>
+              <button key={f} type="button" role="radio" aria-checked={filter === f} tabIndex={filter === f ? 0 : -1} className={s.chip} onClick={() => setFilter(f)}>
                 {filter === f && <span aria-hidden>✓ </span>}
                 {f}
               </button>

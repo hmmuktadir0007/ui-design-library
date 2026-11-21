@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./48-masonry.module.css";
 
 // CSS-generated artwork (gradients), so no image assets or third-party requests.
@@ -24,9 +25,9 @@ export default function Masonry() {
 
   return (
     <div className={s.root}>
-      <div className={s.filters} role="radiogroup" aria-label="Category">
+      <div className={s.filters} role="radiogroup" aria-label="Category" onKeyDown={onRadioGroupKeyDown}>
         {CATS.map((c) => (
-          <button key={c} type="button" role="radio" aria-checked={c === cat} className={s.filter} onClick={() => setCat(c)}>
+          <button key={c} type="button" role="radio" aria-checked={c === cat} tabIndex={c === cat ? 0 : -1} className={s.filter} onClick={() => setCat(c)}>
             {c === "Saved" && "♥ "}
             {c} ({count(c)})
           </button>

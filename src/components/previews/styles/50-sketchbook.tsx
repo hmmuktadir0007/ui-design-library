@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./50-sketchbook.module.css";
 
 const STEPS = [
@@ -24,9 +25,9 @@ export default function Sketchbook() {
           <span className={s.hand}>Hand-Drawn Sketch Canvas ~</span>
         </header>
 
-        <div className={s.flow} role="radiogroup" aria-label="Stage">
+        <div className={s.flow} role="radiogroup" aria-label="Stage" onKeyDown={onRadioGroupKeyDown}>
           {STEPS.map((x, i) => (
-            <button key={x.title} type="button" role="radio" aria-checked={step === i} className={`${s.step} ${i === 2 ? s.ship : ""}`} onClick={() => setStep(i)}>
+            <button key={x.title} type="button" role="radio" aria-checked={step === i} tabIndex={step === i ? 0 : -1} className={`${s.step} ${i === 2 ? s.ship : ""}`} onClick={() => setStep(i)}>
               <span className={s.stepTitle}>{x.title}</span>
               {x.note && <span className={s.stepNote}>{x.note}</span>}
             </button>

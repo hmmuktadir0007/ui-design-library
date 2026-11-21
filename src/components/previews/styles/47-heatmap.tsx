@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
+import { nextHeatmapCell } from "./47-heatmap-nav";
 import s from "./47-heatmap.module.css";
 
 // Deterministic demo data (labelled "Demo data" in the UI): daily active sessions over 4 weeks.
@@ -25,21 +27,39 @@ const pct = (n: number) => `${n > 0 ? "+" : ""}${n.toFixed(1)}%`;
 export default function Heatmap() {
   const [set, setSet] = useState(0);
   const [day, setDay] = useState(17);
+  const [focusDay, setFocusDay] = useState(17);
   const [stage, setStage] = useState(2);
+  const cellRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const d = DATASETS[set];
   const avg = d.days.reduce((a, b) => a + b, 0) / d.days.length;
   const v = d.days[day];
   const drops = d.funnel.map((n, i) => (i ? (n / d.funnel[i - 1] - 1) * 100 : 0));
   const worst = drops.indexOf(Math.min(...drops));
 
+  const onCellKeyDown = (i: number, e: KeyboardEvent<HTMLButtonElement>) => {
+    const next = nextHeatmapCell(i, e.key, e.ctrlKey || e.metaKey);
+    if (next === null) return;
+    e.preventDefault();
+    setFocusDay(next);
+    cellRefs.current[next]?.focus();
+  };
+
   return (
     <div className={s.root}>
       <header className={s.head}>
         <h3 className={s.title}>TELEMETRY &amp; CONVERSION FUNNEL</h3>
         <span className={s.demo}>DEMO DATA</span>
-        <div className={s.seg} role="radiogroup" aria-label="Dataset">
+        <div className={s.seg} role="radiogroup" aria-label="Dataset" onKeyDown={onRadioGroupKeyDown}>
           {DATASETS.map((x, i) => (
-            <button key={x.label} type="button" role="radio" aria-checked={i === set} className={s.segBtn} onClick={() => setSet(i)}>
+            <button
+              key={x.label}
+              type="button"
+              role="radio"
+              aria-checked={i === set}
+              tabIndex={i === set ? 0 : -1}
+              className={s.segBtn}
+              onClick={() => setSet(i)}
+            >
               {x.label}
             </button>
           ))}
@@ -61,11 +81,20 @@ export default function Heatmap() {
                   return (
                     <button
                       key={name}
+                      ref={(el) => {
+                        cellRefs.current[i] = el;
+                      }}
                       type="button"
+                      tabIndex={i === focusDay ? 0 : -1}
                       aria-pressed={i === day}
                       aria-label={`${name} week ${w + 1}, day ${i + 1}: ${d.days[i].toLocaleString("en-US")} sessions, level ${L}`}
                       className={`${s.cell} ${s[`l${L}`]}`}
-                      onClick={() => setDay(i)}
+                      onClick={() => {
+                        setDay(i);
+                        setFocusDay(i);
+                      }}
+                      onFocus={() => setFocusDay(i)}
+                      onKeyDown={(e) => onCellKeyDown(i, e)}
                     />
                   );
                 })}

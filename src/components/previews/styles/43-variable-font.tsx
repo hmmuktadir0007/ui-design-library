@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./43-variable-font.module.css";
 
 const COMPOSITIONS = [
@@ -64,9 +65,9 @@ export default function VariableFont() {
           <span className={s.val}>{wdth}%</span>
         </label>
         <div className={s.row}>
-          <div className={s.comps} role="radiogroup" aria-label="Composition">
+          <div className={s.comps} role="radiogroup" aria-label="Composition" onKeyDown={onRadioGroupKeyDown}>
             {COMPOSITIONS.map((x, i) => (
-              <button key={x.label} type="button" role="radio" aria-checked={comp === i} className={s.comp} onClick={() => setComp(i)}>
+              <button key={x.label} type="button" role="radio" aria-checked={comp === i} tabIndex={comp === i ? 0 : -1} className={s.comp} onClick={() => setComp(i)}>
                 {x.label}
               </button>
             ))}

@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./08-bento.module.css";
 
 const RANGES = ["7D", "30D"] as const;
@@ -24,9 +25,9 @@ export default function Bento() {
       <section className={`${s.tile} ${s.hero}`} aria-label="Analytics overview">
         <div className={s.heroHead}>
           <p className={s.kicker}>Analytics Overview · {m.label}</p>
-          <div className={s.seg} role="radiogroup" aria-label="Range">
+          <div className={s.seg} role="radiogroup" aria-label="Range" onKeyDown={onRadioGroupKeyDown}>
             {RANGES.map((r) => (
-              <button key={r} type="button" role="radio" aria-checked={range === r} className={s.segBtn} onClick={() => setRange(r)}>
+              <button key={r} type="button" role="radio" aria-checked={range === r} tabIndex={range === r ? 0 : -1} className={s.segBtn} onClick={() => setRange(r)}>
                 {r}
               </button>
             ))}

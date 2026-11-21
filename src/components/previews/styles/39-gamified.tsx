@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./39-gamified.module.css";
 
 const BOOSTS = [
@@ -58,9 +59,9 @@ export default function Gamified() {
           </span>
         </div>
 
-        <div className={s.boosts} role="radiogroup" aria-label="Boost">
+        <div className={s.boosts} role="radiogroup" aria-label="Boost" onKeyDown={onRadioGroupKeyDown}>
           {BOOSTS.map((b, i) => (
-            <button key={b.key} type="button" role="radio" aria-checked={i === boost} className={s.boost} onClick={() => setBoost(i)}>
+            <button key={b.key} type="button" role="radio" aria-checked={i === boost} tabIndex={i === boost ? 0 : -1} className={s.boost} onClick={() => setBoost(i)}>
               <span className={`${s.dot} ${b.tone}`} aria-hidden />
               <span className={s.boostText}>
                 <strong>{b.top}</strong>

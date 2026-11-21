@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./32-flat-2.module.css";
 
 const PLANS = [
@@ -26,9 +27,9 @@ export default function Flat2() {
           <span className={s.logo} aria-hidden />
           SaaSMetrics OS
         </span>
-        <div className={s.billing} role="radiogroup" aria-label="Billing period">
+        <div className={s.billing} role="radiogroup" aria-label="Billing period" onKeyDown={onRadioGroupKeyDown}>
           {[false, true].map((a) => (
-            <button key={String(a)} type="button" role="radio" aria-checked={annual === a} className={s.billBtn} onClick={() => setAnnual(a)} disabled={confirmed}>
+            <button key={String(a)} type="button" role="radio" aria-checked={annual === a} tabIndex={annual === a ? 0 : -1} className={s.billBtn} onClick={() => setAnnual(a)} disabled={confirmed}>
               {a ? "Annual −17%" : "Monthly"}
             </button>
           ))}
@@ -37,9 +38,9 @@ export default function Flat2() {
 
       <div className={s.body}>
         <section className={s.card} aria-label="Plan">
-          <div className={s.plans} role="radiogroup" aria-label="Plan tier">
+          <div className={s.plans} role="radiogroup" aria-label="Plan tier" onKeyDown={onRadioGroupKeyDown}>
             {PLANS.map((x, i) => (
-              <button key={x.name} type="button" role="radio" aria-checked={i === plan} className={s.planBtn} onClick={() => setPlan(i)} disabled={confirmed}>
+              <button key={x.name} type="button" role="radio" aria-checked={i === plan} tabIndex={i === plan ? 0 : -1} className={s.planBtn} onClick={() => setPlan(i)} disabled={confirmed}>
                 {x.name}
               </button>
             ))}

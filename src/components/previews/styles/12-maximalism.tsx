@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./12-maximalism.module.css";
 
 const STAGES = [
@@ -52,9 +53,9 @@ export default function Maximalism() {
 
       <section className={s.collage} aria-label="Pass selection">
         <p className={s.collageTitle}>Collage zone</p>
-        <div className={s.passes} role="radiogroup" aria-label="Pass type">
+        <div className={s.passes} role="radiogroup" aria-label="Pass type" onKeyDown={onRadioGroupKeyDown}>
           {PASSES.map((x, i) => (
-            <button key={x.key} type="button" role="radio" aria-checked={i === pass} className={s.pass} onClick={() => setPass(i)}>
+            <button key={x.key} type="button" role="radio" aria-checked={i === pass} tabIndex={i === pass ? 0 : -1} className={s.pass} onClick={() => setPass(i)}>
               {x.label} · ${x.price}
             </button>
           ))}

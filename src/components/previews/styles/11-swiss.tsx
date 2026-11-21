@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./11-swiss.module.css";
 
 const PROJECTS = [
@@ -66,9 +67,9 @@ export default function Swiss() {
         <p className={s.edition}>
           <b>EDITION 08 // ARCHIVE</b> ZÜRICH, CH
         </p>
-        <div className={s.views} role="radiogroup" aria-label="View">
+        <div className={s.views} role="radiogroup" aria-label="View" onKeyDown={onRadioGroupKeyDown}>
           {(["Index", "Read"] as const).map((v) => (
-            <button key={v} type="button" role="radio" aria-checked={view === v} className={s.view} onClick={() => setView(v)}>
+            <button key={v} type="button" role="radio" aria-checked={view === v} tabIndex={view === v ? 0 : -1} className={s.view} onClick={() => setView(v)}>
               {v}
             </button>
           ))}

@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./04-neumorphism.module.css";
 
 const MIN = 60;
@@ -33,9 +34,9 @@ export default function Neumorphism() {
             +
           </button>
         </div>
-        <div className={s.segment} role="radiogroup" aria-label="Mode">
+        <div className={s.segment} role="radiogroup" aria-label="Mode" onKeyDown={onRadioGroupKeyDown}>
           {(["auto", "eco"] as const).map((m) => (
-            <button key={m} type="button" role="radio" aria-checked={mode === m} className={s.segBtn} onClick={() => setMode(m)}>
+            <button key={m} type="button" role="radio" aria-checked={mode === m} tabIndex={mode === m ? 0 : -1} className={s.segBtn} onClick={() => setMode(m)}>
               {m.toUpperCase()}
             </button>
           ))}

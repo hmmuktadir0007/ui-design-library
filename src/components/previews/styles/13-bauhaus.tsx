@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./13-bauhaus.module.css";
 
 const PRIMITIVES = [
@@ -66,16 +67,16 @@ export default function Bauhaus() {
         </div>
       </section>
       <footer className={s.foot}>
-        <div className={s.group} role="radiogroup" aria-label="Primitive">
+        <div className={s.group} role="radiogroup" aria-label="Primitive" onKeyDown={onRadioGroupKeyDown}>
           {PRIMITIVES.map((x, i) => (
-            <button key={x.label} type="button" role="radio" aria-checked={shape === i} aria-label={x.label} className={s.prim} onClick={() => setShape(i)}>
+            <button key={x.label} type="button" role="radio" aria-checked={shape === i} tabIndex={shape === i ? 0 : -1} aria-label={x.label} className={s.prim} onClick={() => setShape(i)}>
               <span className={`${s.icon} ${s[`i${x.label}`]}`} aria-hidden />
             </button>
           ))}
         </div>
-        <div className={s.group} role="radiogroup" aria-label="Grid">
+        <div className={s.group} role="radiogroup" aria-label="Grid" onKeyDown={onRadioGroupKeyDown}>
           {LAYOUTS.map((x, i) => (
-            <button key={x.label} type="button" role="radio" aria-checked={layout === i} className={s.btn} onClick={() => setLayout(i)}>
+            <button key={x.label} type="button" role="radio" aria-checked={layout === i} tabIndex={layout === i ? 0 : -1} className={s.btn} onClick={() => setLayout(i)}>
               {x.label}
             </button>
           ))}

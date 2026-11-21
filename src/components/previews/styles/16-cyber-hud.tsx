@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./16-cyber-hud.module.css";
 
 // Deterministic demo telemetry: no randomness, so every state is reproducible (and testable).
@@ -62,9 +63,9 @@ export default function CyberHud() {
               return <circle key={b} cx={r * Math.cos(a)} cy={r * Math.sin(a)} r="3" className={d > 10 ? s.blipFar : s.blip} />;
             })}
           </svg>
-          <div className={s.ranges} role="radiogroup" aria-label="Radar range">
+          <div className={s.ranges} role="radiogroup" aria-label="Radar range" onKeyDown={onRadioGroupKeyDown}>
             {RANGES.map((r, i) => (
-              <button key={r} type="button" role="radio" aria-checked={range === i} className={s.rangeBtn} onClick={() => setRange(i)}>
+              <button key={r} type="button" role="radio" aria-checked={range === i} tabIndex={range === i ? 0 : -1} className={s.rangeBtn} onClick={() => setRange(i)}>
                 {r} KM
               </button>
             ))}
@@ -111,9 +112,9 @@ export default function CyberHud() {
       <section className={s.spectrum} aria-label="Spectrum telemetry">
         <div className={s.specHead}>
           <span className={s.specTitle}>SPECTRUM HARMONICS // {ch.label}</span>
-          <div className={s.channels} role="radiogroup" aria-label="Telemetry channel">
+          <div className={s.channels} role="radiogroup" aria-label="Telemetry channel" onKeyDown={onRadioGroupKeyDown}>
             {CHANNELS.map((c, i) => (
-              <button key={c.label} type="button" role="radio" aria-checked={channel === i} className={s.chBtn} onClick={() => setChannel(i)}>
+              <button key={c.label} type="button" role="radio" aria-checked={channel === i} tabIndex={channel === i ? 0 : -1} className={s.chBtn} onClick={() => setChannel(i)}>
                 {c.label}
               </button>
             ))}

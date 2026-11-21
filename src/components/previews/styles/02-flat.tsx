@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./02-flat.module.css";
 
 type Section = "Activity" | "Tasks" | "Inbox";
@@ -59,9 +60,9 @@ export default function Flat() {
               <section className={s.activity} aria-label="Daily activity">
                 <div className={s.row}>
                   <h3 className={s.h}>Daily Activity</h3>
-                  <div className={s.seg} role="radiogroup" aria-label="Activity range">
+                  <div className={s.seg} role="radiogroup" aria-label="Activity range" onKeyDown={onRadioGroupKeyDown}>
                     {(Object.keys(BARS) as (keyof typeof BARS)[]).map((r) => (
-                      <button key={r} type="button" role="radio" aria-checked={range === r} className={s.segBtn} onClick={() => setRange(r)}>
+                      <button key={r} type="button" role="radio" aria-checked={range === r} tabIndex={range === r ? 0 : -1} className={s.segBtn} onClick={() => setRange(r)}>
                         {r}
                       </button>
                     ))}
@@ -100,9 +101,9 @@ export default function Flat() {
                 <span style={{ width: `${pct}%` }} />
               </div>
               <div className={s.row}>
-                <div className={s.filters} role="radiogroup" aria-label="Task filter">
+                <div className={s.filters} role="radiogroup" aria-label="Task filter" onKeyDown={onRadioGroupKeyDown}>
                   {(["All", "Open", "Done"] as Filter[]).map((f) => (
-                    <button key={f} type="button" role="radio" aria-checked={filter === f} className={s.chip} onClick={() => setFilter(f)}>
+                    <button key={f} type="button" role="radio" aria-checked={filter === f} tabIndex={filter === f ? 0 : -1} className={s.chip} onClick={() => setFilter(f)}>
                       {f}
                     </button>
                   ))}

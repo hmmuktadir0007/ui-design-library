@@ -49,8 +49,8 @@ src/components/gallery/         Header, CategoryTabs (aria-pressed filters), Sty
 src/components/playground/      StyleDetail: native <dialog>.showModal() (focus trap, Esc, inert page, focus return)
 src/components/previews/        previewRegistry.ts, StylePreview.tsx (lazy, per-style code split),
                                 PreviewStage.tsx (artboard scaling + touch targets), PreviewToggle.tsx (Slide Visual / Live CSS),
-                                shared/Knob.tsx (headless ARIA rotary slider), styles/NN-name.tsx + NN-name.module.css,
-                                scoping.test.ts (CSS isolation rules)
+                                shared/Knob.tsx (headless ARIA rotary slider), shared/radioGroup.ts (roving tabindex + arrow keys),
+                                styles/NN-name.tsx + NN-name.module.css, scoping.test.ts (CSS isolation rules)
 ```
 
 Shell tokens are CSS custom properties in `src/index.css` (`:root` / `.dark`), exposed to Tailwind via `@theme inline`.
@@ -105,7 +105,8 @@ Phase 4 only after explicit approval: `gh repo create ui-design-library`, `wrang
 | 2B batch 4 | 7 Minimal & Typographic live previews (real variable font for 43, timer, reading modes) | functional + a11y suites pass at 375/768/1440 — **complete** |
 | 2B batch 5 | 6 Atmospheric & Futuristic live previews (aurora mesh, HUD, synthwave player, scrollytelling, motion, holographic card) | functional + a11y + reduced-motion suites pass at 375/768/1440 — **complete** |
 | 2B batch 6 | 8 Art & Heritage Movements live previews (Bauhaus, Art Deco, Memphis, Organic, Paper Collage, Neoclassical, Low-Poly, Sketchbook) | functional + a11y suites pass at 375/768/1440 — **complete**; all 50 previews done |
-| Quality review | full-library visual + accessibility audit, backlog in PROGRESS.md | not started |
+| 2C-1 | P1 interaction & a11y fixes: Style 35 mobile touch scrolling (`touch-action: pan-y`), Style 47 single-Tab-stop 7×4 heatmap grid navigation, roving tabindex + arrow keys across all 46 `radiogroup` controls (34 previews), dialog focus-trap/Escape regression tests | all 5 verification checks pass (109 Vitest, 398/402 Playwright, 0 axe violations) — **complete** |
+| 2C-2 / 2C-3 / 2C-4 | cross-browser checks (Firefox/WebKit), visual redesigns, performance/image optimization | not started |
 | 2B playground | viewport frame, variable controls, generated CSS, reset | not started |
 | 3 | tests, browser checks, perf | all checks pass or are reported with measured values |
 | 4 | GitHub + Cloudflare | URLs verified live |

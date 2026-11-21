@@ -1,4 +1,5 @@
 import { useRef, useState, type PointerEvent } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./35-holographic.module.css";
 
 const VARIANTS = [
@@ -27,6 +28,7 @@ export default function Holographic() {
     readout.current!.textContent = `TILT X ${t.x}° · Y ${t.y}° // SHEEN ${135 + t.y * 3 - t.x * 2}°`;
   };
   const onPointer = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "touch") return;
     const r = e.currentTarget.getBoundingClientRect();
     apply(-((e.clientY - r.top) / r.height - 0.5) * 2 * MAX, ((e.clientX - r.left) / r.width - 0.5) * 2 * MAX);
   };
@@ -103,9 +105,17 @@ export default function Holographic() {
         <button type="button" role="switch" aria-checked={foil} className={s.btn} onClick={() => setFoil(!foil)}>
           Foil
         </button>
-        <div className={s.variants} role="radiogroup" aria-label="Pass">
+        <div className={s.variants} role="radiogroup" aria-label="Pass" onKeyDown={onRadioGroupKeyDown}>
           {VARIANTS.map((x, i) => (
-            <button key={x.label} type="button" role="radio" aria-checked={variant === i} className={s.btn} onClick={() => setVariant(i)}>
+            <button
+              key={x.label}
+              type="button"
+              role="radio"
+              aria-checked={variant === i}
+              tabIndex={variant === i ? 0 : -1}
+              className={s.btn}
+              onClick={() => setVariant(i)}
+            >
               {x.label}
             </button>
           ))}

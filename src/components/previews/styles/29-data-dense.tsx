@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./29-data-dense.module.css";
 
 const RANGES = ["1H", "24H", "7D"] as const;
@@ -55,18 +56,18 @@ export default function DataDense() {
     <div className={s.root}>
       <header className={s.head}>
         <h3 className={s.title}>METRIC TELEMETRY ENGINE // CLUSTER-01</h3>
-        <div className={s.seg} role="radiogroup" aria-label="Date range">
+        <div className={s.seg} role="radiogroup" aria-label="Date range" onKeyDown={onRadioGroupKeyDown}>
           {RANGES.map((x) => (
-            <button key={x} type="button" role="radio" aria-checked={x === range} className={s.segBtn} onClick={() => setRange(x)}>
+            <button key={x} type="button" role="radio" aria-checked={x === range} tabIndex={x === range ? 0 : -1} className={s.segBtn} onClick={() => setRange(x)}>
               {x}
             </button>
           ))}
         </div>
       </header>
 
-      <div className={s.kpis} role="radiogroup" aria-label="Metric">
+      <div className={s.kpis} role="radiogroup" aria-label="Metric" onKeyDown={onRadioGroupKeyDown}>
         {KPIS.map((k, i) => (
-          <button key={k.key} type="button" role="radio" aria-checked={i === metric} className={s.kpi} onClick={() => setMetric(i)}>
+          <button key={k.key} type="button" role="radio" aria-checked={i === metric} tabIndex={i === metric ? 0 : -1} className={s.kpi} onClick={() => setMetric(i)}>
             <span className={s.kLabel}>{k.label}</span>
             <span className={s.kValue}>{k.value[r]}</span>
             <span className={`${s.badge} ${k.good[r] ? s.up : s.down}`}>

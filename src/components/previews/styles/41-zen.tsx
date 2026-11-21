@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./41-zen.module.css";
 
 const SESSIONS = [
@@ -53,9 +54,9 @@ export default function Zen() {
             <br />
             <span className={s.stone}>FORMS</span>
           </h3>
-          <div className={s.sessions} role="radiogroup" aria-label="Session type">
+          <div className={s.sessions} role="radiogroup" aria-label="Session type" onKeyDown={onRadioGroupKeyDown}>
             {SESSIONS.map((x, i) => (
-              <button key={x.name} type="button" role="radio" aria-checked={sel === i} className={s.session} onClick={() => choose(i)}>
+              <button key={x.name} type="button" role="radio" aria-checked={sel === i} tabIndex={sel === i ? 0 : -1} className={s.session} onClick={() => choose(i)}>
                 {x.name} <span className={s.mins}>{x.mins}′</span>
               </button>
             ))}

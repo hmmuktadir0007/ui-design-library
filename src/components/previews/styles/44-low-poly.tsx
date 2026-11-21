@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./44-low-poly.module.css";
 import { facets, H, W } from "./44-mesh";
 
@@ -34,16 +35,16 @@ export default function LowPoly() {
         <h3 className={s.title}>CRYSTALLINE UI</h3>
         <p className={s.sub}>Stepped polygon lighting &amp; sharp directional planes.</p>
         <div className={s.row}>
-          <div className={s.group} role="radiogroup" aria-label="Planes">
+          <div className={s.group} role="radiogroup" aria-label="Planes" onKeyDown={onRadioGroupKeyDown}>
             {DENSITIES.map((d, i) => (
-              <button key={i} type="button" role="radio" aria-checked={density === i} className={s.btn} onClick={() => setDensity(i)}>
+              <button key={i} type="button" role="radio" aria-checked={density === i} tabIndex={density === i ? 0 : -1} className={s.btn} onClick={() => setDensity(i)}>
                 {d.cols * d.rows * 2}
               </button>
             ))}
           </div>
-          <div className={s.group} role="radiogroup" aria-label="Facet palette">
+          <div className={s.group} role="radiogroup" aria-label="Facet palette" onKeyDown={onRadioGroupKeyDown}>
             {(Object.keys(PALETTES) as Palette[]).map((p) => (
-              <button key={p} type="button" role="radio" aria-checked={palette === p} className={s.btn} onClick={() => setPalette(p)}>
+              <button key={p} type="button" role="radio" aria-checked={palette === p} tabIndex={palette === p ? 0 : -1} className={s.btn} onClick={() => setPalette(p)}>
                 {p}
               </button>
             ))}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./17-kinetic-type.module.css";
 
 const COMPOSITIONS = [
@@ -18,13 +19,14 @@ export default function KineticType() {
     <div className={s.root}>
       <header className={s.top}>
         <span className={s.brand}>ARCHIVE // STUDIO</span>
-        <div className={s.comps} role="radiogroup" aria-label="Headline composition">
+        <div className={s.comps} role="radiogroup" aria-label="Headline composition" onKeyDown={onRadioGroupKeyDown}>
           {COMPOSITIONS.map((x, i) => (
             <button
               key={x.no}
               type="button"
               role="radio"
               aria-checked={comp === i}
+              tabIndex={comp === i ? 0 : -1}
               aria-label={`Composition ${x.no}: ${x.lines.join(" ")}`}
               className={s.comp}
               onClick={() => {
@@ -75,9 +77,9 @@ export default function KineticType() {
             <span className={s.pill}>{c.no}</span>
             <span className={s.tag}>• {c.tag}</span>
           </p>
-          <div className={s.arrange} role="radiogroup" aria-label="Arrangement">
+          <div className={s.arrange} role="radiogroup" aria-label="Arrangement" onKeyDown={onRadioGroupKeyDown}>
             {(["Stack", "Stagger"] as const).map((a) => (
-              <button key={a} type="button" role="radio" aria-checked={stagger === (a === "Stagger")} className={s.arr} onClick={() => setStagger(a === "Stagger")}>
+              <button key={a} type="button" role="radio" aria-checked={stagger === (a === "Stagger")} tabIndex={stagger === (a === "Stagger") ? 0 : -1} className={s.arr} onClick={() => setStagger(a === "Stagger")}>
                 {a}
               </button>
             ))}

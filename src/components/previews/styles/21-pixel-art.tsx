@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./21-pixel-art.module.css";
 
 const ITEMS = [
@@ -55,13 +56,14 @@ export default function PixelArt() {
         </span>
 
         <div className={s.row}>
-          <div className={s.items} role="radiogroup" aria-label="Equipped item">
+          <div className={s.items} role="radiogroup" aria-label="Equipped item" onKeyDown={onRadioGroupKeyDown}>
             {ITEMS.map((x, i) => (
               <button
                 key={x.key}
                 type="button"
                 role="radio"
                 aria-checked={i === item}
+                tabIndex={i === item ? 0 : -1}
                 aria-label={`${x.label} ${x.name}`}
                 className={`${s.slot} ${x.tone}`}
                 onClick={() => setItem(i)}

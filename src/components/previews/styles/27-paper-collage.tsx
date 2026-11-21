@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./27-paper-collage.module.css";
 
 const CARDS = [
@@ -49,9 +50,9 @@ export default function PaperCollage() {
       </div>
 
       <footer className={s.foot}>
-        <div className={s.group} role="radiogroup" aria-label="Card on top">
+        <div className={s.group} role="radiogroup" aria-label="Card on top" onKeyDown={onRadioGroupKeyDown}>
           {CARDS.map((c, i) => (
-            <button key={c.label} type="button" role="radio" aria-checked={front === i} className={s.pick} onClick={() => setFront(i)}>
+            <button key={c.label} type="button" role="radio" aria-checked={front === i} tabIndex={front === i ? 0 : -1} className={s.pick} onClick={() => setFront(i)}>
               {i ? "Coffee" : "Edition"} on top
             </button>
           ))}

@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./22-synthwave.module.css";
 
 // Fictional tracks; playback is a silent simulation (no audio is loaded or played).
@@ -101,9 +102,9 @@ export default function Synthwave() {
           </div>
         </div>
         <div className={s.rowB}>
-          <div className={s.modes} role="radiogroup" aria-label="Visualizer">
+          <div className={s.modes} role="radiogroup" aria-label="Visualizer" onKeyDown={onRadioGroupKeyDown}>
             {MODES.map((m, i) => (
-              <button key={m} type="button" role="radio" aria-checked={mode === i} className={s.mode} onClick={() => setMode(i)}>
+              <button key={m} type="button" role="radio" aria-checked={mode === i} tabIndex={mode === i ? 0 : -1} className={s.mode} onClick={() => setMode(i)}>
                 {m}
               </button>
             ))}

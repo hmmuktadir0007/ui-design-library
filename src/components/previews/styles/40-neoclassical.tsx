@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./40-neoclassical.module.css";
 
 const WINGS = [
@@ -41,18 +42,18 @@ export default function Neoclassical() {
             <span className={s.muted}>
               {p.year} · {p.note}
             </span>
-            <div className={s.pieces} role="radiogroup" aria-label="Piece">
+            <div className={s.pieces} role="radiogroup" aria-label="Piece" onKeyDown={onRadioGroupKeyDown}>
               {PIECES.map((x, i) => (
-                <button key={x.no} type="button" role="radio" aria-checked={piece === i} aria-label={`${x.no}. ${x.name}`} className={s.num} onClick={() => setPiece(i)}>
+                <button key={x.no} type="button" role="radio" aria-checked={piece === i} tabIndex={piece === i ? 0 : -1} aria-label={`${x.no}. ${x.name}`} className={s.num} onClick={() => setPiece(i)}>
                   {x.no}
                 </button>
               ))}
             </div>
           </section>
         ) : (
-          <div className={s.wings} role="radiogroup" aria-label="Wing">
+          <div className={s.wings} role="radiogroup" aria-label="Wing" onKeyDown={onRadioGroupKeyDown}>
             {WINGS.map((w, i) => (
-              <button key={w.title} type="button" role="radio" aria-checked={wing === i} className={s.wing} onClick={() => setWing(i)}>
+              <button key={w.title} type="button" role="radio" aria-checked={wing === i} tabIndex={wing === i ? 0 : -1} className={s.wing} onClick={() => setWing(i)}>
                 <span className={s.wingTitle}>{w.title.toUpperCase()}</span>
                 <span className={s.wingText}>{w.text}</span>
               </button>

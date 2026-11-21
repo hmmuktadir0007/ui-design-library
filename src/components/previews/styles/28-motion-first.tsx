@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from "react";
+import { onRadioGroupKeyDown } from "../shared/radioGroup";
 import s from "./28-motion-first.module.css";
 
 const CARDS = ["Inbox", "Deploy", "Insights"];
@@ -37,7 +38,7 @@ export default function MotionFirst() {
         <svg className={s.path} viewBox="0 0 400 120" aria-hidden>
           <path d="M20 110 C120 110 140 20 200 30 S260 60 300 40 S360 34 390 34" />
         </svg>
-        <div className={s.cards} role="radiogroup" aria-label="Cards">
+        <div className={s.cards} role="radiogroup" aria-label="Cards" onKeyDown={onRadioGroupKeyDown}>
           {CARDS.map((c, i) => (
             <button
               // the key changes on each trigger, so the pop animation replays (wave 0 = never triggered, no animation)
@@ -45,6 +46,7 @@ export default function MotionFirst() {
               type="button"
               role="radio"
               aria-checked={selected === i}
+              tabIndex={selected === i ? 0 : -1}
               className={`${s.card} ${wave ? s.pop : ""}`}
               style={{ "--i": i } as CSSProperties}
               onClick={() => setSelected(i)}
@@ -62,9 +64,9 @@ export default function MotionFirst() {
 
       <div className={s.controls}>
         <div className={s.row}>
-          <div className={s.modes} role="radiogroup" aria-label="Animation mode">
+          <div className={s.modes} role="radiogroup" aria-label="Animation mode" onKeyDown={onRadioGroupKeyDown}>
             {MODES.map((x, i) => (
-              <button key={x.label} type="button" role="radio" aria-checked={mode === i} className={s.mode} onClick={() => setMode(i)}>
+              <button key={x.label} type="button" role="radio" aria-checked={mode === i} tabIndex={mode === i ? 0 : -1} className={s.mode} onClick={() => setMode(i)}>
                 {x.label}
               </button>
             ))}

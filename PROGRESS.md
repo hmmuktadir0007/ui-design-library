@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2B previews complete — batch 6 (Art & Heritage Movements) done: 50 of 50 live previews, 0 image-only, all six categories. The Style Playground is not built. Awaiting approval for the next phase.
+**Current phase:** Phase 2C-1 complete — P1 interaction and accessibility fixes verified across all 50 live previews. Remaining work: Phase 2C-2 (cross-browser verification), Phase 2C-3 (visual polish), Phase 2C-4 (performance/asset optimization), and Style Playground customization.
 
 | Scope | Status |
 |---|---|
@@ -13,6 +13,8 @@
 | Phase 2B batch 5 — 6 Atmospheric & Futuristic live previews | complete, verified 2026-11-20 |
 | Phase 2B batch 6 — 8 Art & Heritage Movements live previews | complete, verified 2026-11-20 |
 | All 50 previews | complete (50 live, 0 image-only) |
+| Phase 2C-1 — P1 interaction & accessibility fixes | complete, verified 2026-11-21 |
+| Phase 2C-2 / 2C-3 / 2C-4 (cross-browser, visual polish, perf) | not started |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -476,15 +478,31 @@ Test changes: 8 new pointer + keyboard cases (state asserted on ARIA state, visi
 
 `docs/screenshots/phase-2b/`: `comparison-sheet.jpg` (all 50, Slide Visual | Live CSS, 2880×50014 JPEG, 8.9 MB), `live-NN.png` × 50, `gallery-desktop-1440.png`, `gallery-mobile-375.png`, `detail-{06,30,38,43,24,19}-{desktop-1440,mobile-375}.png`. All regenerated 2026-11-20 from the final code (`npm run capture:previews`, exit 0, 80 s). The gallery with every card on Live CSS reads as one coherent grid.
 
-## Quality-review backlog (carried forward, not addressed in batch 6)
+## Phase 2C-1 — Interaction & Accessibility Fixes
 
-- Style 35: touch-dragging over the holographic card tilts it and blocks natural page scrolling there on mobile (`touch-action: none`).
-- Style 47: heatmap needs 28 Tab presses; roving tabindex + arrow keys would fix it.
-- Some mobile (375 px) targets are below the preferred 44×44 but meet WCAG 2.5.8 AA (lists per batch above).
-- Not done: screen-reader verification, real touch devices, Firefox / Safari.
-- Global Claude stop hooks reference project-local scripts that do not exist here (see Known defects).
-- Performance and image optimization pending (full-size PNGs in cards; comparison sheet 8.9 MB).
-- Visual simplifications from the source slides, documented per batch.
+Verified 2026-11-21. Resolved all P1 interaction and accessibility findings from the Phase 2C audit without altering visual designs:
+
+- **Style 35 (Holographic UI) mobile scrolling:** Switched `.scene` from `touch-action: none` to `touch-action: pan-y` and ignored touch pointer events in `onPointer` so vertical touch swipes over the card scroll the dialog naturally on mobile (`375px`), while mouse-move/hover/drag tilt on fine-pointer devices and keyboard tilt + Flip/Foil/Reset controls continue to work.
+- **Style 47 (Heatmap Dashboard) keyboard navigation:** Replaced 28 separate Tab stops with a single roving-tabindex Tab stop (`tabIndex={0}` on the focused cell, `-1` on the other 27) and extracted `47-heatmap-nav.ts` (unit-tested in `47-heatmap-nav.test.ts`) supporting `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`, `Home`/`End` (row ends; `Ctrl+Home`/`Ctrl+End` grid ends), and `Enter`/`Space` to select a cell.
+- **Radio-group keyboard semantics (34 previews, 46 `radiogroup` controls):** Audited all 50 previews; all 46 `role="radiogroup"` controls across 34 previews are genuine mutually-exclusive single-select groups. Added shared lightweight helper `src/components/previews/shared/radioGroup.ts` (`0.41 kB` chunk, `0.27 kB` gzip) and wired `onKeyDown={onRadioGroupKeyDown}` + roving `tabIndex={checked ? 0 : -1}` on every `role="radio"` button across all 34 previews. Verified via static + unit tests in `radioGroup.test.ts` and Playwright roving-tabindex assertions across all 50 previews.
+- **Regression tests (`tests/e2e/a11y.spec.ts`):** Updated the per-preview Tab reachability check to respect roving tabindex and enforce single-`tabindex="0"` invariants on every `role="radiogroup"`. Added dedicated tests for Style 35 real CDP touch scroll at `375px` + keyboard tilt/flip/hover, Style 47 single-Tab-stop + Arrow/Home/End + Enter selection, representative radiogroup arrow-key wrapping across 5 previews, and `StyleDetail` native `<dialog>` focus trap + focus restoration on `Escape`.
+
+### Verification (2026-11-21, final code)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 304.0 kB (96.8 kB gzip), shared `radioGroup` chunk 0.41 kB (0.27 kB gzip) |
+| `npm test` (Vitest) | exit 0 — 109/109 pass (8 files; new: `radioGroup.test.ts` [37 tests], `47-heatmap-nav.test.ts` [4 tests]) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Playwright, Chromium, 375/768/1440) | exit 0 — 398 pass, 4 skipped (134 tests × 3 viewports; 2 mobile-375-only tests skipped at 768/1440); 0 axe WCAG 2.2 AA violations, no new exclusions |
+
+## Quality-review backlog (remaining: Phase 2C-2 / 2C-3 / 2C-4)
+
+- **Phase 2C-2 (Cross-browser & device verification):** Firefox / WebKit Playwright runs, screen-reader pass (NVDA / VoiceOver), real touch devices.
+- **Phase 2C-3 (Visual polish & target sizing):** Visual refinements from the source slides (documented per batch above) and optional 44×44 AAA target sizing at 375 px (all controls already meet WCAG 2.5.8 AA ≥ 24×24).
+- **Phase 2C-4 (Performance & asset optimization):** Thumbnail generation for card PNGs (currently full 969 px PNGs, ~140 kB avg) and comparison sheet size optimization.
+- **Style Playground (separate phase):** Viewport frame, variable controls, generated CSS export, Reset.
 
 ## Known defects
 
@@ -515,8 +533,9 @@ None blocking.
 - `5bfa84c` Phase 2B batch 3: Modern SaaS Dashboard live previews
 - `bccf72d` Phase 2B batch 4: Minimal Typographic live previews
 - `8c34adc` Phase 2B batch 5: Atmospheric Futuristic live previews
-- Phase 2B batch 6: Art Heritage live previews (hash in `git log`)
+- `116c8ac` Phase 2B batch 6: Art Heritage live previews
+- Phase 2C-1: Accessibility and interaction fixes (hash in `git log`)
 
 ## Next recommended action
 
-Review `docs/screenshots/phase-2b/comparison-sheet.jpg` (rows 13–50 at the end), then choose the next phase (see the quality-review backlog).
+Proceed to Phase 2C-2 (cross-browser verification) or review remaining Phase 2C-3 / 2C-4 / Style Playground scope.
