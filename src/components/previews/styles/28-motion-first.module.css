@@ -6,8 +6,8 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: radial-gradient(ellipse 60% 45% at 50% 52%, rgba(139, 92, 246, 0.22), transparent), #0b1020;
-  color: #ffffff;
+  background: var(--pg-bg, radial-gradient(ellipse 60% 45% at 50% 52%, rgba(139, 92, 246, 0.22), transparent), #0b1020);
+  color: var(--pg-text, #ffffff);
   font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -70,12 +70,12 @@
   flex: 1;
   height: 88px;
   padding: 10px 12px;
-  border: 1px solid #334155;
+  border: 1px solid var(--pg-border, #334155);
   border-radius: var(--pg-radius, 10px);
   font: inherit;
   text-align: left;
-  color: #ffffff;
-  background: #111827;
+  color: var(--pg-text, #ffffff);
+  background: var(--pg-surface, #111827);
   cursor: pointer;
   transition:
     transform var(--ms) var(--curve),

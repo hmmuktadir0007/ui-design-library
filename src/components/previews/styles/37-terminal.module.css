@@ -1,16 +1,16 @@
 /* Live demo CSS for style 37. Palette: #0A0A0A #22C55E #F59E0B #166534 #E5E7EB */
 .root {
-  --fg: #22c55e;
+  --fg: var(--pg-accent-ink, #22c55e);
   --glow: rgba(34, 197, 94, 0.45);
-  --dim: #166534;
+  --dim: var(--pg-border, #166534);
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
   border: 1px solid var(--dim);
-  background: #0a0a0a;
-  color: #e5e7eb;
+  background: var(--pg-bg, #0a0a0a);
+  color: var(--pg-text, #e5e7eb);
   font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
   font-size: 9.5px;
   line-height: 1.45;
@@ -46,20 +46,20 @@
   text-shadow: 0 0 4px var(--glow);
 }
 .warn {
-  color: #f59e0b;
+  color: var(--pg-accent-ink, #f59e0b);
 }
 .box {
   flex: none;
   margin: 8px 12px 4px;
   padding: 6px 10px;
   border: 1px solid var(--dim);
-  background: rgba(34, 197, 94, 0.04);
+  background: var(--pg-surface, rgba(34, 197, 94, 0.04));
   font-size: 8.5px;
   white-space: pre;
   color: var(--fg);
 }
 .boxSub {
-  color: #f59e0b;
+  color: var(--pg-text-muted, #f59e0b);
 }
 
 .screen {
@@ -84,7 +84,7 @@
 }
 .prompt {
   font-weight: 700;
-  color: #38bdf8;
+  color: var(--pg-accent-ink, #38bdf8);
 }
 .screen > .cmd {
   margin-top: 4px;
@@ -92,13 +92,13 @@
   color: var(--fg);
 }
 .out {
-  color: #e5e7eb;
+  color: var(--pg-text, #e5e7eb);
 }
 .ok {
-  color: #f59e0b;
+  color: var(--pg-accent-ink, #f59e0b);
 }
 .err {
-  color: #fca5a5;
+  color: var(--pg-accent-ink, #fca5a5);
 }
 
 .inputRow {
@@ -131,7 +131,7 @@
 .foot {
   border-top: 1px solid var(--dim);
   font-weight: 400;
-  color: #a3a3a3;
+  color: var(--pg-text-muted, #a3a3a3);
 }
 .fg {
   color: var(--fg);

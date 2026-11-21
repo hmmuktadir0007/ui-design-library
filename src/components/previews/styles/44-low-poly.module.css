@@ -8,8 +8,8 @@
   place-items: center;
   height: 100%;
   overflow: hidden;
-  background: #1e1b4b;
-  color: #f8fafc;
+  background: var(--pg-bg, #1e1b4b);
+  color: var(--pg-text, #f8fafc);
   font-family: "Segoe UI", "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -42,7 +42,7 @@
   content: "";
   position: absolute;
   inset: 1.5px;
-  background: rgba(10, 14, 34, 0.78);
+  background: var(--pg-surface, rgba(10, 14, 34, 0.78));
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   clip-path: polygon(0 6%, 100% 0, 100% 94%, 0 100%);

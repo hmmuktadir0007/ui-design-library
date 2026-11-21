@@ -8,8 +8,8 @@
   align-items: center;
   gap: calc(18px * var(--pg-scale, 1));
   padding: calc(22px * var(--pg-scale, 1));
-  background: #0f172a;
-  color: #fff;
+  background: var(--pg-bg, #0f172a);
+  color: var(--pg-text, #fff);
   font-family: ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -27,12 +27,12 @@
 
 /* source CSS, verbatim values */
 .glass {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--pg-surface, rgba(255, 255, 255, 0.14));
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid var(--pg-border, rgba(255, 255, 255, 0.28));
   border-radius: var(--pg-radius, 20px);
-  box-shadow: 0 calc(12px * var(--pg-shadow-strength, 1)) calc(30px * var(--pg-shadow-strength, 1)) rgba(2, 6, 23, 0.35);
+  box-shadow: 0 calc(12px * var(--pg-shadow-strength, 1)) calc(30px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, rgba(2, 6, 23, 0.35));
 }
 
 .cardScene {
@@ -178,8 +178,9 @@
   background: rgba(255, 255, 255, 0.08);
 }
 .day[aria-checked="true"] {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.45);
+  background: var(--pg-accent-fill, rgba(255, 255, 255, 0.2));
+  color: var(--pg-accent-on-fill, inherit);
+  border-color: var(--pg-border, rgba(255, 255, 255, 0.45));
 }
 .switch:focus-visible,
 .day:focus-visible {

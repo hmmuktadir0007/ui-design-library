@@ -1,13 +1,13 @@
 /* Live demo CSS for style 30. Palette: #111113 #1C1C21 #2E2E36 #A1A1AA #3B82F6 */
 .root {
-  --bg: #111113;
-  --surf: #1c1c21;
-  --row: #18181c;
-  --bdr: #2e2e36;
-  --text: #f4f4f5;
-  --muted: #a1a1aa;
+  --bg: var(--pg-bg, #111113);
+  --surf: var(--pg-surface, #1c1c21);
+  --row: var(--pg-surface-alt, #18181c);
+  --bdr: var(--pg-border, #2e2e36);
+  --text: var(--pg-text, #f4f4f5);
+  --muted: var(--pg-text-muted, #a1a1aa);
   --focus: var(--pg-accent, #3b82f6);
-  --sel: #172554;
+  --sel: var(--pg-surface-alt, #172554);
   position: relative;
   height: 100%;
   overflow: hidden;

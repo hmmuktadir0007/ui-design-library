@@ -7,8 +7,8 @@
   place-items: center;
   height: 100%;
   overflow: hidden;
-  background: #0b0f19;
-  color: #111111;
+  background: var(--pg-bg, #0b0f19);
+  color: var(--pg-text, #111111);
   font-family: "Segoe UI", "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -72,9 +72,9 @@
   display: flex;
   flex-direction: column;
   width: 316px;
-  border: 3px solid #111111;
+  border: 3px solid var(--pg-border, #111111);
   border-radius: var(--pg-radius, 12px);
-  background: #fbf7ff;
+  background: var(--pg-surface, #fbf7ff);
   box-shadow: calc(8px * var(--pg-shadow-strength, 1)) calc(8px * var(--pg-shadow-strength, 1)) 0 var(--accent);
   transition: box-shadow 0.25s;
 }

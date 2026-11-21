@@ -6,8 +6,8 @@
   height: 100%;
   overflow: hidden;
   padding: 14px 16px;
-  background: #0b0d12;
-  color: #f8fafc;
+  background: var(--pg-bg, #0b0d12);
+  color: var(--pg-text, #f8fafc);
   font-family: "Inter", "Geist", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -26,9 +26,9 @@
   height: 40px;
   flex: none;
   padding: 0 8px 0 12px;
-  border: 1px solid #272b36;
+  border: 1px solid var(--pg-border, #272b36);
   border-radius: 10px;
-  background: #151821;
+  background: var(--pg-surface, #151821);
 }
 .glass {
   width: 11px;
@@ -46,20 +46,20 @@
   border: 0;
   font: inherit;
   font-size: 12px;
-  color: #f8fafc;
+  color: var(--pg-text, #f8fafc);
   background: transparent;
 }
 .input::placeholder {
-  color: #9ca3af;
+  color: var(--pg-text-muted, #9ca3af);
 }
 .kbd {
   flex: none;
   padding: 3px 7px;
-  border: 1px solid #3a3f4d;
+  border: 1px solid var(--pg-border, #3a3f4d);
   border-radius: 6px;
   font-size: 9px;
-  color: #cbd5e1;
-  background: #0b0d12;
+  color: var(--pg-text-muted, #cbd5e1);
+  background: var(--pg-surface-alt, #0b0d12);
 }
 
 .group {
@@ -86,15 +86,15 @@
   align-items: center;
   gap: 10px;
   padding: 0 10px;
-  border: 1px solid #272b36;
+  border: 1px solid var(--pg-border, #272b36);
   border-radius: 8px;
-  background: #0f1117;
+  background: var(--pg-surface, #0f1117);
   cursor: pointer;
 }
 .option[aria-selected="true"] {
-  border-color: #6366f1;
-  background: #151821;
-  box-shadow: 0 0 0 1px #6366f1;
+  border-color: var(--pg-accent-ink, #6366f1);
+  background: var(--pg-surface-alt, #151821);
+  box-shadow: 0 0 0 1px var(--pg-accent-ink, #6366f1);
 }
 .option[aria-selected="true"] .kbd {
   border-color: #6366f1;
@@ -152,15 +152,15 @@
   flex-direction: column;
   gap: 5px;
   padding: 9px 11px;
-  border: 1px solid #272b36;
+  border: 1px solid var(--pg-border, #272b36);
   border-radius: 10px;
-  background: #151821;
+  background: var(--pg-surface, #151821);
 }
 .cardLabel {
   margin: 0;
   font-size: 8.5px;
   letter-spacing: 0.06em;
-  color: #9ca3af;
+  color: var(--pg-text-muted, #9ca3af);
 }
 .cardValue {
   margin: 0;
@@ -168,7 +168,7 @@
   font-weight: 700;
 }
 .indigo {
-  color: #a5b4fc;
+  color: var(--pg-accent-ink, #a5b4fc);
   text-transform: uppercase;
 }
 .cardRow {
@@ -180,16 +180,16 @@
   font-size: 9px;
 }
 .cyan {
-  color: #38bdf8;
+  color: var(--pg-accent-ink, #38bdf8);
 }
 .toggle {
   min-height: 26px;
   padding: 0 12px;
-  border: 1px solid #3a3f4d;
+  border: 1px solid var(--pg-border, #3a3f4d);
   border-radius: 6px;
   font: inherit;
-  color: #f8fafc;
-  background: #0b0d12;
+  color: var(--pg-text, #f8fafc);
+  background: var(--pg-surface-alt, #0b0d12);
   cursor: pointer;
 }
 .toggle:hover {

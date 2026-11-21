@@ -6,8 +6,8 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: #09090b;
-  color: #f4f4f5;
+  background: var(--pg-bg, #09090b);
+  color: var(--pg-text, #f4f4f5);
   font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -61,15 +61,15 @@
   gap: 10px;
   padding: 14px 18px;
   overflow: hidden;
-  border: 1.5px solid #3f3f46;
+  border: 1.5px solid var(--pg-border, #3f3f46);
   border-radius: 16px;
-  background: #111114;
+  background: var(--pg-surface, #111114);
   backface-visibility: hidden;
 }
 .foil .face {
   border-color: transparent;
   background:
-    linear-gradient(#111114, #111114) padding-box,
+    linear-gradient(var(--pg-surface, #111114), var(--pg-surface, #111114)) padding-box,
     linear-gradient(var(--sheen), #e0c3fc 0%, #8ec5fc 35%, #fbcfe8 70%, #a7f3d0 100%) border-box;
 }
 .back {

@@ -8,11 +8,11 @@
   grid-template-rows: auto 1fr auto;
   gap: 10px 12px;
   padding: 0 14px 14px;
-  background-color: #12091f;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-color: var(--pg-bg, #12091f);
+  background-image: linear-gradient(rgba(128, 128, 128, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
   background-size: 28px 28px;
-  color: #fff;
+  color: var(--pg-text, #fff);
   font-family: "Space Grotesk", "Arial Black", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -186,22 +186,22 @@
   align-content: start;
   gap: 6px;
   padding: 10px 12px;
-  border: 2px solid #818cf8;
+  border: 2px solid var(--pg-border, #818cf8);
   border-radius: 12px;
-  background: #0f172a;
+  background: var(--pg-surface, #0f172a);
 }
 .attrs > .kicker {
-  color: #7dd3fc;
+  color: var(--pg-accent-ink, #7dd3fc);
 }
 .meterLabel {
   font: 700 8.5px/1 ui-monospace, monospace;
-  color: #e2e8f0;
+  color: var(--pg-text, #e2e8f0);
 }
 .meter {
   display: block;
   height: 8px;
   border-radius: 3px;
-  background: #1e293b;
+  background: var(--pg-surface-alt, #1e293b);
 }
 .meter > span {
   display: block;

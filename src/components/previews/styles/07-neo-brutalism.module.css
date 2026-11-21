@@ -5,10 +5,10 @@
   display: grid;
   place-items: center;
   padding: calc(16px * var(--pg-scale, 1));
-  background: #fffdf7;
-  background-image: linear-gradient(#ece9df 1px, transparent 1px), linear-gradient(90deg, #ece9df 1px, transparent 1px);
+  background-color: var(--pg-bg, #fffdf7);
+  background-image: linear-gradient(rgba(128, 128, 128, 0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(128, 128, 128, 0.14) 1px, transparent 1px);
   background-size: 18px 18px;
-  color: #000;
+  color: var(--pg-text, #000);
   font-family: "Archivo Black", "Arial Black", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -17,9 +17,9 @@
   height: 100%;
   display: grid;
   grid-template-columns: 92px 1fr;
-  border: 3px solid #000;
-  background: #fffdf7;
-  box-shadow: calc(8px * var(--pg-shadow-strength, 1)) calc(8px * var(--pg-shadow-strength, 1)) 0 #000;
+  border: 3px solid var(--pg-border, #000);
+  background: var(--pg-surface, #fffdf7);
+  box-shadow: calc(8px * var(--pg-shadow-strength, 1)) calc(8px * var(--pg-shadow-strength, 1)) 0 var(--pg-border, #000);
 }
 
 .side {
@@ -85,13 +85,13 @@
 .btn {
   min-height: 26px;
   padding: 0 8px;
-  border: 2px solid #000;
+  border: 2px solid var(--pg-border, #000);
   font: inherit;
   font-size: 10px;
   text-transform: uppercase;
-  color: #000;
-  background: #fff;
-  box-shadow: 3px 3px 0 #000;
+  color: var(--pg-text, #000);
+  background: var(--pg-surface-alt, #fff);
+  box-shadow: 3px 3px 0 var(--pg-border, #000);
   white-space: nowrap;
   cursor: pointer;
   transition: transform 0.08s, box-shadow 0.08s;

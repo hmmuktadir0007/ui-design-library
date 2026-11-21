@@ -7,8 +7,8 @@
   grid-template-rows: auto auto 1fr auto auto;
   gap: 8px;
   padding: 0 16px 10px;
-  background: #000;
-  color: #fff;
+  background: var(--pg-bg, #000);
+  color: var(--pg-text, #fff);
   font-family: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 

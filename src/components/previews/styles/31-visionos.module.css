@@ -7,22 +7,24 @@
   align-items: center;
   gap: calc(12px * var(--pg-scale, 1));
   padding: calc(14px * var(--pg-scale, 1)) calc(18px * var(--pg-scale, 1));
-  background:
+  background: var(
+    --pg-bg,
     radial-gradient(ellipse at 60% 30%, rgba(56, 189, 248, 0.25), transparent 55%),
     radial-gradient(ellipse at 20% 90%, rgba(129, 140, 248, 0.25), transparent 50%),
-    #0f172a;
-  color: #f8fafc;
+    #0f172a
+  );
+  color: var(--pg-text, #f8fafc);
   font-family: ui-sans-serif, system-ui, sans-serif;
 }
 
 /* source CSS */
 .glass {
-  background: rgba(120, 120, 128, 0.28);
+  background: var(--pg-surface, rgba(120, 120, 128, 0.28));
   -webkit-backdrop-filter: blur(40px);
   backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--pg-border, rgba(255, 255, 255, 0.35));
   border-radius: var(--pg-radius, 32px);
-  box-shadow: 0 calc(30px * var(--pg-shadow-strength, 1)) calc(60px * var(--pg-shadow-strength, 1)) rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 calc(30px * var(--pg-shadow-strength, 1)) calc(60px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, rgba(0, 0, 0, 0.45)), inset 0 1px 0 var(--pg-shadow-light, rgba(255, 255, 255, 0.35));
 }
 
 .ornament {
@@ -36,7 +38,7 @@
   height: 32px;
   border-radius: 50%;
   border: 0;
-  color: #f8fafc;
+  color: var(--pg-text, #f8fafc);
   font-size: 13px;
   cursor: pointer;
   background: transparent;
@@ -170,22 +172,22 @@
 .mono {
   font: 8px/1.4 ui-monospace, monospace;
   letter-spacing: 0.06em;
-  color: #7dd3fc;
+  color: var(--pg-accent-ink, #7dd3fc);
 }
 .expand {
   padding: 6px 10px;
   border-radius: 999px;
-  border: 1px solid #38bdf8;
+  border: 1px solid var(--pg-accent-ink, #38bdf8);
   font: 600 9px/1 ui-monospace, monospace;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #7dd3fc;
-  background: rgba(56, 189, 248, 0.08);
+  color: var(--pg-accent-ink, #7dd3fc);
+  background: var(--pg-surface-alt, rgba(56, 189, 248, 0.08));
   cursor: pointer;
 }
 .expand[aria-pressed="true"] {
-  background: #38bdf8;
-  color: #0f172a;
+  background: var(--pg-accent-fill, #38bdf8);
+  color: var(--pg-accent-on-fill, #0f172a);
 }
 
 .pill {
@@ -200,7 +202,7 @@
   height: 30px;
   border-radius: 50%;
   border: 0;
-  color: #f8fafc;
+  color: var(--pg-text, #f8fafc);
   font-size: 11px;
   cursor: pointer;
   background: transparent;

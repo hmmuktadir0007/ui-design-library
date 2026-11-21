@@ -2,13 +2,13 @@
    Blob shapes use the source's 8-value organic border-radius and morph between presets; leaves are CSS ellipses. */
 .root {
   --clay: #c86d51;
-  --clayInk: #964a33;
+  --clayInk: var(--pg-accent-ink, #964a33);
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: #f4f1ea;
-  color: #2c3531;
+  background: var(--pg-bg, #f4f1ea);
+  color: var(--pg-text, #2c3531);
   font-family: "Segoe UI", "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -218,9 +218,9 @@
   column-gap: 8px;
   flex: 1;
   padding: 7px 10px;
-  border: 1px solid #e3ddd0;
+  border: 1px solid var(--pg-border, #e3ddd0);
   border-radius: 14px;
-  background: #fbfaf6;
+  background: var(--pg-surface, #fbfaf6);
 }
 .feature b {
   font: 700 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;

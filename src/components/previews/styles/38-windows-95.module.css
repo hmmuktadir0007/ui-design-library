@@ -3,8 +3,8 @@
   position: relative;
   height: 100%;
   overflow: hidden;
-  background: #008080;
-  color: #000;
+  background: var(--pg-bg, #008080);
+  color: var(--pg-text, #000);
   font-family: "Inter", "Tahoma", "MS Sans Serif", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -51,8 +51,8 @@
   top: 30px;
   width: 300px;
   padding: 3px;
-  background: #c0c0c0;
-  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000, inset 2px 2px 0 #dfdfdf, inset -2px -2px 0 #808080;
+  background: var(--pg-surface, #c0c0c0);
+  box-shadow: inset 1px 1px 0 var(--pg-shadow-light, #fff), inset -1px -1px 0 var(--pg-border, #000), inset 2px 2px 0 var(--pg-surface-alt, #dfdfdf), inset -2px -2px 0 var(--pg-border, #808080);
 }
 .titleBar {
   display: flex;

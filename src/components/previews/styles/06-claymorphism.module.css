@@ -5,8 +5,8 @@
   overflow: hidden;
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 70% 20%, #fff, #fffbeb 60%, #fdf1d6);
-  color: #1e293b;
+  background: var(--pg-bg, radial-gradient(circle at 70% 20%, #fff, #fffbeb 60%, #fdf1d6));
+  color: var(--pg-text, #1e293b);
   font-family: ui-rounded, "SF Pro Rounded", "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -33,12 +33,12 @@
   display: grid;
   gap: calc(12px * var(--pg-scale, 1));
   border-radius: var(--pg-radius, 34px);
-  background: linear-gradient(150deg, #ffffff 0%, #f8fafc 100%);
+  background: var(--pg-surface, linear-gradient(150deg, #ffffff 0%, #f8fafc 100%));
   box-shadow:
-    0 calc(24px * var(--pg-shadow-strength, 1)) calc(36px * var(--pg-shadow-strength, 1)) rgba(30, 41, 59, 0.14),
-    0 calc(8px * var(--pg-shadow-strength, 1)) calc(14px * var(--pg-shadow-strength, 1)) rgba(30, 41, 59, 0.08),
-    inset calc(-6px * var(--pg-shadow-strength, 1)) calc(-12px * var(--pg-shadow-strength, 1)) calc(20px * var(--pg-shadow-strength, 1)) rgba(148, 163, 184, 0.2),
-    inset calc(6px * var(--pg-shadow-strength, 1)) calc(10px * var(--pg-shadow-strength, 1)) calc(18px * var(--pg-shadow-strength, 1)) rgba(255, 255, 255, 0.95);
+    0 calc(24px * var(--pg-shadow-strength, 1)) calc(36px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, rgba(30, 41, 59, 0.14)),
+    0 calc(8px * var(--pg-shadow-strength, 1)) calc(14px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, rgba(30, 41, 59, 0.08)),
+    inset calc(-6px * var(--pg-shadow-strength, 1)) calc(-12px * var(--pg-shadow-strength, 1)) calc(20px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, rgba(148, 163, 184, 0.2)),
+    inset calc(6px * var(--pg-shadow-strength, 1)) calc(10px * var(--pg-shadow-strength, 1)) calc(18px * var(--pg-shadow-strength, 1)) var(--pg-shadow-light, rgba(255, 255, 255, 0.95));
 }
 
 .head {
@@ -54,7 +54,7 @@
 .sub {
   margin: 0;
   font-size: 10px;
-  color: #64748b;
+  color: var(--pg-text-muted, #64748b);
 }
 .heart {
   display: grid;
@@ -154,10 +154,10 @@
   border-radius: 999px;
   font-size: 11px;
   font-weight: 800;
-  color: #fff;
-  background: #1e293b;
+  color: var(--pg-accent-on-fill, #fff);
+  background: var(--pg-accent-fill, #1e293b);
   cursor: pointer;
-  box-shadow: 0 10px 16px rgba(30, 41, 59, 0.25), inset 0 -4px 8px rgba(0, 0, 0, 0.35), inset 0 4px 8px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 16px var(--pg-shadow-color, rgba(30, 41, 59, 0.25)), inset 0 -4px 8px rgba(0, 0, 0, 0.35), inset 0 4px 8px rgba(255, 255, 255, 0.2);
   transition: transform 0.15s;
 }
 .reset:active {

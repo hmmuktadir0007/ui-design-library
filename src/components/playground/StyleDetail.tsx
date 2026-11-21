@@ -133,7 +133,7 @@ function StyleDetailBody({ style }: { style: Style }) {
                   style={{ width: viewportPreset.frameWidth }}
                   className={`transition-[width] duration-200 ${viewportFrameClass}`}
                 >
-                  <PreviewStage id={style.id} name={style.name} vars={previewVars} viewport={pgState.viewport} />
+                  <PreviewStage id={style.id} name={style.name} vars={previewVars} viewport={pgState.viewport} theme={pgState.backdrop} />
                 </div>
               </div>
             </figure>
@@ -151,7 +151,7 @@ function StyleDetailBody({ style }: { style: Style }) {
               style={{ width: viewportPreset.frameWidth }}
               className={`transition-[width] duration-200 ${viewportFrameClass}`}
             >
-              <PreviewStage id={style.id} name={style.name} vars={previewVars} viewport={pgState.viewport} />
+              <PreviewStage id={style.id} name={style.name} vars={previewVars} viewport={pgState.viewport} theme={pgState.backdrop} />
             </div>
           </div>
         ) : (

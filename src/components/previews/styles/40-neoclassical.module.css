@@ -5,7 +5,8 @@
   display: grid;
   height: 100%;
   padding: 12px 18px;
-  background: #0d0c0b;
+  background: var(--pg-bg, #0d0c0b);
+  color: var(--pg-text, #1c1917);
   font-family: "Times New Roman", Georgia, serif;
   font-size: 10px;
 }
@@ -19,11 +20,11 @@
   align-items: center;
   gap: 4px;
   padding: 12px 22px 8px;
-  border: 1px solid #b4975a;
-  outline: 1px solid #b4975a;
+  border: 1px solid var(--pg-border, #b4975a);
+  outline: 1px solid var(--pg-border, #b4975a);
   outline-offset: -6px;
-  color: #1c1917;
-  background: #f9f6f0;
+  color: var(--pg-text, #1c1917);
+  background: var(--pg-surface, #f9f6f0);
 }
 .top {
   display: flex;

@@ -6,8 +6,8 @@
   height: 100%;
   padding: 0 24px;
   overflow: hidden;
-  background: #f2efe9;
-  color: #2d2a26;
+  background: var(--pg-bg, #f2efe9);
+  color: var(--pg-text, #2d2a26);
   font-family: "Inter", "Yu Gothic", "Hiragino Sans", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -20,18 +20,18 @@
   font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
-  color: #625c53;
+  color: var(--pg-text-muted, #625c53);
 }
 .top {
   height: 40px;
-  border-bottom: 1px solid #d6cfc2;
+  border-bottom: 1px solid var(--pg-border, #d6cfc2);
 }
 .brand {
   font-family: "Inter", "Yu Gothic", ui-sans-serif, system-ui, sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
-  color: #2d2a26;
+  color: var(--pg-text, #2d2a26);
 }
 .muted {
   font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
@@ -80,21 +80,22 @@
   height: 30px;
   padding: 0 6px;
   white-space: nowrap;
-  border: 1px solid #d6cfc2;
+  border: 1px solid var(--pg-border, #d6cfc2);
   border-radius: 14px 10px 14px 9px; /* hand-thrown, never perfectly round */
   font: inherit;
   font-size: 9.5px;
-  color: #2d2a26;
+  color: var(--pg-text, #2d2a26);
   background: transparent;
   cursor: pointer;
   transition: background-color 0.6s ease, border-color 0.6s ease;
 }
 .session[aria-checked="true"] {
-  border-color: #7a8b7b;
-  background: #e4e3d9;
+  border-color: var(--pg-accent-fill, #7a8b7b);
+  color: var(--pg-accent-on-fill, #2d2a26);
+  background: var(--pg-accent-fill, #e4e3d9);
 }
 .mins {
-  color: #625c53;
+  color: var(--pg-text-muted, #625c53);
 }
 .actions {
   display: flex;
@@ -106,13 +107,13 @@
   height: 34px;
   min-width: 118px;
   padding: 0 14px;
-  border: 1.5px solid #7a8b7b;
+  border: 1.5px solid var(--pg-border, #7a8b7b);
   border-radius: 8px 6px 9px 6px;
   font: 600 10px ui-monospace, "JetBrains Mono", Consolas, monospace;
   letter-spacing: 0.06em;
   text-align: left;
-  color: #2d2a26;
-  background: transparent;
+  color: var(--pg-text, #2d2a26);
+  background: var(--pg-surface, transparent);
   cursor: pointer;
   transition: background-color 0.6s ease;
 }
@@ -175,9 +176,9 @@
 .card {
   align-self: stretch;
   padding: 7px 10px;
-  border: 1px solid #d6cfc2;
+  border: 1px solid var(--pg-border, #d6cfc2);
   border-radius: 7px 5px 8px 5px;
-  background: #f7f5f0;
+  background: var(--pg-surface, #f7f5f0);
 }
 .card > p {
   margin: 0;

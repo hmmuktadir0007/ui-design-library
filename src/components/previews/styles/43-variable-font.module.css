@@ -15,8 +15,8 @@
   height: 100%;
   padding: 0 18px;
   overflow: hidden;
-  background: #0f0f11;
-  color: #f4f4f5;
+  background: var(--pg-bg, #0f0f11);
+  color: var(--pg-text, #f4f4f5);
   font-family: "Axis Sans Subset", "Inter", "Segoe UI", ui-sans-serif, sans-serif;
   font-size: 10px;
 }
@@ -81,9 +81,9 @@
   height: 84px;
   margin-top: 8px;
   padding: 0 12px;
-  border: 1px solid #f97316;
+  border: 1px solid var(--pg-border, #f97316);
   border-radius: 6px;
-  background: #141416;
+  background: var(--pg-surface, #141416);
 }
 .hero {
   flex: 1;
@@ -157,18 +157,18 @@
   gap: 10px;
   height: 30px;
   padding: 0 10px;
-  border: 1px solid #27272a;
+  border: 1px solid var(--pg-border, #27272a);
   border-radius: 6px;
-  background: #18181b;
+  background: var(--pg-surface-alt, #18181b);
 }
 .name {
   font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
-  color: #a1a1aa;
+  color: var(--pg-text-muted, #a1a1aa);
 }
 .val {
   font: 700 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
   text-align: right;
-  color: #f97316;
+  color: var(--pg-accent-ink, #f97316);
 }
 /* The visible track lives on the track pseudo-elements: PreviewStage pads the input box with a transparent border. */
 .range {

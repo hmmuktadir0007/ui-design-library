@@ -53,7 +53,7 @@ export function PlaygroundControls({ config, state, isDefault, onChange, onReset
                   type="button"
                   aria-pressed={active}
                   onClick={() => onChange({ viewport: preset.id })}
-                  className={`inline-flex min-h-8 items-center gap-1 rounded-md px-2 text-xs font-medium transition-colors ${
+                  className={`inline-flex min-h-8 items-center gap-1 rounded-md px-2 text-xs font-medium ${
                     active ? "bg-fg text-bg" : "text-muted hover:text-fg"
                   }`}
                 >
@@ -66,7 +66,7 @@ export function PlaygroundControls({ config, state, isDefault, onChange, onReset
 
           <div
             role="group"
-            aria-label="Preview backdrop"
+            aria-label="Preview theme"
             className="inline-flex rounded-lg border border-line bg-surface p-0.5"
           >
             {BACKDROP_OPTIONS.map((opt) => {
@@ -77,7 +77,7 @@ export function PlaygroundControls({ config, state, isDefault, onChange, onReset
                   type="button"
                   aria-pressed={active}
                   onClick={() => onChange({ backdrop: opt.id as BackdropId })}
-                  className={`min-h-8 rounded-md px-2 text-xs font-medium transition-colors ${
+                  className={`min-h-8 rounded-md px-2 text-xs font-medium ${
                     active ? "bg-fg text-bg" : "text-muted hover:text-fg"
                   }`}
                 >

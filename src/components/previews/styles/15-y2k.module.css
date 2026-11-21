@@ -5,9 +5,9 @@
   display: grid;
   place-items: center;
   padding: 12px;
-  background: radial-gradient(circle at 30% 20%, #2a2a5e, #0b0b1f 70%);
+  background: var(--pg-bg, radial-gradient(circle at 30% 20%, #2a2a5e, #0b0b1f 70%));
   font-family: "JetBrains Mono", ui-monospace, monospace;
-  color: #1e1b4b;
+  color: var(--pg-text, #1e1b4b);
 }
 
 /* brushed chrome window with a double bevel */
@@ -19,8 +19,8 @@
   gap: 6px;
   padding: 0 12px 10px;
   border-radius: 14px;
-  background: linear-gradient(180deg, #f4f6fa 0%, #c0c0c0 45%, #aab3c2 100%);
-  box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 #7b8494, 0 0 0 2px #e5e7eb, 0 10px 24px rgba(0, 0, 0, 0.5);
+  background: var(--pg-surface, linear-gradient(180deg, #f4f6fa 0%, #c0c0c0 45%, #aab3c2 100%));
+  box-shadow: inset 2px 2px 0 var(--pg-shadow-light, #fff), inset -2px -2px 0 var(--pg-border, #7b8494), 0 0 0 2px var(--pg-border, #e5e7eb), 0 10px 24px var(--pg-shadow-color, rgba(0, 0, 0, 0.5));
 }
 
 .titleBar {

@@ -6,8 +6,8 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: #0f172a;
-  color: #f8fafc;
+  background: var(--pg-bg, #0f172a);
+  color: var(--pg-text, #f8fafc);
   font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -157,9 +157,9 @@
   min-height: 0;
   margin: 10px 14px 10px 12px;
   padding: 10px 12px;
-  border: 1px solid #334155;
+  border: 1px solid var(--pg-border, #334155);
   border-radius: 10px;
-  background: #111c31;
+  background: var(--pg-surface, #111c31);
 }
 .stageHead {
   display: flex;

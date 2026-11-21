@@ -6,8 +6,8 @@
   height: 100%;
   overflow: hidden;
   padding: calc(9px * var(--pg-scale, 1)) calc(12px * var(--pg-scale, 1));
-  background: #fff;
-  color: #0f172a;
+  background: var(--pg-bg, #fff);
+  color: var(--pg-text, #0f172a);
   font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 9px;
 }
@@ -166,17 +166,17 @@
   flex: 1;
   max-height: 46px;
   padding: 4px 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--pg-border, #e2e8f0);
   border-radius: 8px;
   font: inherit;
   text-align: left;
   color: inherit;
-  background: #fff;
+  background: var(--pg-surface, #fff);
   cursor: pointer;
 }
 .stage[aria-pressed="true"] {
   border-color: var(--pg-accent, #059669);
-  background: #ecfdf5;
+  background: var(--pg-surface-alt, #ecfdf5);
   box-shadow: inset 3px 0 0 var(--pg-accent, #059669);
 }
 .stageHead {
@@ -214,12 +214,12 @@
   justify-content: space-between;
   gap: 8px;
   padding: 6px 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--pg-border, #e2e8f0);
   border-radius: 8px;
-  background: #f8fafc;
+  background: var(--pg-surface-alt, #f8fafc);
 }
 .muted {
-  color: #475569;
+  color: var(--pg-text-muted, #475569);
 }
 .red {
   color: #b91c1c;

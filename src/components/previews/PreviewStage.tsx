@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
-import type { ViewportPresetId } from "../playground/playgroundConfig";
+import type { PreviewThemeId, ViewportPresetId } from "../playground/playgroundConfig";
 import { StylePreview } from "./StylePreview";
 
 /** Every preview is authored on a fixed artboard with the reference image's aspect ratio (969×777)... */
@@ -91,12 +91,14 @@ export function PreviewStage({
   interactive = true,
   vars,
   viewport = "desktop",
+  theme = "auto",
 }: {
   id: number;
   name: string;
   interactive?: boolean;
   vars?: Record<`--${string}`, string>;
   viewport?: ViewportPresetId;
+  theme?: PreviewThemeId;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [measuredScale, setMeasuredScale] = useState(0);
@@ -153,6 +155,7 @@ export function PreviewStage({
       aria-label={`${interactive ? "Live CSS preview" : "Live CSS preview, display only"}: ${name}`}
       data-preview-id={id}
       data-viewport={viewport}
+      data-preview-theme={theme}
       className={
         isScaled
           ? "relative aspect-[969/777] w-full overflow-hidden bg-surface-2"
@@ -163,6 +166,7 @@ export function PreviewStage({
         <div
           inert={!interactive}
           data-viewport={viewport}
+          data-preview-theme={theme}
           className={isScaled ? "absolute top-0 left-0 aspect-[969/777] origin-top-left" : "min-h-full w-full"}
           style={stageStyle}
         >

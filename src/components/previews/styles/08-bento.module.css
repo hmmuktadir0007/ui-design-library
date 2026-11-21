@@ -7,8 +7,8 @@
   height: 100%;
   overflow: hidden;
   padding: calc(10px * var(--pg-scale, 1));
-  background: #f5f5f7;
-  color: #111827;
+  background: var(--pg-bg, #f5f5f7);
+  color: var(--pg-text, #111827);
   font-family: "Inter", "SF Pro Display", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -17,12 +17,12 @@
   min-width: 0;
   min-height: 0;
   padding: 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--pg-border, #e5e7eb);
   border-radius: var(--pg-radius, 18px);
-  background: #fff;
+  background: var(--pg-surface, #fff);
   box-shadow:
-    0 calc(4px * var(--pg-shadow-strength, 1)) calc(12px * var(--pg-shadow-strength, 1)) rgba(17, 24, 39, 0.06),
-    0 calc(1px * var(--pg-shadow-strength, 1)) calc(2px * var(--pg-shadow-strength, 1)) rgba(17, 24, 39, 0.04);
+    0 calc(4px * var(--pg-shadow-strength, 1)) calc(12px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, rgba(17, 24, 39, 0.06)),
+    0 calc(1px * var(--pg-shadow-strength, 1)) calc(2px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, rgba(17, 24, 39, 0.04));
 }
 .kicker {
   margin: 0;
@@ -133,7 +133,7 @@
 .kpiLabel {
   font-size: 9px;
   font-weight: 600;
-  color: #4b5563;
+  color: var(--pg-text-muted, #4b5563);
 }
 .kpiValue {
   font-size: 17px;
@@ -224,12 +224,12 @@
 }
 .action {
   flex: 1;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--pg-border, #e5e7eb);
   border-radius: 12px;
   font: inherit;
   font-weight: 600;
-  color: #111827;
-  background: #f9fafb;
+  color: var(--pg-text, #111827);
+  background: var(--pg-surface-alt, #f9fafb);
   cursor: pointer;
 }
 .action:hover {

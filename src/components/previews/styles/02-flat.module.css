@@ -3,8 +3,8 @@
   position: relative;
   height: 100%;
   overflow: hidden;
-  background: var(--pg-accent, #14b8a6);
-  color: #0f172a;
+  background: var(--pg-bg, var(--pg-accent, #14b8a6));
+  color: var(--pg-text, #0f172a);
   font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -75,9 +75,9 @@
   width: 212px;
   height: 321px;
   padding: 0 9px;
-  border: 7px solid #0f172a;
+  border: 7px solid var(--pg-border, #0f172a);
   border-radius: 28px;
-  background: #f8fafc;
+  background: var(--pg-surface, #f8fafc);
 }
 .top {
   display: flex;
@@ -287,8 +287,8 @@
   font: inherit;
   font-weight: 600;
   text-align: left;
-  color: #0f172a;
-  background: #e2e8f0;
+  color: var(--pg-text, #0f172a);
+  background: var(--pg-surface-alt, #e2e8f0);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

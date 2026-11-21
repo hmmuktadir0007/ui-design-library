@@ -5,8 +5,8 @@
   grid-template-columns: 1.15fr 1fr;
   gap: calc(22px * var(--pg-scale, 1));
   padding: calc(26px * var(--pg-scale, 1));
-  background: #e0e5ec;
-  color: #4a5568;
+  background: var(--pg-bg, #e0e5ec);
+  color: var(--pg-text, #4a5568);
   font-family: ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -16,10 +16,10 @@
   align-content: space-between;
   padding: 14px 12px;
   border-radius: var(--pg-radius, 20px);
-  background: #e0e5ec;
+  background: var(--pg-surface, #e0e5ec);
   box-shadow:
-    calc(8px * var(--pg-shadow-strength, 1)) calc(8px * var(--pg-shadow-strength, 1)) calc(16px * var(--pg-shadow-strength, 1)) #a3b1c6,
-    calc(-8px * var(--pg-shadow-strength, 1)) calc(-8px * var(--pg-shadow-strength, 1)) calc(16px * var(--pg-shadow-strength, 1)) #ffffff;
+    calc(8px * var(--pg-shadow-strength, 1)) calc(8px * var(--pg-shadow-strength, 1)) calc(16px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, #a3b1c6),
+    calc(-8px * var(--pg-shadow-strength, 1)) calc(-8px * var(--pg-shadow-strength, 1)) calc(16px * var(--pg-shadow-strength, 1)) var(--pg-shadow-light, #ffffff);
 }
 
 .caption {
@@ -37,10 +37,10 @@
   height: 116px;
   border-radius: 50%;
   padding: 9px;
-  background: conic-gradient(from 225deg, var(--pg-accent, #3b82f6) calc(var(--p) * 270deg), transparent 0) border-box, #e0e5ec;
+  background: conic-gradient(from 225deg, var(--pg-accent, #3b82f6) calc(var(--p) * 270deg), transparent 0) border-box, var(--pg-surface, #e0e5ec);
   box-shadow:
-    calc(6px * var(--pg-shadow-strength, 1)) calc(6px * var(--pg-shadow-strength, 1)) calc(12px * var(--pg-shadow-strength, 1)) #a3b1c6,
-    calc(-6px * var(--pg-shadow-strength, 1)) calc(-6px * var(--pg-shadow-strength, 1)) calc(12px * var(--pg-shadow-strength, 1)) #ffffff;
+    calc(6px * var(--pg-shadow-strength, 1)) calc(6px * var(--pg-shadow-strength, 1)) calc(12px * var(--pg-shadow-strength, 1)) var(--pg-shadow-color, #a3b1c6),
+    calc(-6px * var(--pg-shadow-strength, 1)) calc(-6px * var(--pg-shadow-strength, 1)) calc(12px * var(--pg-shadow-strength, 1)) var(--pg-shadow-light, #ffffff);
   transition: background 0.3s;
 }
 .dialInner {
@@ -49,13 +49,13 @@
   display: grid;
   place-content: center;
   text-align: center;
-  background: #e0e5ec;
-  box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+  background: var(--pg-surface-alt, #e0e5ec);
+  box-shadow: inset 5px 5px 10px var(--pg-shadow-color, #a3b1c6), inset -5px -5px 10px var(--pg-shadow-light, #ffffff);
 }
 .temp {
   font-size: 30px;
   font-weight: 300;
-  color: #2d3748;
+  color: var(--pg-text, #2d3748);
   line-height: 1;
 }
 .temp sup {
@@ -78,15 +78,15 @@
   border-radius: 50%;
   border: 0;
   font-size: 17px;
-  color: #4a5568;
+  color: var(--pg-text, #4a5568);
   cursor: pointer;
-  background: #e0e5ec;
-  box-shadow: 4px 4px 8px #a3b1c6, -4px -4px 8px #ffffff;
+  background: var(--pg-surface, #e0e5ec);
+  box-shadow: 4px 4px 8px var(--pg-shadow-color, #a3b1c6), -4px -4px 8px var(--pg-shadow-light, #ffffff);
   transition: box-shadow 0.15s, color 0.15s;
 }
 .round:active {
-  box-shadow: inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff;
-  color: #3b82f6;
+  box-shadow: inset 3px 3px 6px var(--pg-shadow-color, #a3b1c6), inset -3px -3px 6px var(--pg-shadow-light, #ffffff);
+  color: var(--pg-accent-ink, #3b82f6);
 }
 .round:disabled {
   opacity: 0.4;
@@ -97,7 +97,7 @@
   display: flex;
   padding: 3px;
   border-radius: 999px;
-  box-shadow: inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff;
+  box-shadow: inset 3px 3px 6px var(--pg-shadow-color, #a3b1c6), inset -3px -3px 6px var(--pg-shadow-light, #ffffff);
 }
 .segBtn {
   min-width: 46px;
@@ -106,15 +106,15 @@
   border-radius: 999px;
   font-size: 8px;
   letter-spacing: 0.1em;
-  color: #5a6475;
+  color: var(--pg-text-muted, #5a6475);
   background: transparent;
   cursor: pointer;
-  transition: box-shadow 0.2s, color 0.2s;
+  transition: box-shadow 0.2s;
 }
 .segBtn[aria-checked="true"] {
-  color: #1d4ed8;
-  background: #e0e5ec;
-  box-shadow: 3px 3px 6px #a3b1c6, -3px -3px 6px #ffffff;
+  color: var(--pg-accent-ink, #1d4ed8);
+  background: var(--pg-surface-alt, #e0e5ec);
+  box-shadow: 3px 3px 6px var(--pg-shadow-color, #a3b1c6), -3px -3px 6px var(--pg-shadow-light, #ffffff);
 }
 
 .player {
@@ -124,7 +124,7 @@
   gap: 16px;
   padding: 16px 10px;
   border-radius: var(--pg-radius, 16px);
-  box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+  box-shadow: inset 4px 4px 8px var(--pg-shadow-color, #a3b1c6), inset -4px -4px 8px var(--pg-shadow-light, #ffffff);
 }
 .controls {
   display: flex;
@@ -137,15 +137,15 @@
   height: 40px;
   border-radius: 50%;
   border: 0;
-  color: #4a5568;
+  color: var(--pg-text, #4a5568);
   cursor: pointer;
-  background: #e0e5ec;
-  box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+  background: var(--pg-surface, #e0e5ec);
+  box-shadow: 5px 5px 10px var(--pg-shadow-color, #a3b1c6), -5px -5px 10px var(--pg-shadow-light, #ffffff);
   transition: box-shadow 0.15s, color 0.15s;
 }
 .play[aria-pressed="true"] {
-  color: #3b82f6;
-  box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+  color: var(--pg-accent-ink, #3b82f6);
+  box-shadow: inset 4px 4px 8px var(--pg-shadow-color, #a3b1c6), inset -4px -4px 8px var(--pg-shadow-light, #ffffff);
 }
 
 /* recessed slider track with an extruded thumb; the track is painted on the track pseudo-element so the

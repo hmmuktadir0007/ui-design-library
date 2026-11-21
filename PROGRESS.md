@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 5A complete — true responsive viewport adaptation (Desktop widescreen, Tablet 4:3, Mobile 9:16 portrait device frames with CSS Container Queries across all 50 style previews) verified across all 6 checks. Ready for Phase 5B (theming) when approved.
+**Current phase:** Phase 5B complete — true in-preview Light, Dark, and Neutral theming across all 50 styles (semantic `--pg-*` theme tokens, no `filter: invert()` hacks, Generated CSS theme export, WCAG 2.2 AA verified), pushed to GitHub and redeployed live to Cloudflare Pages.
 
 | Scope | Status |
 |---|---|
@@ -20,6 +20,7 @@
 | Phase 2D — Full Playground customization (viewport frame, variable controls, generated CSS) | complete, verified 2026-11-21 |
 | Phase 4 — README, GitHub repository & Cloudflare Pages deployment | complete, verified 2026-11-21 |
 | Phase 5A — True responsive container layouts and 9:16 mobile preview frame | complete, verified 2026-11-21 |
+| Phase 5B — True in-preview Light, Dark, and Neutral theming across all 50 styles | complete, verified 2026-11-21 |
 
 ## Completed
 
@@ -629,7 +630,28 @@ Verified 2026-11-21. Upgraded the Interactive Style Playground stage and all 50 
 | `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
 | `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 413 pass, 4 skipped (0 console/page errors, 0 horizontal overflow across all 50 styles in Tablet + Mobile) |
 
-## Remaining backlog (post-Phase 5A)
+## Phase 5B — True In-Preview Theme Switching (Auto / Light / Dark / Neutral)
+
+Verified 2026-11-21. Upgraded the Playground theme controls from backdrop-only to genuine in-preview theming across all 50 styles without `filter: invert()` hacks:
+
+- **Semantic theme token contract (`playgroundConfig.ts`, `PreviewStage.tsx`, `StyleDetail.tsx`, `PlaygroundControls.tsx`):** Renamed the control group to **Preview theme** (`Auto / Light / Dark / Neutral`), passed `data-preview-theme` onto `PreviewStage` and its root wrapper, and injected WCAG-calibrated semantic custom properties (`--pg-bg`, `--pg-surface`, `--pg-surface-alt`, `--pg-text`, `--pg-text-muted`, `--pg-border`, `--pg-shadow-color`, `--pg-shadow-light`, `--pg-accent-ink`, `--pg-accent-fill`, `--pg-accent-on-fill`) whenever Preview Theme ≠ `Auto`.
+- **All 50 preview CSS modules (`01-*.module.css` – `50-*.module.css`):** Wired internal roots, cards/panels/windows, secondary surfaces, borders, shadows, muted labels, and accent text to `var(--pg-*, <canonical>)` so `Auto` stays byte-for-byte canonical while `Light`, `Dark`, and `Neutral` genuinely re-theme every preview with ≥ 4.5:1 contrast and zero CSS leakage.
+- **Generated CSS & Reset:** `formatGeneratedCss` emits active `--pg-bg`, `--pg-surface`, `--pg-surface-alt`, `--pg-text`, `--pg-text-muted`, `--pg-border`, and `--pg-shadow-color` tokens when Light, Dark, or Neutral is selected; `Original CSS` stays 100% immutable; **Reset** restores `Auto`.
+- **Tests:** Extended `playgroundConfig.test.ts` (all 50 modules wired to `--pg-bg`/`--pg-text` + Generated CSS theme tokens) and `tests/e2e/playground.spec.ts` (Light mode on naturally dark #16, #22, #37, #45; Dark mode on naturally light #03, #04, #11, #32, #50; Neutral mode + Generated CSS + Original CSS immutability + Reset + 0 axe WCAG 2.2 AA violations).
+
+### Verification (2026-11-21, final code)
+
+| Check | Result |
+|---|---|
+| `npm run lint` | exit 0 — 0 errors, 0 warnings |
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 318.78 kB (100.54 kB gzip), CSS 33.28 kB (7.22 kB gzip) |
+| `npm test` (Vitest) | exit 0 — 119/119 pass (9 files) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 416 pass, 4 skipped |
+| `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped |
+
+## Remaining backlog (post-Phase 5B)
 
 - **Manual device/AT checks (non-automated):** Screen-reader pass (NVDA / VoiceOver) and physical touch devices.
 - **Optional AAA target sizing:** At 375 px some controls sit between 24 and 44 px (WCAG 2.5.8 AA met, AAA 44×44 not).
@@ -666,8 +688,9 @@ None blocking.
 - `8cfa7f6` Phase 2C-4: Image thumbnails, ESLint, and Lighthouse performance pass
 - `858d57b` Phase 2D: Interactive Style Playground with viewport and CSS customization
 - `0206f9e` Phase 4: Add README and pre-deployment polish (published to GitHub + Cloudflare Pages)
-- Phase 5A: True responsive container layouts and 9:16 mobile preview frame (local commit on `main`)
+- `a29f1df` Phase 5A: True responsive container layouts and 9:16 mobile preview frame
+- Phase 5B: True in-preview Light, Dark, and Neutral theming across all 50 styles (pushed to GitHub + redeployed to Cloudflare Pages)
 
 ## Next recommended action
 
-Proceed to Phase 5B (theming adaptation) when approved, then push and redeploy to Cloudflare Pages.
+Monitor live Cloudflare Pages deployment; optional follow-ups are manual screen-reader/physical-touch audit or AAA 44 px targets at 375 px.

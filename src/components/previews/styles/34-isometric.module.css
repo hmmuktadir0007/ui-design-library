@@ -5,8 +5,8 @@
   position: relative;
   height: 100%;
   overflow: hidden;
-  background: radial-gradient(ellipse at 50% 60%, #0c2a4a, #0f172a 65%);
-  color: #e0f2fe;
+  background: var(--pg-bg, radial-gradient(ellipse at 50% 60%, #0c2a4a, #0f172a 65%));
+  color: var(--pg-text, #e0f2fe);
   font-family: ui-monospace, monospace;
 }
 .exploded {

@@ -7,12 +7,12 @@
   height: 100%;
   padding: 10px 14px;
   overflow: hidden;
-  background: #05070a;
-  color: #e2e8f0;
+  background: var(--pg-bg, #05070a);
+  color: var(--pg-text, #e2e8f0);
   font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.04em;
-  --accent: #00f0ff;
+  --accent: var(--pg-accent-ink, #00f0ff);
 }
 .over {
   --accent: #ff4d88;
@@ -44,24 +44,24 @@
   min-width: 0;
   overflow: hidden;
   font-size: 8px;
-  color: #67e8f9;
+  color: var(--pg-accent-ink, #67e8f9);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 .overBtn {
   height: 28px;
   padding: 0 10px;
-  border: 1px solid #00f0ff;
+  border: 1px solid var(--pg-border, #00f0ff);
   font: inherit;
   font-weight: 700;
-  color: #00f0ff;
-  background: #0e1726;
+  color: var(--pg-accent-ink, #00f0ff);
+  background: var(--pg-surface, #0e1726);
   cursor: pointer; /* no clip-path here: it would also clip the enlarged hit area */
 }
 .overBtn[aria-checked="true"] {
   border-color: #ff0055;
-  color: #05070a;
-  background: #ff4d88;
+  color: var(--pg-accent-on-fill, #05070a);
+  background: var(--pg-accent-fill, #ff4d88);
 }
 
 .main {
@@ -72,9 +72,9 @@
 .radarPanel,
 .modules,
 .spectrum {
-  border: 1px solid #155e6b;
-  background: rgba(14, 23, 38, 0.85);
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.12);
+  border: 1px solid var(--pg-border, #155e6b);
+  background: var(--pg-surface, rgba(14, 23, 38, 0.85));
+  box-shadow: 0 0 10px var(--pg-shadow-color, rgba(0, 240, 255, 0.12));
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
 }
 .radarPanel {
@@ -130,24 +130,24 @@
 .chBtn {
   height: 28px;
   padding: 0 5px;
-  border: 1px solid #1f6f7d;
+  border: 1px solid var(--pg-border, #1f6f7d);
   white-space: nowrap;
   font: inherit;
   font-size: 8.5px;
-  color: #a5f3fc;
-  background: #05070a;
+  color: var(--pg-text, #a5f3fc);
+  background: var(--pg-surface-alt, #05070a);
   cursor: pointer;
 }
 .rangeBtn[aria-checked="true"],
 .chBtn[aria-checked="true"] {
-  border-color: var(--accent);
-  color: #05070a;
-  background: var(--accent);
+  border-color: var(--pg-accent-fill, var(--accent));
+  color: var(--pg-accent-on-fill, #05070a);
+  background: var(--pg-accent-fill, var(--accent));
 }
 .caption {
   font-size: 8px;
   font-weight: 700;
-  color: #67e8f9;
+  color: var(--pg-accent-ink, #67e8f9);
 }
 
 .modules {
@@ -164,19 +164,19 @@
   border: 1px solid transparent;
   font: inherit;
   text-align: left;
-  color: #cbd5e1;
+  color: var(--pg-text, #cbd5e1);
   background: transparent;
   cursor: pointer;
 }
 .module:hover {
-  border-color: #1f6f7d;
+  border-color: var(--pg-border, #1f6f7d);
 }
 .module[aria-checked="false"] .modLabel {
-  color: #94a3b8;
+  color: var(--pg-text-muted, #94a3b8);
 }
 .track {
   height: 6px;
-  background: #1e293b;
+  background: var(--pg-surface-alt, #1e293b);
 }
 .fill {
   display: block;
@@ -202,18 +202,18 @@
   display: grid;
   gap: 2px;
   padding: 4px 6px;
-  border: 1px solid #1e3a46;
+  border: 1px solid var(--pg-border, #1e3a46);
   font-size: 8px;
-  color: #94a3b8;
-  background: #05070a;
+  color: var(--pg-text-muted, #94a3b8);
+  background: var(--pg-surface-alt, #05070a);
 }
 .cyanText {
   font-weight: 400;
-  color: #00f0ff;
+  color: var(--pg-accent-ink, #00f0ff);
 }
 .pink {
   font-weight: 400;
-  color: #ff4d88;
+  color: var(--pg-accent-ink, #ff4d88);
 }
 
 .spectrum {
@@ -230,7 +230,7 @@
 }
 .specTitle {
   font-weight: 700;
-  color: #38bdf8;
+  color: var(--pg-accent-ink, #38bdf8);
 }
 .channels {
   display: flex;
@@ -239,7 +239,7 @@
 }
 .rate {
   font-size: 8px;
-  color: #94a3b8;
+  color: var(--pg-text-muted, #94a3b8);
 }
 .bars {
   display: flex;
@@ -264,7 +264,7 @@
 .log {
   margin-top: 4px;
   font-size: 7.5px;
-  color: #94a3b8;
+  color: var(--pg-text-muted, #94a3b8);
 }
 
 @media (prefers-reduced-motion: reduce) {

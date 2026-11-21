@@ -1,10 +1,10 @@
 /* Live demo CSS for style 25. Palette: #000000 #171717 #737373 #E5E5E5 #FFFFFF. No hue anywhere; Invert swaps the tokens. */
 .root {
-  --bg: #000;
-  --panel: #0a0a0a;
-  --fg: #fff;
-  --dim: #a3a3a3;
-  --line: #333;
+  --bg: var(--pg-bg, #000);
+  --panel: var(--pg-surface, #0a0a0a);
+  --fg: var(--pg-text, #fff);
+  --dim: var(--pg-text-muted, #a3a3a3);
+  --line: var(--pg-border, #333);
   display: flex;
   flex-direction: column;
   height: 100%;

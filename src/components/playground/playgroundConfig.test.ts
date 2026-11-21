@@ -67,6 +67,14 @@ describe("playgroundConfig contract", () => {
   it("defines Desktop, Tablet, and Mobile viewport presets", () => {
     expect(VIEWPORT_PRESETS.map((p) => p.id)).toEqual(["desktop", "tablet", "mobile"]);
   });
+
+  it("wires every one of the 50 preview CSS Modules to semantic --pg-bg and --pg-text theme tokens", () => {
+    for (let id = 1; id <= 50; id++) {
+      const css = cssByStyleId.get(id)!;
+      expect(css, `style ${id} missing var(--pg-bg`).toMatch(/var\(\s*--pg-bg/);
+      expect(css, `style ${id} missing var(--pg-text`).toMatch(/var\(\s*--pg-text/);
+    }
+  });
 });
 
 describe("buildPreviewVars & formatGeneratedCss", () => {
@@ -121,5 +129,31 @@ describe("buildPreviewVars & formatGeneratedCss", () => {
     expect(isPlaygroundDefault({ ...defaults, viewport: "mobile" }, defaults)).toBe(false);
     expect(isPlaygroundDefault({ ...defaults, backdrop: "dark" }, defaults)).toBe(false);
     expect(isPlaygroundDefault({ ...defaults, radius: 10 }, defaults)).toBe(false);
+  });
+
+  it("includes semantic theme tokens in buildPreviewVars and formatGeneratedCss for Light, Dark, and Neutral modes", () => {
+    const synthwave = byId.get(22)!;
+    const config = getPlaygroundConfig(synthwave);
+    const defaults = getDefaultPlaygroundState(synthwave);
+
+    // Auto emits no theme tokens
+    expect(buildPreviewVars(config, defaults)["--pg-bg"]).toBeUndefined();
+    expect(formatGeneratedCss(synthwave, config, defaults)).toBe("");
+
+    for (const mode of ["light", "dark", "neutral"] as const) {
+      const themed = { ...defaults, backdrop: mode };
+      const vars = buildPreviewVars(config, themed);
+      expect(vars["--pg-bg"]).toBeTruthy();
+      expect(vars["--pg-surface"]).toBeTruthy();
+      expect(vars["--pg-text"]).toBeTruthy();
+      expect(vars["--pg-border"]).toBeTruthy();
+
+      const css = formatGeneratedCss(synthwave, config, themed);
+      expect(css).toContain(`(${mode} theme)`);
+      expect(css).toContain(`--pg-bg: ${vars["--pg-bg"]};`);
+      expect(css).toContain(`--pg-surface: ${vars["--pg-surface"]};`);
+      expect(css).toContain(`--pg-text: ${vars["--pg-text"]};`);
+      expect(css).toContain(`--pg-border: ${vars["--pg-border"]};`);
+    }
   });
 });

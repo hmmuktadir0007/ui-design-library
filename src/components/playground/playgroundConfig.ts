@@ -2,6 +2,77 @@ import type { Style } from "../../types/style";
 
 export type ViewportPresetId = "desktop" | "tablet" | "mobile";
 export type BackdropId = "auto" | "light" | "dark" | "neutral";
+export type PreviewThemeId = BackdropId;
+
+export interface ThemeTokenSet {
+  "--pg-bg": string;
+  "--pg-surface": string;
+  "--pg-surface-alt": string;
+  "--pg-text": string;
+  "--pg-text-muted": string;
+  "--pg-border": string;
+  "--pg-shadow-color": string;
+  "--pg-shadow-light": string;
+  "--pg-accent-ink": string;
+  "--pg-accent-fill": string;
+  "--pg-accent-on-fill": string;
+}
+
+/**
+ * Shared semantic theme tokens injected into PreviewStage when Preview Theme != "auto".
+ * Every foreground/background pair is calibrated for WCAG 2.2 AA (>= 4.5:1) contrast without filter: invert().
+ */
+export const PREVIEW_THEME_TOKENS: Record<Exclude<PreviewThemeId, "auto">, ThemeTokenSet> = {
+  light: {
+    "--pg-bg": "#f8fafc",
+    "--pg-surface": "#ffffff",
+    "--pg-surface-alt": "#f1f5f9",
+    "--pg-text": "#0f172a",
+    "--pg-text-muted": "#475569",
+    "--pg-border": "#cbd5e1",
+    "--pg-shadow-color": "rgba(15, 23, 42, 0.14)",
+    "--pg-shadow-light": "rgba(255, 255, 255, 0.92)",
+    "--pg-accent-ink": "#0369a1",
+    "--pg-accent-fill": "#1e293b",
+    "--pg-accent-on-fill": "#ffffff",
+  },
+  dark: {
+    "--pg-bg": "#0b0f19",
+    "--pg-surface": "#151c2c",
+    "--pg-surface-alt": "#1e293b",
+    "--pg-text": "#f8fafc",
+    "--pg-text-muted": "#b0bccd",
+    "--pg-border": "#334155",
+    "--pg-shadow-color": "rgba(0, 0, 0, 0.55)",
+    "--pg-shadow-light": "rgba(255, 255, 255, 0.06)",
+    "--pg-accent-ink": "#7dd3fc",
+    "--pg-accent-fill": "#38bdf8",
+    "--pg-accent-on-fill": "#0b0f19",
+  },
+  neutral: {
+    "--pg-bg": "#f4f4f5",
+    "--pg-surface": "#ffffff",
+    "--pg-surface-alt": "#e4e4e7",
+    "--pg-text": "#18181b",
+    "--pg-text-muted": "#52525b",
+    "--pg-border": "#a1a1aa",
+    "--pg-shadow-color": "rgba(24, 24, 27, 0.14)",
+    "--pg-shadow-light": "rgba(255, 255, 255, 0.85)",
+    "--pg-accent-ink": "#27272a",
+    "--pg-accent-fill": "#3f3f46",
+    "--pg-accent-on-fill": "#fafafa",
+  },
+};
+
+const GENERATED_THEME_KEYS: readonly (keyof ThemeTokenSet)[] = [
+  "--pg-bg",
+  "--pg-surface",
+  "--pg-surface-alt",
+  "--pg-text",
+  "--pg-text-muted",
+  "--pg-border",
+  "--pg-shadow-color",
+];
 
 export interface ViewportPreset {
   id: ViewportPresetId;
@@ -219,8 +290,13 @@ export function buildPreviewVars(
   state: PlaygroundState,
 ): Record<`--${string}`, string> {
   const vars: Record<`--${string}`, string> = {};
+  if (state.backdrop !== "auto") {
+    Object.assign(vars, PREVIEW_THEME_TOKENS[state.backdrop]);
+  }
   if (config.accent && state.accent) {
-    vars[config.accent.varName] = state.accent;
+    const useNeutralAccent =
+      state.backdrop === "neutral" && state.accent.toUpperCase() === config.accent.defaultValue.toUpperCase();
+    vars[config.accent.varName] = useNeutralAccent ? "#52525B" : state.accent;
   }
   if (config.radius && state.radius !== undefined) {
     vars[config.radius.varName] = `${state.radius}px`;
@@ -235,8 +311,8 @@ export function buildPreviewVars(
 }
 
 /**
- * Formats copy-ready CSS custom properties reflecting the active Playground customizations.
- * Lists only variables supported by the current style; returns empty string if none are supported.
+ * Formats copy-ready CSS custom properties reflecting the active Playground customizations and theme overrides.
+ * Lists only variables supported by the current style plus active theme tokens when Preview Theme != "auto".
  */
 export function formatGeneratedCss(
   style: Style,
@@ -244,8 +320,16 @@ export function formatGeneratedCss(
   state: PlaygroundState,
 ): string {
   const lines: string[] = [];
+  if (state.backdrop !== "auto") {
+    const tokens = PREVIEW_THEME_TOKENS[state.backdrop];
+    for (const key of GENERATED_THEME_KEYS) {
+      lines.push(`  ${key}: ${tokens[key]};`);
+    }
+  }
   if (config.accent && state.accent) {
-    lines.push(`  ${config.accent.cssProp}: ${state.accent.toUpperCase()};`);
+    const useNeutralAccent =
+      state.backdrop === "neutral" && state.accent.toUpperCase() === config.accent.defaultValue.toUpperCase();
+    lines.push(`  ${config.accent.cssProp}: ${useNeutralAccent ? "#52525B" : state.accent.toUpperCase()};`);
   }
   if (config.radius && state.radius !== undefined) {
     lines.push(`  ${config.radius.cssProp}: ${state.radius}px;`);
@@ -257,7 +341,8 @@ export function formatGeneratedCss(
     lines.push(`  ${config.shadow.cssProp}: ${Number(state.shadow.toFixed(2))};`);
   }
   if (lines.length === 0) return "";
-  return `/* ${style.name} — Playground custom properties */\n:root {\n${lines.join("\n")}\n}`;
+  const themeSuffix = state.backdrop !== "auto" ? ` (${state.backdrop} theme)` : "";
+  return `/* ${style.name} — Playground custom properties${themeSuffix} */\n:root {\n${lines.join("\n")}\n}`;
 }
 
 export const CONFIGURED_STYLE_IDS = Object.keys(STYLE_SPECS)

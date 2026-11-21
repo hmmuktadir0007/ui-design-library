@@ -205,3 +205,84 @@ test("all 50 styles have zero horizontal overflow in Tablet and Mobile viewport 
     await expect(dialog).toBeHidden();
   }
 });
+
+test("in-preview Light, Dark, and Neutral theme switching updates internal preview root, Generated CSS, and passes axe WCAG 2.2 AA", async ({
+  page,
+}) => {
+  test.slow();
+  const dialog = page.locator("dialog");
+  const rootStyle = (stage: ReturnType<typeof page.locator>) =>
+    stage.locator('[class*="root"]').first().evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { bg: cs.backgroundColor, color: cs.color };
+    });
+
+  // Naturally dark styles -> Light mode changes internal root to light bg + dark ink and passes axe WCAG 2.2 AA.
+  for (const id of [16, 22, 37, 45]) {
+    const stage = await openLive(page, id);
+    const autoStyle = await rootStyle(stage);
+    await dialog.getByRole("button", { name: "Light", exact: true }).click();
+    await expect(stage).toHaveAttribute("data-preview-theme", "light");
+    const lightStyle = await rootStyle(stage);
+    expect(lightStyle.bg, `style ${id} Light bg`).toBe("rgb(248, 250, 252)");
+    expect(lightStyle.color, `style ${id} Light text`).toBe("rgb(15, 23, 42)");
+    expect(lightStyle.bg).not.toBe(autoStyle.bg);
+
+    const axe = await new AxeBuilder({ page }).include("dialog").withTags(WCAG).analyze();
+    expect(
+      axe.violations.flatMap((v) => v.nodes.map((n) => `${v.id}: ${n.html.slice(0, 100)}`)),
+      `style ${id} axe in Light mode`,
+    ).toEqual([]);
+
+    await dialog.getByRole("button", { name: "Close details" }).click();
+    await expect(dialog).toBeHidden();
+  }
+
+  // Naturally light styles -> Dark mode changes internal root to dark bg + light ink and passes axe WCAG 2.2 AA.
+  for (const id of [3, 4, 11, 32, 50]) {
+    const stage = await openLive(page, id);
+    const autoStyle = await rootStyle(stage);
+    await dialog.getByRole("button", { name: "Dark", exact: true }).click();
+    await expect(stage).toHaveAttribute("data-preview-theme", "dark");
+    const darkStyle = await rootStyle(stage);
+    expect(darkStyle.bg, `style ${id} Dark bg`).toBe("rgb(11, 15, 25)");
+    expect(darkStyle.color, `style ${id} Dark text`).toBe("rgb(248, 250, 252)");
+    expect(darkStyle.bg).not.toBe(autoStyle.bg);
+
+    const axe = await new AxeBuilder({ page }).include("dialog").withTags(WCAG).analyze();
+    expect(
+      axe.violations.flatMap((v) => v.nodes.map((n) => `${v.id}: ${n.html.slice(0, 100)}`)),
+      `style ${id} axe in Dark mode`,
+    ).toEqual([]);
+
+    await dialog.getByRole("button", { name: "Close details" }).click();
+    await expect(dialog).toBeHidden();
+  }
+
+  // Neutral mode updates internal root, emits theme tokens in Generated CSS, keeps Original CSS immutable, and resets cleanly.
+  const stage = await openLive(page, 22);
+  await dialog.getByRole("tab", { name: "Original CSS" }).click();
+  const originalBefore = await dialog.getByRole("tabpanel", { name: "Original CSS" }).locator("pre").textContent();
+
+  await dialog.getByRole("button", { name: "Neutral", exact: true }).click();
+  await expect(stage).toHaveAttribute("data-preview-theme", "neutral");
+  const neutralStyle = await rootStyle(stage);
+  expect(neutralStyle.bg).toBe("rgb(244, 244, 245)");
+  expect(neutralStyle.color).toBe("rgb(24, 24, 27)");
+
+  await dialog.getByRole("tab", { name: "Generated CSS" }).click();
+  const genText = await dialog.getByRole("tabpanel", { name: "Generated CSS" }).locator("pre").textContent();
+  expect(genText).toContain("--pg-bg: #f4f4f5;");
+  expect(genText).toContain("--pg-surface: #ffffff;");
+  expect(genText).toContain("--pg-text: #18181b;");
+  expect(genText).toContain("--pg-border: #a1a1aa;");
+
+  await dialog.getByRole("tab", { name: "Original CSS" }).click();
+  expect(await dialog.getByRole("tabpanel", { name: "Original CSS" }).locator("pre").textContent()).toBe(originalBefore);
+
+  const axeNeutral = await new AxeBuilder({ page }).include("dialog").withTags(WCAG).analyze();
+  expect(axeNeutral.violations.flatMap((v) => v.nodes.map((n) => `${v.id}: ${n.html.slice(0, 100)}`))).toEqual([]);
+
+  await dialog.getByRole("button", { name: "Reset", exact: true }).click();
+  await expect(stage).toHaveAttribute("data-preview-theme", "auto");
+});

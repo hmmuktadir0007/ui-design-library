@@ -6,9 +6,9 @@
   grid-template-rows: 1.35fr 1fr auto;
   gap: 4px;
   height: 100%;
-  border: 4px solid #111111;
-  background: #111111;
-  color: #111111;
+  border: 4px solid var(--pg-border, #111111);
+  background: var(--pg-bg, #111111);
+  color: var(--pg-text, #111111);
   font-family: "Futura", "Century Gothic", "Segoe UI", ui-sans-serif, sans-serif;
   font-size: 10px;
 }
@@ -41,7 +41,7 @@
   grid-area: hero;
   padding: calc(14px * var(--pg-scale, 1)) calc(16px * var(--pg-scale, 1));
   overflow: hidden;
-  background: #f5f2eb;
+  background: var(--pg-surface, #f5f2eb);
 }
 .kicker {
   display: flex;
@@ -158,7 +158,7 @@
 .ordnung {
   grid-area: ord;
   padding: 10px 12px;
-  background: #ebe6db;
+  background: var(--pg-surface-alt, #ebe6db);
 }
 .h4 {
   margin: 0;

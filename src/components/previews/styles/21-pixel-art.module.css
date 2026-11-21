@@ -6,8 +6,8 @@
   display: grid;
   place-items: center;
   padding: calc(16px * var(--pg-scale, 1));
-  background: #11121c;
-  color: #f4f4f4;
+  background: var(--pg-bg, #11121c);
+  color: var(--pg-text, #f4f4f4);
   font-family: "Press Start 2P", "JetBrains Mono", ui-monospace, monospace;
   image-rendering: pixelated;
 }
@@ -28,8 +28,8 @@
   grid-template-rows: auto auto auto auto auto auto 1fr auto;
   gap: 5px;
   padding: 0 12px 8px;
-  background: #1a1c2c;
-  box-shadow: 0 -4px 0 #f4f4f4, 0 4px 0 #f4f4f4, -4px 0 0 #f4f4f4, 4px 0 0 #f4f4f4, 8px 8px 0 #000;
+  background: var(--pg-surface, #1a1c2c);
+  box-shadow: 0 -4px 0 var(--pg-border, #f4f4f4), 0 4px 0 var(--pg-border, #f4f4f4), -4px 0 0 var(--pg-border, #f4f4f4), 4px 0 0 var(--pg-border, #f4f4f4), 8px 8px 0 var(--pg-shadow-color, #000);
 }
 .bar {
   display: flex;

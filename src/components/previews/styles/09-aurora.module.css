@@ -8,8 +8,8 @@
   height: 100%;
   padding: calc(16px * var(--pg-scale, 1)) calc(20px * var(--pg-scale, 1)) calc(12px * var(--pg-scale, 1));
   overflow: hidden;
-  background: #05010f;
-  color: #f8fafc;
+  background: var(--pg-bg, #05010f);
+  color: var(--pg-text, #f8fafc);
   font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   font-size: 10px;
 }
@@ -109,17 +109,17 @@
   flex: 1;
   margin: 4px 16px 0;
   padding: 16px 20px 14px;
-  border: 1px solid rgba(248, 250, 252, 0.22);
+  border: 1px solid var(--pg-border, rgba(248, 250, 252, 0.22));
   border-radius: var(--pg-radius, 14px);
-  background: rgba(8, 5, 24, 0.5);
+  background: var(--pg-surface, rgba(8, 5, 24, 0.5));
 }
 .chip {
   padding: 4px 10px;
-  border: 1px solid var(--pg-accent, rgba(45, 212, 191, 0.6));
+  border: 1px solid var(--pg-border, var(--pg-accent, rgba(45, 212, 191, 0.6)));
   border-radius: 999px;
   font: 600 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
   letter-spacing: 0.08em;
-  color: var(--pg-accent, #5eead4);
+  color: var(--pg-accent-ink, var(--pg-accent, #5eead4));
 }
 .title {
   margin: 10px 0 0;
@@ -132,7 +132,7 @@
   margin: 6px 0 0;
   font-size: 10.5px;
   line-height: 1.45;
-  color: #cbd5e1;
+  color: var(--pg-text-muted, #cbd5e1);
 }
 .features {
   display: flex;
@@ -142,17 +142,17 @@
 .feature {
   height: 30px;
   padding: 0 14px;
-  border: 1px solid rgba(248, 250, 252, 0.3);
+  border: 1px solid var(--pg-border, rgba(248, 250, 252, 0.3));
   border-radius: 999px;
   font: 600 10px "Inter", "Segoe UI", ui-sans-serif, sans-serif;
-  color: #f8fafc;
-  background: rgba(248, 250, 252, 0.06);
+  color: var(--pg-text, #f8fafc);
+  background: var(--pg-surface-alt, rgba(248, 250, 252, 0.06));
   cursor: pointer;
 }
 .feature[aria-checked="true"] {
   border-color: transparent;
-  color: #05010f;
-  background: linear-gradient(90deg, #5eead4, #a5b4fc 55%, #f9a8d4);
+  color: var(--pg-accent-on-fill, #05010f);
+  background: var(--pg-accent-fill, linear-gradient(90deg, #5eead4, #a5b4fc 55%, #f9a8d4));
 }
 
 .controls {
@@ -175,28 +175,28 @@
 .reset {
   height: 30px;
   padding: 0 11px;
-  border: 1px solid rgba(248, 250, 252, 0.28);
+  border: 1px solid var(--pg-border, rgba(248, 250, 252, 0.28));
   border-radius: 8px;
   font: 600 9.5px "Inter", "Segoe UI", ui-sans-serif, sans-serif;
-  color: #f8fafc;
-  background: rgba(5, 1, 15, 0.8);
+  color: var(--pg-text, #f8fafc);
+  background: var(--pg-surface-alt, rgba(5, 1, 15, 0.8));
   cursor: pointer;
 }
 .mesh[aria-checked="true"] {
-  border-color: #f8fafc;
-  color: #05010f;
-  background: #f8fafc;
+  border-color: var(--pg-accent-fill, #f8fafc);
+  color: var(--pg-accent-on-fill, #05010f);
+  background: var(--pg-accent-fill, #f8fafc);
 }
 .toggle {
   margin-left: auto;
 }
 .toggle[aria-checked="true"] {
-  border-color: #5eead4;
-  color: #05010f;
-  background: #5eead4;
+  border-color: var(--pg-accent-fill, #5eead4);
+  color: var(--pg-accent-on-fill, #05010f);
+  background: var(--pg-accent-fill, #5eead4);
 }
 .reset {
-  color: #cbd5e1;
+  color: var(--pg-text-muted, #cbd5e1);
 }
 
 .slider {
@@ -206,17 +206,17 @@
   gap: 10px;
   height: 30px;
   padding: 0 10px;
-  border: 1px solid rgba(248, 250, 252, 0.18);
+  border: 1px solid var(--pg-border, rgba(248, 250, 252, 0.18));
   border-radius: 8px;
-  background: rgba(5, 1, 15, 0.8);
+  background: var(--pg-surface-alt, rgba(5, 1, 15, 0.8));
 }
 .name,
 .val {
   font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
-  color: #cbd5e1;
+  color: var(--pg-text-muted, #cbd5e1);
 }
 .val {
-  color: #f9a8d4;
+  color: var(--pg-accent-ink, #f9a8d4);
 }
 /* Visible track on the track pseudo-elements: PreviewStage pads the input box with a transparent border. */
 .range {

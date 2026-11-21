@@ -4,8 +4,8 @@
   height: 100%;
   display: grid;
   grid-template-rows: 1fr auto;
-  background: radial-gradient(ellipse at 50% 55%, #312e81 0%, #1e1b4b 45%, #0b0a24 100%);
-  color: #eef2ff;
+  background: var(--pg-bg, radial-gradient(ellipse at 50% 55%, #312e81 0%, #1e1b4b 45%, #0b0a24 100%));
+  color: var(--pg-text, #eef2ff);
   font-family: ui-sans-serif, system-ui, sans-serif;
   overflow: hidden;
 }
@@ -82,10 +82,10 @@
   display: grid;
   gap: 6px;
   border-radius: var(--pg-radius, 10px);
-  border: 1px solid rgba(165, 180, 252, 0.35);
-  background: rgba(30, 27, 75, 0.85);
+  border: 1px solid var(--pg-border, rgba(165, 180, 252, 0.35));
+  background: var(--pg-surface, rgba(30, 27, 75, 0.85));
   /* source CSS card depth */
-  box-shadow: 0 calc(25px * var(--pg-shadow-strength, 1)) calc(50px * var(--pg-shadow-strength, 1)) -12px rgba(30, 27, 75, 0.25), 0 0 0 1px rgba(6, 182, 212, 0.1);
+  box-shadow: 0 calc(25px * var(--pg-shadow-strength, 1)) calc(50px * var(--pg-shadow-strength, 1)) -12px var(--pg-shadow-color, rgba(30, 27, 75, 0.25)), 0 0 0 1px rgba(6, 182, 212, 0.1);
 }
 .cardA {
   left: -190px;
@@ -137,7 +137,7 @@
   font: 600 8px/1 ui-monospace, monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #a5b4fc;
+  color: var(--pg-text-muted, #a5b4fc);
 }
 /* track painted on the track pseudo-element, so the transparent input box can carry an enlarged touch target */
 .slider input {
