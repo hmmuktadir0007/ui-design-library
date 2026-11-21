@@ -37,7 +37,11 @@ export default function Bento() {
           {m.value[range]} <span className={s.up}>{m.delta[range]}</span>
         </p>
         <svg className={s.chart} viewBox="0 0 200 100" preserveAspectRatio="none" role="img" aria-label={`${m.label}, last ${range}: ${m.value[range]}`}>
+          {[25, 50, 75].map((y) => (
+            <line key={y} x1="0" x2="200" y1={y} y2={y} className={s.gridLine} />
+          ))}
           <path d={`${path(m.pts[range])} L200,100 L0,100 Z`} className={s.area} />
+          <path d={path(m.pts[range].map((p, i) => Math.max(12, Math.min(92, p - 14 + (i % 2 ? 10 : -4)))))} className={s.lineAlt} />
           <path d={path(m.pts[range])} className={s.line} />
         </svg>
       </section>
@@ -56,7 +60,7 @@ export default function Bento() {
           <span className={s.kpiLabel}>{x.label}</span>
           <span className={s.kpiValue}>{x.value[range]}</span>
           {x.key === "completion" ? (
-            <span className={s.gauge} style={{ "--p": x.value[range] } as CSSProperties} aria-hidden />
+            <span className={s.gauge} style={{ "--p": parseFloat(x.value[range]) } as CSSProperties} aria-hidden />
           ) : (
             <span className={s.bars} aria-hidden>
               {x.pts[range].slice(-5).map((p, j) => (

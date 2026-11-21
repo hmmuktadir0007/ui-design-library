@@ -27,20 +27,22 @@
 }
 .comps {
   display: flex;
-  gap: 2px;
+  gap: 4px;
 }
 .comp {
-  width: 34px;
-  height: 30px;
-  border: 0;
+  width: 32px;
+  height: 24px;
+  border: 1px solid #d4d4d4;
   border-radius: 999px;
   font: inherit;
+  font-size: 9px;
   font-weight: 700;
   color: #525252;
   background: none;
   cursor: pointer;
 }
 .comp[aria-checked="true"] {
+  border-color: #0a0a0a;
   color: #faf8f5;
   background: #0a0a0a;
 }
@@ -50,24 +52,24 @@
   display: flex;
   flex: 1;
   min-height: 0;
-  padding: 10px 18px 0;
+  padding: 12px 18px 0;
 }
 .headline {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 252px;
+  width: 258px;
   margin: 0;
 }
 .line {
-  height: 58px;
+  height: 62px;
   padding: 0;
   border: 0;
   font: inherit;
-  font-size: 64px;
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  font-size: 70px;
+  font-weight: 900;
+  line-height: 0.84;
+  letter-spacing: -0.055em;
   text-transform: uppercase;
   color: #0a0a0a;
   background: none;
@@ -105,29 +107,30 @@
   margin: 0;
 }
 .pill {
-  padding: 5px 14px;
+  padding: 3px 12px;
   border-radius: 999px;
-  font: 700 11px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font: 700 10px ui-monospace, "JetBrains Mono", Consolas, monospace;
   color: #faf8f5;
   background: #0a0a0a;
 }
 .tag {
-  font: 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font: 8.5px ui-monospace, "JetBrains Mono", Consolas, monospace;
   color: #b91c1c;
 }
 .arrange {
   display: flex;
-  border: 1px solid #0a0a0a;
+  padding: 2px;
+  border: 1px solid #d4d4d4;
   border-radius: 999px;
+  background: #f3f0ea;
 }
 .arr {
   flex: 1;
-  height: 30px;
+  height: 24px;
   border: 0;
   border-radius: 999px;
-  font: inherit;
-  font-weight: 600;
-  color: #0a0a0a;
+  font: 600 9px ui-monospace, "JetBrains Mono", Consolas, monospace;
+  color: #525252;
   background: none;
   cursor: pointer;
 }

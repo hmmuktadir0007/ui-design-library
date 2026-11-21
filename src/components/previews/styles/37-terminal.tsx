@@ -51,12 +51,12 @@ export default function Terminal() {
       </header>
       <div className={s.box} aria-hidden>
         <p>┌── SYSTEM REPOSITORY : CORE-ARCH v3.7 ──────────┐</p>
-        <p>└── INITIALIZED PHOSPHOR PROTOCOL // ALL BUFFERS READY ┘</p>
+        <p className={s.boxSub}>└── INITIALIZED PHOSPHOR PROTOCOL // ALL BUFFERS READY ┘</p>
       </div>
 
       <div className={s.screen} role="log" aria-label="Terminal output">
         {lines.slice(-VISIBLE).map((l, i) => (
-          <p key={lines.length - VISIBLE + i} className={s[l.kind]}>
+          <p key={lines.length - VISIBLE + i} className={`${s[l.kind]} ${l.kind === "out" && l.text.startsWith("{") ? s.json : ""}`}>
             {l.kind === "cmd" ? (
               <>
                 <span className={s.prompt}>{PROMPT}</span> {l.text}

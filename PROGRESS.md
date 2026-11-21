@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** Phase 2C-2 complete — cross-browser (Firefox + WebKit) and simulated mobile touch compatibility verified. Remaining work: Phase 2C-3 (visual polish), Phase 2C-4 (performance/asset optimization), and Style Playground customization.
+**Current phase:** Phase 2C-3 complete — targeted visual fidelity improvements for 9 styles verified and screenshots regenerated. Remaining work: Phase 2C-4 (performance/asset optimization) and Style Playground customization.
 
 | Scope | Status |
 |---|---|
@@ -15,7 +15,8 @@
 | All 50 previews | complete (50 live, 0 image-only) |
 | Phase 2C-1 — P1 interaction & accessibility fixes | complete, verified 2026-11-21 |
 | Phase 2C-2 — cross-browser & simulated mobile touch compatibility | complete, verified 2026-11-21 |
-| Phase 2C-3 / 2C-4 (visual polish, perf) | not started |
+| Phase 2C-3 — targeted visual fidelity improvements (9 styles) | complete, verified 2026-11-21 |
+| Phase 2C-4 (performance & asset optimization) | not started |
 | Full Playground customization (viewport frame, variable controls, generated CSS) | not started |
 
 ## Completed
@@ -522,11 +523,38 @@ Verified 2026-11-21. Installed Playwright Firefox and WebKit browsers and added 
 | `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 398 pass, 4 skipped |
 | `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped (mobile-touch-only test skipped on Firefox/WebKit) |
 
-## Quality-review backlog (remaining: Phase 2C-3 / 2C-4)
+## Phase 2C-3 — Targeted Visual Fidelity Improvements (9 Styles)
+
+Verified 2026-11-21. Upgraded visual fidelity for the 2 major deviations (Styles 03, 08) and 7 "needs improvement" styles (01, 06, 17, 32, 37, 44, 48) while keeping all interactions, roving-tabindex keyboard nav, WCAG 2.2 AA contrast, hit targets, and CSS isolation intact:
+
+- **Style 03 (Material Design):** Elevated `#F3EDF7` canvas, indigo gradient app bar, layered Material z-axis card elevation shadows, dual-tone indigo/amber progress ring and Daily Goals bar highlight, and a true circular amber Material FAB (`border-radius: 50%`).
+- **Style 08 (Bento UI):** Fixed the overflowing `Project completion` gauge by converting it into a clean semi-circular arc gauge inside the dark tile; upgraded the 2×2 dark hero card with subtle horizontal gridlines and a dual-wave cyan/violet trend chart plus deeper tile elevation shadows.
+- **Style 01 (Skeuomorphism):** Added pebbled dark leather texture with stitched dashed collar around the faceplate, richer specular brushed-aluminum sheen, knurled metallic rotary knob collars (`repeating-conic-gradient`), and a glass-glared backlit VU meter with a red peak arc.
+- **Style 06 (Claymorphism):** Deepened dual opposing inset highlights/shadows and outer drop shadows across the main card, pastel gradient habit tiles, floating icon medallions, and lavender-trough coral-fill progress bar for stronger inflated 3D clay volume.
+- **Style 17 (Bold / Kinetic Typography):** Tighter, heavier monumental display stack (`70px`, `line-height: 0.84`, `font-weight: 900`) and slimmer architectural composition chips and `Stack / Stagger` pill control.
+- **Style 32 (Flat 2.0):** Tinted `#EFF6FF` blue active pills, green `#DCFCE7` savings pill badge, and an `INCLUDED CAPACITY` progress card filling the Order Summary hierarchy.
+- **Style 37 (Terminal / CLI Retro UI):** Eliminated dead vertical gap below the banner box, added dual-tone green/amber banner text, framed JSON output in a dashed phosphor border, and replaced the grey input box with a transparent CRT prompt line.
+- **Style 44 (Low-Poly / Faceted Geometric):** Alternated triangle diagonals and perimeter vertex jitter in `44-mesh.ts` for a genuine irregular crystalline mesh (same 24/36/54 plane counts), made the skewed panel semi-translucent with `-webkit-backdrop-filter` + `backdrop-filter` and a cyan-indigo edge gradient so facets show through cleanly.
+- **Style 48 (Modular Masonry / Waterfall UI):** Added staggered artwork heights (`34–58px`), high-contrast dark slate (`#18181B`) + crisp light/indigo card mix, and crimson `#BE123C` `♥ Save` pill badges.
+- **Test stability (`tests/e2e/cross-browser.spec.ts`):** Replaced fixed 150ms post-swipe wait with a deterministic `scrollTop` stability poll before tapping `Close details` in `mobile-touch`.
+- **Screenshots:** Regenerated all 50 live screenshots and `docs/screenshots/phase-2b/comparison-sheet.jpg` (`npm run capture:previews`, exit 0); visually inspected all 9 updated live PNGs.
+
+### Verification (2026-11-21, final code)
+
+| Check | Result |
+|---|---|
+| `npm run typecheck` | exit 0, 0 errors |
+| `npm run build` | exit 0 — JS 304.03 kB (96.77 kB gzip) |
+| `npm test` (Vitest) | exit 0 — 109/109 pass (8 files) |
+| `npm run validate:data` | exit 0 — 50 styles, 0 errors, 1 warning (style 5 swatch); 11/11 negative tests |
+| `npm run test:e2e` (Chromium 375/768/1440) | exit 0 — 398 pass, 4 skipped (0 axe WCAG 2.2 AA violations) |
+| `npm run test:e2e:compat` (Firefox + WebKit + mobile-touch) | exit 0 — 19 pass, 2 skipped |
+
+## Quality-review backlog (remaining: Phase 2C-4)
 
 - **Manual device/AT checks (non-automated):** Screen-reader pass (NVDA / VoiceOver) and physical touch devices.
-- **Phase 2C-3 (Visual polish & target sizing):** Visual refinements from the source slides (documented per batch above) and optional 44×44 AAA target sizing at 375 px (all controls already meet WCAG 2.5.8 AA ≥ 24×24).
-- **Phase 2C-4 (Performance & asset optimization):** Thumbnail generation for card PNGs (currently full 969 px PNGs, ~140 kB avg) and comparison sheet size optimization.
+- **Optional AAA target sizing:** At 375 px some controls sit between 24 and 44 px (WCAG 2.5.8 AA met, AAA 44×44 not).
+- **Phase 2C-4 (Performance & asset optimization):** Thumbnail generation for card PNGs (currently full 969 px PNGs, ~140 kB avg), comparison sheet size optimization, and Lighthouse audit.
 - **Style Playground (separate phase):** Viewport frame, variable controls, generated CSS export, Reset.
 
 ## Known defects
@@ -560,8 +588,9 @@ None blocking.
 - `8c34adc` Phase 2B batch 5: Atmospheric Futuristic live previews
 - `116c8ac` Phase 2B batch 6: Art Heritage live previews
 - `16be99e` Phase 2C-1: Accessibility and interaction fixes
-- Phase 2C-2: Cross-browser and mobile touch compatibility (hash in `git log`)
+- `ffa24af` Phase 2C-2: Cross-browser and mobile touch compatibility
+- Phase 2C-3: Visual fidelity improvements for 9 styles (hash in `git log`)
 
 ## Next recommended action
 
-Proceed to Phase 2C-3 (visual polish), Phase 2C-4 (performance/asset optimization), or Style Playground customization.
+Proceed to Phase 2C-4 (Lighthouse / image & asset optimization) or Style Playground customization.

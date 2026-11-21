@@ -99,10 +99,21 @@ export default function Flat2() {
                 </dt>
                 <dd>{usd(subtotal)}</dd>
                 <dt>Annual discount</dt>
-                <dd className={s.save}>{annual ? `−${usd(subtotal - total)}` : usd(0)}</dd>
+                <dd>
+                  <span className={s.save}>{annual ? `−${usd(subtotal - total)}` : usd(0)}</span>
+                </dd>
                 <dt className={s.totalLabel}>Total {annual ? "per year" : "per month"}</dt>
                 <dd className={s.total}>{usd(total)}</dd>
               </dl>
+              <div className={s.usage} aria-hidden>
+                <div className={s.usageHead}>
+                  <span>INCLUDED CAPACITY</span>
+                  <b>{Math.min(100, seats * 14)}% OF {p.name === "Team" ? "200GB" : p.name === "Pro" ? "50GB" : "10GB"}</b>
+                </div>
+                <span className={s.usageTrack}>
+                  <span className={s.usageFill} style={{ width: `${Math.min(100, seats * 14)}%` }} />
+                </span>
+              </div>
               <button type="button" className={s.cta} onClick={() => setConfirmed(true)}>
                 Upgrade Plan →
               </button>

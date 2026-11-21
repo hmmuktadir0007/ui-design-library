@@ -4,13 +4,13 @@ import s from "./48-masonry.module.css";
 
 // CSS-generated artwork (gradients), so no image assets or third-party requests.
 const ITEMS = [
-  { id: 1, title: "Chromatic Flow", meta: "LOOKBOOK // 01", cat: "Lookbooks", art: s.chroma, h: 36, saves: 1240 },
-  { id: 2, title: "Editorial Grid Guide", meta: "CURATED // TYPE", cat: "Editorial", art: s.type, h: 38, saves: 860 },
-  { id: 3, title: "Isometric Cyber", meta: "PROMPT // GEMINI", cat: "3D Art", art: s.teal, h: 44, saves: 2310 },
-  { id: 4, title: "Studio Monolith", meta: "ARCHIVE // 3D", cat: "3D Art", art: s.blue, h: 34, saves: 540 },
-  { id: 5, title: "Volumetric Mesh", meta: "RENDER // 8K", cat: "3D Art", art: s.sunset, h: 34, saves: 1975 },
-  { id: 6, title: "Masonry Pack", meta: "ZERO HORIZONTAL GAPS", cat: "Editorial", art: s.pack, h: 34, saves: 3120 },
-  { id: 7, title: "Dune Palette", meta: "LOOKBOOK // 02", cat: "Lookbooks", art: s.dune, h: 34, saves: 690 },
+  { id: 1, title: "Chromatic Flow", meta: "LOOKBOOK // 01", cat: "Lookbooks", art: s.chroma, h: 48, saves: 1240, dark: true },
+  { id: 2, title: "Editorial Grid Guide", meta: "CURATED // TYPE", cat: "Editorial", art: s.type, h: 36, saves: 860, dark: false },
+  { id: 3, title: "Isometric Cyber", meta: "PROMPT // GEMINI", cat: "3D Art", art: s.teal, h: 58, saves: 2310, dark: true },
+  { id: 4, title: "Studio Monolith", meta: "ARCHIVE // 3D", cat: "3D Art", art: s.blue, h: 36, saves: 540, dark: true },
+  { id: 5, title: "Volumetric Mesh", meta: "RENDER // 8K", cat: "3D Art", art: s.sunset, h: 48, saves: 1975, dark: true },
+  { id: 6, title: "Masonry Pack", meta: "ZERO HORIZONTAL GAPS", cat: "Editorial", art: s.pack, h: 34, saves: 3120, dark: false },
+  { id: 7, title: "Dune Palette", meta: "LOOKBOOK // 02", cat: "Lookbooks", art: s.dune, h: 36, saves: 690, dark: false },
 ];
 const CATS = ["All", "Lookbooks", "3D Art", "Editorial", "Saved"];
 
@@ -36,7 +36,7 @@ export default function Masonry() {
 
       <div className={s.wall}>
         {shown.map((it) => (
-          <article key={it.id} className={`${s.card} ${it.id === selected ? s.selected : ""}`}>
+          <article key={it.id} className={`${s.card} ${it.dark ? s.darkCard : ""} ${it.id === selected ? s.selected : ""}`}>
             {/* the artwork also selects on click; the caption button is the keyboard/AT path */}
             <div className={`${s.art} ${it.art}`} style={{ height: it.h }} onClick={() => setSelected(it.id)}>
               {it.id === 2 && (

@@ -288,8 +288,15 @@ test("mobile touch: taps, Style 35 vertical touch scroll, and zero horizontal ov
   await expect.poll(() => scroller.evaluate((el) => el.scrollTop)).toBeGreaterThan(beforeScroll);
   await expect(s35.getByText("TILT X 0° · Y 0° // SHEEN 135°")).toBeVisible();
 
-  // Wait for scroll inertia to settle before tapping Close details.
-  await page.waitForTimeout(150);
+  // Wait until touch-scroll deceleration settles (two identical scrollTop samples) before tapping Close details.
+  await expect
+    .poll(async () => {
+      const a = await scroller.evaluate((el) => el.scrollTop);
+      await page.waitForTimeout(80);
+      const b = await scroller.evaluate((el) => el.scrollTop);
+      return a === b;
+    })
+    .toBe(true);
 
   // Zero horizontal overflow in dialog at 375px.
   const dialogOverflow = await dialog.evaluate((d) => {

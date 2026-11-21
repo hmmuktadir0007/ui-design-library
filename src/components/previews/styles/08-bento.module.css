@@ -20,7 +20,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 18px;
   background: #fff;
-  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+  box-shadow: 0 4px 12px rgba(17, 24, 39, 0.06), 0 1px 2px rgba(17, 24, 39, 0.04);
 }
 .kicker {
   margin: 0;
@@ -35,8 +35,9 @@
   display: flex;
   flex-direction: column;
   color: #f9fafb;
-  background: #111827;
-  border-color: #111827;
+  background: linear-gradient(160deg, #181f2e 0%, #111827 55%, #0c111d 100%);
+  border-color: #1f2937;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .heroHead {
   display: flex;
@@ -86,14 +87,29 @@
   min-height: 0;
 }
 .area {
-  fill: rgba(59, 130, 246, 0.22);
+  fill: rgba(59, 130, 246, 0.24);
 }
 .line {
   fill: none;
-  stroke: #60a5fa;
+  stroke: #38bdf8;
   stroke-width: 2.5;
   vector-effect: non-scaling-stroke;
   stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.lineAlt {
+  fill: none;
+  stroke: #a78bfa;
+  stroke-width: 1.8;
+  opacity: 0.85;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.gridLine {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 /* KPI 1x1 tiles are the selectable compartments */
@@ -140,8 +156,9 @@
 }
 .completion {
   color: #f9fafb;
-  background: #111827;
-  border-color: #111827;
+  background: linear-gradient(155deg, #1b2232, #111827);
+  border-color: #1f2937;
+  box-shadow: 0 8px 18px rgba(17, 24, 39, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .completion .kpiLabel {
   color: #d1d5db;
@@ -150,10 +167,13 @@
   align-self: center;
   flex: none;
   margin-top: auto;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: radial-gradient(#111827 58%, transparent 60%), conic-gradient(#3b82f6 var(--p), #374151 0);
+  width: 56px;
+  height: 28px;
+  border-radius: 56px 56px 0 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 100%, #111827 56%, transparent 58%),
+    conic-gradient(from -90deg at 50% 100%, #3b82f6 0deg, #60a5fa calc(var(--p) * 1.8deg), #374151 0deg);
 }
 
 .activity {
